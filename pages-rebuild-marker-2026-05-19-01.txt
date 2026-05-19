@@ -1,0 +1,1 @@
+GitHub Pages rebuild trigger for SolarEX-Final-recreate. Expected live frontpage must include: Announcement bar, Immediate technical basis, Audience router, How SolarEX works, Use cases, Visual source integration, Trust and governance, Feature and value block, Case proof, Comparison, Final CTA.
