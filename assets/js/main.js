@@ -1,38 +1,82 @@
-document.addEventListener('DOMContentLoaded',()=>{
-  const svgFav='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><rect width="128" height="128" rx="28" fill="#171B21"/><path d="M25 80h78L88 42H40z" fill="none" stroke="#66A8EE" stroke-width="8"/><circle cx="94" cy="30" r="12" fill="#FFD21A"/><text x="17" y="110" font-family="Arial" font-size="24" font-weight="800" fill="#D6E5EF">Solar</text><text x="77" y="110" font-family="Arial" font-size="24" font-weight="800" fill="#FFD21A">EX</text></svg>';
-  if(!document.querySelector('link[rel="icon"]')){const f=document.createElement('link');f.rel='icon';f.type='image/svg+xml';f.href='data:image/svg+xml,'+encodeURIComponent(svgFav);document.head.appendChild(f);}
-  const btn=document.querySelector('[data-menu-toggle]');
-  const nav=document.querySelector('[data-nav]');
-  if(btn&&nav){btn.addEventListener('click',()=>{const open=nav.classList.toggle('is-open');btn.setAttribute('aria-expanded',String(open));});nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{nav.classList.remove('is-open');btn.setAttribute('aria-expanded','false');}));}
-  const src={
-    home:'https://cdn.gamma.app/673vpq5nv1n08u4/generated-images/wy8zd-2GU49cprgvniQHw.jpg',
-    quartz:'https://cdn.gamma.app/673vpq5nv1n08u4/e2f514ac7cbd41889933bfbc38b1c8f0/original/Quartz---Graph_06.png',
-    titan1:'https://cdn.gamma.app/673vpq5nv1n08u4/6ebf4aee87174743afa682fca0114783/original/Photocatalyzis_02-v4.png',
-    titan2:'https://cdn.gamma.app/673vpq5nv1n08u4/e5563537ab944f2cad63d30679e9eacc/original/Photocatalyzis_01-v5.png',
-    quartzHero:'https://cdn.gamma.app/673vpq5nv1n08u4/generated-images/QjzTQpy8v6LdnWpcigIfw.jpg',
-    tech:'https://cdn.gamma.app/673vpq5nv1n08u4/generated-images/JrdJnOoxoKvZ-rVEQPUo5.jpg',
-    projects:'https://cdn.gamma.app/673vpq5nv1n08u4/generated-images/9UUzGTDhcfB32kQ1TpUie.jpg',
-    faq:'https://cdn.gamma.app/673vpq5nv1n08u4/generated-images/KbbhX8l5u0XORcJWn1nLc.jpg',
-    contact:'https://cdn.gamma.app/673vpq5nv1n08u4/generated-images/Z7eaVLxljuxg8UL4gZoOB.jpg'
+document.addEventListener('DOMContentLoaded', () => {
+  const svgFav = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><rect width="128" height="128" rx="28" fill="#171B21"/><path d="M25 80h78L88 42H40z" fill="none" stroke="#66A8EE" stroke-width="8"/><circle cx="94" cy="30" r="12" fill="#FFD21A"/><text x="17" y="110" font-family="Arial" font-size="24" font-weight="800" fill="#D6E5EF">Solar</text><text x="77" y="110" font-family="Arial" font-size="24" font-weight="800" fill="#FFD21A">EX</text></svg>';
+
+  if (!document.querySelector('link[rel="icon"]')) {
+    const favicon = document.createElement('link');
+    favicon.rel = 'icon';
+    favicon.type = 'image/svg+xml';
+    favicon.href = 'data:image/svg+xml,' + encodeURIComponent(svgFav);
+    document.head.appendChild(favicon);
+  }
+
+  const menuButton = document.querySelector('[data-menu-toggle]');
+  const nav = document.querySelector('[data-nav]');
+
+  if (menuButton && nav) {
+    menuButton.addEventListener('click', () => {
+      const isOpen = nav.classList.toggle('is-open');
+      menuButton.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    nav.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        nav.classList.remove('is-open');
+        menuButton.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const countMetric = (element) => {
+    if (element.dataset.done) return;
+    element.dataset.done = '1';
+
+    const target = parseFloat(element.dataset.count || '0');
+    const prefix = element.dataset.prefix || '';
+    const suffix = element.dataset.suffix || '';
+    const decimals = parseInt(element.dataset.decimals || '0', 10);
+
+    if (reduceMotion) {
+      element.textContent = prefix + target.toFixed(decimals) + suffix;
+      return;
+    }
+
+    const start = performance.now();
+    const duration = 1200;
+
+    const tick = (now) => {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      element.textContent = prefix + (target * eased).toFixed(decimals) + suffix;
+
+      if (progress < 1) {
+        requestAnimationFrame(tick);
+      } else {
+        element.textContent = prefix + target.toFixed(decimals) + suffix;
+      }
+    };
+
+    requestAnimationFrame(tick);
   };
-  const path=location.pathname.replace(/\/$/,'');
-  const page=path.split('/').pop()||'home';
-  const main=document.querySelector('main');
-  function section(html){const t=document.createElement('template');t.innerHTML=html.trim();return t.content.firstChild;}
-  const route= page==='SolarEX-Final-recreate'||page===''?'home':page;
-  const enrich={
-    home:`<section class="section"><div class="container"><div class="kicker">Visual source integration</div><h2>Gamma visual baseline integrated into the rebuild.</h2><div class="media-split"><figure class="source-visual reveal"><img loading="lazy" src="${src.home}" alt="Photovoltaic glass surface with hydrophobic water droplets"><figcaption>Gamma source visual used for SolarEX PV glass coating positioning.</figcaption></figure><div class="card reveal"><h3>Additional source content added</h3><p>The front page now contains the full pathway logic from Gamma and source documents: Quartz versus Titan mechanism distinction, validated technical parameters, operating-environment selection matrix, evidence metrics, documentation map and application workflow.</p><div class="checklist"><p>✓ Quartz kept as passive SiO₂ and UV-independent.</p><p>✓ Titan kept as active TiO₂ and UV-dependent.</p><p>✓ Email standardized to info@solarex.no.</p></div></div></div></div></section>`,
-    quartz:`<section class="section"><div class="container"><div class="kicker">Extracted application instructions</div><h2>Quartz application engineering added from source instructions.</h2><div class="grid two"><article class="card reveal"><h3>Surface preparation sequence</h3><ul><li>Clean solar panel surface thoroughly; basic wipe-down is insufficient.</li><li>Remove heavy contaminants, insect remains, traffic film and residue.</li><li>Rinse with clean water, dry fully and perform final alcohol-compatible wipe.</li><li>Remove surfactant/tenside residues because the 100–150 nm SiO₂ layer requires a clean dry surface to bond efficiently.</li></ul></article><article class="card blue reveal"><h3>Application parameters</h3><ul><li>Manual consumption: 15–17 mL/m².</li><li>Industrial consumption: 15–20 mL/m².</li><li>Spray gun distance: 20–30 cm; movement speed: 0.2–0.3 m/sec.</li><li>Ideal surface temperature: 15–20°C; avoid surface temperature above 30°C.</li><li>Full cure: approximately 24 hours; rain tolerance after approximately 1 hour.</li></ul></article></div><figure class="source-visual reveal"><img loading="lazy" src="${src.quartz}" alt="Quartz controlled test graph"><figcaption>Quartz graph visual extracted from SolarEX source presentation and placed under the Quartz evidence section.</figcaption></figure></div></section>`,
-    titan:`<section class="section"><div class="container"><div class="kicker">Extracted application instructions</div><h2>Titan application engineering and photocatalytic visuals added.</h2><div class="grid two"><article class="card reveal"><h3>Process requirements</h3><ul><li>Surface must be clean, dry and grease-free before coating.</li><li>Apply sparingly and uniformly using lightly moistened cotton or viscose cloth.</li><li>Application temperature should generally be +5°C to +25°C.</li><li>Avoid direct sunlight during application and avoid high-abrasion deployment contexts.</li></ul></article><article class="card blue reveal"><h3>Hardening and activation</h3><ul><li>Allow mandatory hardening before final light polish.</li><li>Secondary hardening/drying: minimum 1 hour.</li><li>Full cure: approximately 24 hours.</li><li>Full outdoor effect develops under sunlight over approximately 24–48 hours depending on climate and UV.</li></ul></article></div><div class="media-split"><figure class="source-visual reveal"><img loading="lazy" src="${src.titan1}" alt="TiO₂ photocatalysis mechanism diagram"><figcaption>TiO₂ photocatalysis mechanism visual from SolarEX source presentation.</figcaption></figure><figure class="source-visual reveal"><img loading="lazy" src="${src.titan2}" alt="TiO₂ pathway and solar glass visual"><figcaption>Supporting Titan visual placed with the active pathway explanation.</figcaption></figure></div></div></section>`,
-    technology:`<section class="section"><div class="container"><div class="kicker">Source-completed decision logic</div><h2>Expanded mechanism-selection model.</h2><div class="media-split"><figure class="source-visual reveal"><img loading="lazy" src="${src.tech}" alt="Clean solar glass technology visual"><figcaption>Technology page visual baseline from Gamma/SolarEX presentation.</figcaption></figure><article class="card reveal"><h3>Selection decision hierarchy</h3><p>1. Identify dominant soiling type. 2. Verify UV availability and seasonal variability. 3. Select passive Quartz for inorganic/low-UV conditions or active Titan for UV-sufficient organic/biological contamination. 4. Define pilot monitoring before scale-up.</p><div class="checklist"><p>Quartz = passive SiO₂ surface energy control.</p><p>Titan = active TiO₂ photocatalytic decomposition.</p><p>Both require controlled surface preparation and route-specific cure logic.</p></div></article></div></div></section>`,
-    projects:`<section class="section"><div class="container"><div class="kicker">Visual evidence integration</div><h2>Projects page supplemented with source visuals and evidence interpretation.</h2><div class="media-split"><figure class="source-visual reveal"><img loading="lazy" src="${src.projects}" alt="Rooftop solar project evidence visual"><figcaption>Projects visual baseline from Gamma/SolarEX presentation.</figcaption></figure><figure class="source-visual reveal"><img loading="lazy" src="${src.quartz}" alt="Quartz field graph"><figcaption>Quartz controlled-test graph used as supporting project evidence.</figcaption></figure></div><div class="grid two"><article class="card reveal"><h3>Evidence routing</h3><p>Scandinavian Quartz data is routed to passive, low-UV and high-latitude positioning. Titan PV³ rooftop data is routed to UV-sufficient active-pathway positioning. Middle East cleanliness observations are routed to high-dust O&M positioning.</p></article><article class="card blue reveal"><h3>Pilot output deliverables</h3><p>Recommended pilot output: baseline yield, treated/control comparison, soiling profile notes, cleaning event log, UV/irradiance context, interval data and commercial value translation.</p></article></div></div></section>`,
-    documentation:`<section class="section"><div class="container"><div class="kicker">Document extraction map</div><h2>Source files mapped to buyer questions.</h2><div class="grid two"><article class="card blue reveal"><h3>Quartz instruction documents</h3><p>Use for cleaning protocol, BioSativa/alternative cleaning route, alcohol wipe, HVLP spray parameters, manual/industrial consumption, temperature window, cure sequence and rain exposure timing.</p></article><article class="card reveal"><h3>Titan instruction documents</h3><p>Use for substrate compatibility, clean/dry/grease-free preparation, controlled wipe/polish method, hardening before final polish, secondary hardening, full cure and sunlight activation window.</p></article></div><div class="table-wrap reveal"><table><thead><tr><th>Source category</th><th>Best website placement</th></tr></thead><tbody><tr><td>Application instructions</td><td>Quartz, Titan, Documentation and Contact pilot-review sections</td></tr><tr><td>ROI models</td><td>Home evidence block, Projects and Quartz</td></tr><tr><td>Photocatalysis visuals</td><td>Titan and Technology</td></tr><tr><td>Project graphs and evidence visuals</td><td>Projects and Quartz</td></tr><tr><td>FAQ and decision support</td><td>FAQ, Contact and Home short-answer sections</td></tr></tbody></table></div></div></section>`,
-    faq:`<section class="section"><div class="container"><div class="kicker">Added source-backed decision support</div><h2>FAQ extended with application and evidence questions.</h2><div class="grid two"><article class="card reveal"><h3>Why is surface preparation critical?</h3><p>Both products require a clean, dry and residue-free surface. Residual surfactants, oils, grease or silicone can compromise coating adhesion and invalidate treated-versus-control evidence.</p></article><article class="card reveal"><h3>What should a pilot measure?</h3><p>Baseline yield, treated/control module behavior, cleaning frequency, water use, contamination profile, irradiance/UV context and interval monitoring should be documented.</p></article><article class="card reveal"><h3>Can Quartz and Titan be treated as alternatives?</h3><p>They are alternatives only after pathway assessment. Quartz is the passive SiO₂ route; Titan is the active TiO₂ route. Site mechanism fit governs the recommendation.</p></article><article class="card blue reveal"><h3>Which source values are now included?</h3><p>Quartz 100–150 nm film, Quartz 15–20 mL/m² industrial coverage, Titan 10–25 mL/m² coverage, Titan +5.15% study result and 360-day monitored context are included.</p></article></div><figure class="source-visual reveal"><img loading="lazy" src="${src.faq}" alt="SolarEX FAQ visual"><figcaption>FAQ visual baseline from Gamma/SolarEX presentation.</figcaption></figure></div></section>`,
-    contact:`<section class="section"><div class="container"><div class="kicker">Source-backed intake structure</div><h2>Contact intake aligned with application and pilot requirements.</h2><div class="media-split"><figure class="source-visual reveal"><img loading="lazy" src="${src.contact}" alt="SolarEX contact and technical review visual"><figcaption>Contact visual baseline from Gamma/SolarEX presentation.</figcaption></figure><article class="card blue reveal"><h3>Attach or provide where available</h3><ul><li>Site location and climate/UV context.</li><li>Photos of soiling, contamination and surface condition.</li><li>Module type, age, tilt, orientation and string layout.</li><li>Current cleaning chemistry, frequency, water volume and labor cost.</li><li>Target pathway if known: Quartz, Titan or undecided.</li></ul></article></div></div></section>`
+
+  const revealElement = (element) => {
+    element.classList.add('is-visible');
+    element.querySelectorAll('[data-count]').forEach(countMetric);
   };
-  if(main&&enrich[route]&&!document.querySelector('[data-enhanced="'+route+'"]')){const el=section(enrich[route]);el.dataset.enhanced=route;const lastCta=[...main.children].reverse().find(x=>x.textContent.includes('Start a SolarEX')||x.textContent.includes('A better first response'));main.insertBefore(el,lastCta||null);}
-  const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const reveal=(el)=>{el.classList.add('is-visible');el.querySelectorAll('[data-count]').forEach(count);};
-  const count=(el)=>{if(el.dataset.done)return;el.dataset.done='1';const target=parseFloat(el.dataset.count||'0');const pre=el.dataset.prefix||'';const suf=el.dataset.suffix||'';const dec=parseInt(el.dataset.decimals||'0',10);if(reduce){el.textContent=pre+target.toFixed(dec)+suf;return;}const start=performance.now();function tick(now){const p=Math.min((now-start)/1200,1);const eased=1-Math.pow(1-p,3);el.textContent=pre+(target*eased).toFixed(dec)+suf;if(p<1)requestAnimationFrame(tick);else el.textContent=pre+target.toFixed(dec)+suf;}requestAnimationFrame(tick);};
-  if('IntersectionObserver'in window&&!reduce){const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){reveal(e.target);io.unobserve(e.target);}}),{threshold:.14});document.querySelectorAll('.reveal').forEach(el=>io.observe(el));}else{document.querySelectorAll('.reveal').forEach(reveal);}
+
+  if ('IntersectionObserver' in window && !reduceMotion) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          revealElement(entry.target);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.14 });
+
+    document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
+  } else {
+    document.querySelectorAll('.reveal').forEach(revealElement);
+  }
 });
