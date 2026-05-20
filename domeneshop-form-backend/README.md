@@ -1,6 +1,31 @@
 # SolarEX Domeneshop Form Backend
 
-This package creates one shared SQL database structure for all SolarEX website forms. Each form is separated by `form_key`, so additional forms can be added without creating another Domeneshop database.
+This package creates one shared SQL-backed form backend for all SolarEX website forms.
+
+## Domain architecture
+
+- Public SolarEX website: `https://www.solarex.no`
+- SQL/form backend domain: `https://www.nanotech-solutions.com`
+- Database ownership/hosting context: nanotech-solutions.com Domeneshop account/domain setup
+
+The SolarEX website can submit form data cross-domain to the nanotech-solutions.com backend as long as CORS is configured to allow `https://www.solarex.no` and `https://solarex.no`.
+
+## One database for multiple forms
+
+Use one database only. Each form is separated by `form_key`, so additional forms can be added without creating another Domeneshop database.
+
+Current form keys:
+
+- `technical_review`
+- `commercial_discussion`
+- `documentation_pilot`
+
+Additional forms can be added later:
+
+```sql
+INSERT INTO solarex_forms (form_key, form_name, description, enabled)
+VALUES ('new_form_key', 'New Form Name', 'Purpose of this form', 1);
+```
 
 ## Files
 
@@ -11,11 +36,11 @@ This package creates one shared SQL database structure for all SolarEX website f
 - `public/health.php` — database/API health check endpoint.
 - `public/export.csv.php` — protected CSV export endpoint.
 
-## Recommended server path
+## Recommended Domeneshop server path under nanotech-solutions.com
 
-Upload the full `domeneshop-form-backend` folder outside public webroot if possible, and expose only the files in `public/`.
+Upload the backend to the nanotech-solutions.com web area, not to the solarex.no website directory.
 
-Practical Domeneshop shared-hosting layout:
+Practical layout:
 
 ```text
 /www/solarex_forms/
@@ -29,60 +54,59 @@ Practical Domeneshop shared-hosting layout:
     config.local.php
 ```
 
-Live endpoints would then be:
+Expected backend endpoints:
 
 ```text
-https://www.solarex.no/solarex_forms/public/health.php
-https://www.solarex.no/solarex_forms/public/submit.php
+https://www.nanotech-solutions.com/solarex_forms/public/health.php
+https://www.nanotech-solutions.com/solarex_forms/public/submit.php
+https://www.nanotech-solutions.com/solarex_forms/public/export.csv.php
 ```
 
-If you prefer cleaner URLs, add a rewrite later, but do not rely on `.htaccess` until confirmed on the host.
+The SolarEX frontend remains at:
 
-## Database design
-
-Use one database only. The schema supports multiple forms through `solarex_forms.form_key`:
-
-- `technical_review`
-- `commercial_discussion`
-- `documentation_pilot`
-
-Additional forms can be added like this:
-
-```sql
-INSERT INTO solarex_forms (form_key, form_name, description, enabled)
-VALUES ('new_form_key', 'New Form Name', 'Purpose of this form', 1);
+```text
+https://www.solarex.no/
 ```
 
 ## Setup steps
 
-1. Create or select one MySQL/MariaDB database in Domeneshop.
-2. Open phpMyAdmin.
+1. In Domeneshop, use the MySQL/MariaDB database assigned under the nanotech-solutions.com domain/account context.
+2. Open phpMyAdmin for that database.
 3. Select the target database.
 4. Import `sql/001_schema.sql`.
 5. Copy `config/config.example.php` to `config/config.local.php`.
-6. Fill in database host, database name, database username, database password and secret key.
-7. Upload `public/`, `src/`, and `config/` to the server path.
-8. Open `health.php` in the browser.
-9. Confirm JSON response: `{"ok":true,"service":"solarex_forms","database":"connected"}`.
-10. Update frontend form JavaScript to post to `https://www.solarex.no/solarex_forms/public/submit.php`.
+6. Fill in database host, database name, database username, database password and a random secret key.
+7. Confirm allowed origins include:
+   - `https://www.solarex.no`
+   - `https://solarex.no`
+   - `https://www.nanotech-solutions.com`
+   - `https://nanotech-solutions.com`
+8. Upload `public/`, `src/`, and `config/` to `/www/solarex_forms/` in the nanotech-solutions.com hosting area.
+9. Open the health endpoint:
+
+```text
+https://www.nanotech-solutions.com/solarex_forms/public/health.php
+```
+
+Expected response:
+
+```json
+{"ok":true,"service":"solarex_forms","database":"connected"}
+```
+
+10. After health passes, update the SolarEX frontend form JavaScript to post to:
+
+```text
+https://www.nanotech-solutions.com/solarex_forms/public/submit.php
+```
 
 ## Frontend payload requirement
 
-Every form submission must include:
+Every form submission must include one of the following:
 
 ```text
 form_key=technical_review
-```
-
-or:
-
-```text
 form_key=commercial_discussion
-```
-
-or:
-
-```text
 form_key=documentation_pilot
 ```
 
@@ -97,6 +121,7 @@ The endpoint accepts either JSON or regular form POST.
 - Keep rate limiting enabled.
 - Use HTTPS only.
 - Review retention requirements for GDPR and delete old submissions when no longer needed.
+- Keep the database and API under nanotech-solutions.com; keep public website content under solarex.no.
 
 ## CSV export token
 
@@ -115,15 +140,15 @@ php -r "echo hash_hmac('sha256', 'export', 'YOUR_SECRET_KEY');"
 Then access:
 
 ```text
-https://www.solarex.no/solarex_forms/public/export.csv.php?token=GENERATED_TOKEN
+https://www.nanotech-solutions.com/solarex_forms/public/export.csv.php?token=GENERATED_TOKEN
 ```
 
-## Frontend JavaScript example
+## Frontend JavaScript endpoint
 
 Use this endpoint in the live contact form script:
 
 ```javascript
-const ENDPOINT = 'https://www.solarex.no/solarex_forms/public/submit.php';
+const ENDPOINT = 'https://www.nanotech-solutions.com/solarex_forms/public/submit.php';
 ```
 
 Submit JSON:
