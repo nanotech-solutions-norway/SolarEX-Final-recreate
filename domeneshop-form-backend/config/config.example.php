@@ -1,13 +1,15 @@
 <?php
 // Copy this file to config.local.php and update all values.
 // Do not upload config.local.php to GitHub.
+// Backend/API domain: nanotech-solutions.com
+// Frontend/website domain: solarex.no
 
 return [
     'db' => [
-        'host' => 'YOUR_DATABASE_HOST.mysql.domeneshop.no',
-        'name' => 'YOUR_DATABASE_NAME',
-        'user' => 'YOUR_DATABASE_USERNAME',
-        'pass' => 'YOUR_DATABASE_PASSWORD',
+        'host' => 'YOUR_NANOTECH_DATABASE_HOST.mysql.domeneshop.no',
+        'name' => 'YOUR_NANOTECH_DATABASE_NAME',
+        'user' => 'YOUR_NANOTECH_DATABASE_USERNAME',
+        'pass' => 'YOUR_NANOTECH_DATABASE_PASSWORD',
         'charset' => 'utf8mb4',
     ],
 
@@ -16,11 +18,14 @@ return [
         // Example command locally: php -r "echo bin2hex(random_bytes(32));"
         'secret_key' => 'CHANGE_ME_TO_A_LONG_RANDOM_SECRET',
 
-        // Allowed website origins. Add live custom domain when ready.
+        // Allowed browser origins that may submit to the nanotech-solutions.com backend.
+        // Keep solarex.no here because the public website submits from solarex.no.
         'allowed_origins' => [
             'https://nanotech-solutions-norway.github.io',
             'https://www.solarex.no',
             'https://solarex.no',
+            'https://www.nanotech-solutions.com',
+            'https://nanotech-solutions.com',
         ],
 
         // Rate limit per IP hash.
@@ -32,7 +37,7 @@ return [
         // Uses PHP mail() by default. For higher reliability, use SMTP/PHPMailer later.
         'enabled' => true,
         'to' => 'info@solarex.no',
-        'from' => 'no-reply@solarex.no',
+        'from' => 'no-reply@nanotech-solutions.com',
         'reply_to_field' => 'Email',
         'subject_prefix' => 'SolarEX website form',
     ],
