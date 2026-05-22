@@ -1,4 +1,4 @@
-/* SolarEX production overrides — fonts, rounded controls, contact form consolidation, source hero imagery. */
+/* SolarEX production overrides — fonts, navigation, interactions, contact form consolidation, source hero imagery. */
 @import url('https://fonts.googleapis.com/css2?family=Fauna+One&family=Libre+Baskerville:wght@400;700&display=swap');
 
 @font-face{
@@ -38,196 +38,179 @@
   --font-body:'SolarEX Libre Baskerville','Libre Baskerville',Georgia,serif;
 }
 
-/* Typography: headings use Fauna; body/paragraph copy uses Libre Baskerville. */
-body,
-p,
-li,
-td,
-th,
-label,
-input,
-select,
-textarea,
-.lead,
-.mini,
-.muted,
-.card,
-.step,
-.form-status,
-.site-footer,
-.contact-form{
+body,p,li,td,th,label,input,select,textarea,.lead,.mini,.muted,.card,.step,.form-status,.site-footer,.contact-form{
   font-family:var(--font-body)!important;
 }
-h1,h2,h3,h4,h5,h6,
-.kicker,
-.eyebrow,
-.site-nav a,
-.btn,
-button,
-.menu-toggle,
-.badge,
-.num{
+h1,h2,h3,h4,h5,h6,.kicker,.eyebrow,.site-nav a,.nav-group-toggle,.btn,button,.menu-toggle,.badge,.num{
   font-family:var(--font-heading)!important;
   font-weight:500!important;
 }
 
-/* Reduce hero-section typography by 20%. */
-.hero h1{
-  font-size:clamp(33.6px,5.6vw,64px)!important;
+/* Clean grouped navigation. */
+.site-nav{
+  align-items:center;
+  gap:8px!important;
 }
-.hero .lead{
-  font-size:clamp(14.4px,1.6vw,18.4px)!important;
-}
-.hero .mini,
-.hero p{
-  font-size:80%!important;
-}
-.hero .eyebrow,
-.hero .btn{
-  font-size:80%!important;
-}
-
-/* Remove the inline announcement/top strip shown above the main navigation. */
-body > .skip-link + div[style*="border-bottom"]{
-  display:none!important;
-}
-
-/* Remove hero label/tag pills from all pages. */
-.tag,
-.hero .tag,
-.hero-inner .tag{
-  display:none!important;
-}
-
-/* Global 2px radius for form fields and residual non-button pill elements. */
-input,
-select,
-textarea,
-.form-tab-card,
-.field input,
-.field select,
-.field textarea,
-.eyebrow,
-.tag{
-  border-radius:var(--control-radius)!important;
-}
-
-/* Button radius: 5px. */
-button,
-.btn,
-.menu-toggle,
 .site-nav a,
-.contact-form button,
-input[type="submit"],
-input[type="button"]{
+.nav-group-toggle{
   border-radius:var(--button-radius)!important;
 }
+.nav-group{
+  position:relative;
+  display:flex;
+  align-items:center;
+}
+.nav-group-toggle{
+  border:1px solid transparent;
+  background:rgba(214,229,239,.04);
+  color:var(--muted);
+  font-size:14px;
+  font-weight:500;
+  padding:8px 11px;
+  cursor:pointer;
+}
+.nav-group-toggle:after{
+  content:'⌄';
+  margin-left:6px;
+  font-size:11px;
+  opacity:.8;
+}
+.nav-group-menu{
+  position:absolute;
+  top:calc(100% + 10px);
+  left:0;
+  min-width:214px;
+  display:grid;
+  gap:6px;
+  padding:10px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:rgba(16,20,26,.98);
+  box-shadow:0 18px 42px rgba(0,0,0,.36);
+  opacity:0;
+  transform:translateY(-5px);
+  pointer-events:none;
+  transition:opacity .16s ease,transform .16s ease;
+  z-index:40;
+}
+.nav-group:hover .nav-group-menu,
+.nav-group:focus-within .nav-group-menu,
+.nav-group.is-open .nav-group-menu{
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:auto;
+}
+.nav-group-menu a{
+  display:block;
+  padding:9px 10px!important;
+  border-radius:5px!important;
+  color:var(--text)!important;
+  background:transparent!important;
+}
+.nav-group-menu a:hover{
+  background:rgba(94,152,241,.18)!important;
+}
+.nav-cta{
+  background:rgba(94,152,241,.22)!important;
+  color:#fff!important;
+}
+.lang-flag{
+  min-width:38px;
+  text-align:center;
+  font-size:18px!important;
+  line-height:1;
+}
+.site-footer .footer-language{
+  margin-top:14px;
+  color:var(--muted);
+  font-family:var(--font-body)!important;
+}
+.site-footer .footer-language a{
+  display:inline-flex;
+  gap:8px;
+  align-items:center;
+}
+
+/* Reduce hero-section typography by 20%. */
+.hero h1{font-size:clamp(33.6px,5.6vw,64px)!important;}
+.hero .lead{font-size:clamp(14.4px,1.6vw,18.4px)!important;}
+.hero .mini,.hero p{font-size:80%!important;}
+.hero .eyebrow,.hero .btn{font-size:80%!important;}
+
+body > .skip-link + div[style*="border-bottom"]{display:none!important;}
+.tag,.hero .tag,.hero-inner .tag{display:none!important;}
+
+input,select,textarea,.form-tab-card,.field input,.field select,.field textarea,.eyebrow,.tag{border-radius:var(--control-radius)!important;}
+button,.btn,.menu-toggle,.site-nav a,.nav-group-toggle,.contact-form button,input[type="submit"],input[type="button"]{border-radius:var(--button-radius)!important;}
 
 /* Button hover and click states. */
-.btn,
-button,
-input[type="submit"],
-input[type="button"]{
+.btn,button,.nav-group-toggle,input[type="submit"],input[type="button"]{
   cursor:pointer;
   transition:transform .16s ease,background .16s ease,border-color .16s ease,box-shadow .16s ease,filter .16s ease,color .16s ease!important;
 }
-.btn:hover,
-button:hover,
-input[type="submit"]:hover,
-input[type="button"]:hover{
+.btn:hover,button:hover,.nav-group-toggle:hover,input[type="submit"]:hover,input[type="button"]:hover{
   transform:translateY(-2px);
   filter:brightness(1.08);
   border-color:rgba(102,168,238,.82)!important;
   box-shadow:0 16px 32px rgba(94,152,241,.28),0 0 0 1px rgba(214,229,239,.16) inset!important;
 }
-.btn:active,
-button:active,
-input[type="submit"]:active,
-input[type="button"]:active,
-.btn.is-clicked,
-button.is-clicked{
+.btn:active,button:active,.nav-group-toggle:active,input[type="submit"]:active,input[type="button"]:active,.btn.is-clicked,button.is-clicked,.nav-group-toggle.is-clicked{
   transform:translateY(1px) scale(.985)!important;
   filter:brightness(.94)!important;
   box-shadow:0 6px 16px rgba(0,0,0,.28),0 0 0 2px rgba(92,201,123,.36) inset!important;
 }
-.btn.secondary:hover{
-  background:rgba(94,152,241,.22)!important;
+.btn.secondary:hover{background:rgba(94,152,241,.22)!important;}
+.btn.secondary:active,.btn.secondary.is-clicked{background:rgba(92,201,123,.18)!important;}
+.email-cta{display:inline-flex!important;align-items:center;justify-content:center;margin-top:10px!important;}
+.site-footer .email-cta{width:max-content;}
+
+/* Box hover and click states. */
+.card,.stat,.step,.source-visual,.form-tab-card,.contact-form,.table-wrap,.form-note,.contact-method{
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,background .18s ease,filter .18s ease!important;
 }
-.btn.secondary:active,
-.btn.secondary.is-clicked{
-  background:rgba(92,201,123,.18)!important;
+.card:hover,.stat:hover,.step:hover,.source-visual:hover,.form-tab-card:hover,.contact-form:hover,.table-wrap:hover,.form-note:hover,.contact-method:hover{
+  transform:translateY(-4px);
+  border-color:rgba(102,168,238,.54)!important;
+  box-shadow:0 26px 72px rgba(0,0,0,.40),0 0 0 1px rgba(94,152,241,.18) inset!important;
 }
-.email-cta{
-  display:inline-flex!important;
-  align-items:center;
-  justify-content:center;
-  margin-top:10px!important;
-}
-.site-footer .email-cta{
-  width:max-content;
+.card:active,.stat:active,.step:active,.source-visual:active,.form-tab-card:active,.contact-form:active,.table-wrap:active,.form-note:active,.contact-method:active,
+.card.is-clicked,.stat.is-clicked,.step.is-clicked,.source-visual.is-clicked,.form-tab-card.is-clicked,.contact-form.is-clicked,.table-wrap.is-clicked,.form-note.is-clicked,.contact-method.is-clicked{
+  transform:translateY(1px) scale(.992)!important;
+  filter:brightness(.96)!important;
+  border-color:rgba(92,201,123,.48)!important;
 }
 
-/* Align CTA buttons at a consistent bottom position inside cards. */
-.card{
-  display:flex;
-  flex-direction:column;
-}
-.card > .btn{
-  margin-top:auto!important;
-  align-self:flex-start;
-}
-.card:has(> .btn){
-  padding-bottom:10px!important;
-}
-.card:has(> .btn) > .btn{
-  margin-bottom:0!important;
-}
-.card > .btn-row{
-  margin-top:auto!important;
-  padding-bottom:10px;
-}
+.card{display:flex;flex-direction:column;}
+.card > .btn{margin-top:auto!important;align-self:flex-start;}
+.card:has(> .btn){padding-bottom:10px!important;}
+.card:has(> .btn) > .btn{margin-bottom:0!important;}
+.card > .btn-row{margin-top:auto!important;padding-bottom:10px;}
 
-/* Hero image background applied across all SolarEX pages using source PV-glass imagery. */
 .hero{
-  background-image:
-    linear-gradient(90deg,rgba(16,20,26,.92) 0%,rgba(16,20,26,.82) 42%,rgba(16,20,26,.54) 74%,rgba(16,20,26,.62) 100%),
-    radial-gradient(circle at 76% 18%,rgba(94,152,241,.34),transparent 32%),
-    var(--hero-source-image)!important;
+  background-image:linear-gradient(90deg,rgba(16,20,26,.92) 0%,rgba(16,20,26,.82) 42%,rgba(16,20,26,.54) 74%,rgba(16,20,26,.62) 100%),radial-gradient(circle at 76% 18%,rgba(94,152,241,.34),transparent 32%),var(--hero-source-image)!important;
   background-position:center center!important;
   background-size:cover!important;
   background-repeat:no-repeat!important;
 }
 .hero:after{
-  background:
-    linear-gradient(115deg,transparent 9%,rgba(214,229,239,.05) 9.3%,transparent 9.9%),
-    linear-gradient(160deg,transparent 22%,rgba(214,229,239,.06) 22.4%,transparent 22.9%)!important;
+  background:linear-gradient(115deg,transparent 9%,rgba(214,229,239,.05) 9.3%,transparent 9.9%),linear-gradient(160deg,transparent 22%,rgba(214,229,239,.06) 22.4%,transparent 22.9%)!important;
   opacity:.54!important;
   pointer-events:none;
 }
-.hero-inner{
-  text-shadow:0 2px 24px rgba(0,0,0,.35);
-}
+.hero-inner{text-shadow:0 2px 24px rgba(0,0,0,.35);}
 
-/* Contact page: remove right-side information boxes and allow forms to use full width. */
-.form-shell{
-  grid-template-columns:1fr!important;
-}
-.contact-aside{
-  display:none!important;
-}
-.contact-form{
-  width:100%;
-  max-width:none;
-}
-.contact-form .form-grid{
-  grid-template-columns:repeat(2,minmax(0,1fr));
-}
+.form-shell{grid-template-columns:1fr!important;}
+.contact-aside{display:none!important;}
+.contact-form{width:100%;max-width:none;}
+.contact-form .form-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
 
 @media(max-width:980px){
-  .contact-form .form-grid{
-    grid-template-columns:1fr;
-  }
-  .hero{
-    background-position:center top!important;
-  }
+  .site-nav.is-open{gap:8px!important;}
+  .nav-group{display:block;width:100%;}
+  .nav-group-toggle{width:100%;text-align:left;display:flex;justify-content:space-between;align-items:center;}
+  .nav-group-menu{position:static;min-width:0;margin:6px 0 4px;opacity:1;transform:none;pointer-events:auto;background:rgba(214,229,239,.04);box-shadow:none;display:none;}
+  .nav-group.is-open .nav-group-menu,.nav-group:focus-within .nav-group-menu{display:grid;}
+  .lang-flag{width:max-content;}
+  .contact-form .form-grid{grid-template-columns:1fr;}
+  .hero{background-position:center top!important;}
 }
