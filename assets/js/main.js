@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const overrideHref = 'https://nanotech-solutions-norway.github.io/SolarEX-Final-recreate/assets/css/solarex-overrides.css?v=20260522-visual-1';
+  const overrideHref = 'https://nanotech-solutions-norway.github.io/SolarEX-Final-recreate/assets/css/solarex-overrides.css?v=20260522-fonts-buttons-1';
 
   if (!document.querySelector('link[data-solarex-overrides]')) {
     const overrides = document.createElement('link');
@@ -18,6 +18,13 @@ document.addEventListener('DOMContentLoaded', () => {
     favicon.href = 'data:image/svg+xml,' + encodeURIComponent(svgFav);
     document.head.appendChild(favicon);
   }
+
+  document.querySelectorAll('.btn, button').forEach((element) => {
+    element.addEventListener('pointerdown', () => element.classList.add('is-clicked'));
+    ['pointerup', 'pointercancel', 'pointerleave', 'blur'].forEach((eventName) => {
+      element.addEventListener(eventName, () => element.classList.remove('is-clicked'));
+    });
+  });
 
   const menuButton = document.querySelector('[data-menu-toggle]');
   const nav = document.querySelector('[data-nav]');
