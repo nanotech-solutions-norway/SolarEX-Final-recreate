@@ -9,7 +9,14 @@ body > .skip-link + div[style*="border-bottom"]{
   display:none!important;
 }
 
-/* Global 2px radius for interactive fields and buttons. */
+/* Remove hero label/tag pills from all pages. */
+.tag,
+.hero .tag,
+.hero-inner .tag{
+  display:none!important;
+}
+
+/* Global 2px radius for interactive fields, buttons and residual pill elements. */
 button,
 .btn,
 input,
@@ -21,7 +28,9 @@ textarea,
 .contact-form button,
 .field input,
 .field select,
-.field textarea{
+.field textarea,
+.eyebrow,
+.tag{
   border-radius:var(--control-radius)!important;
 }
 
