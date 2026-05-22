@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const overrideHref = 'https://nanotech-solutions-norway.github.io/SolarEX-Final-recreate/assets/css/solarex-overrides.css?v=20260522-mobile-menu-2';
+  const overrideHref = 'https://nanotech-solutions-norway.github.io/SolarEX-Final-recreate/assets/css/solarex-overrides.css?v=20260523-mobile-menu-1';
 
   if (!document.querySelector('link[data-solarex-overrides]')) {
     const overrides = document.createElement('link');
@@ -131,10 +131,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!nav || !menuButton) return;
     nav.classList.remove('is-open');
     menuButton.setAttribute('aria-expanded', 'false');
+    menuButton.setAttribute('aria-label', 'Open menu');
   };
 
   if (menuButton && nav) {
-    menuButton.textContent = 'Menu';
+    menuButton.textContent = '';
     menuButton.setAttribute('aria-label', 'Open menu');
 
     menuButton.addEventListener('click', (event) => {
@@ -155,21 +156,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     nav.querySelectorAll('a').forEach((link) => {
-      link.addEventListener('click', () => {
-        closeMobileMenu();
-      });
+      link.addEventListener('click', closeMobileMenu);
     });
 
     document.addEventListener('click', (event) => {
       if (isMobileMenu() && nav.classList.contains('is-open') && !event.target.closest('.site-header')) {
         closeMobileMenu();
       }
-      if (!event.target.closest('.nav-group')) {
+      if (!event.target.closest('.nav-group') && !isMobileMenu()) {
         document.querySelectorAll('.nav-group').forEach((group) => {
-          if (!isMobileMenu()) {
-            group.classList.remove('is-open');
-            group.querySelector('.nav-group-toggle')?.setAttribute('aria-expanded', 'false');
-          }
+          group.classList.remove('is-open');
+          group.querySelector('.nav-group-toggle')?.setAttribute('aria-expanded', 'false');
         });
       }
     });
