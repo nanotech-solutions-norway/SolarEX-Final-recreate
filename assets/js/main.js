@@ -1,4 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
+  const overrideHref = 'https://nanotech-solutions-norway.github.io/SolarEX-Final-recreate/assets/css/solarex-overrides.css?v=20260522-visual-1';
+
+  if (!document.querySelector('link[data-solarex-overrides]')) {
+    const overrides = document.createElement('link');
+    overrides.rel = 'stylesheet';
+    overrides.href = overrideHref;
+    overrides.setAttribute('data-solarex-overrides', 'true');
+    document.head.appendChild(overrides);
+  }
+
   const svgFav = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><rect width="128" height="128" rx="28" fill="#171B21"/><path d="M25 80h78L88 42H40z" fill="none" stroke="#66A8EE" stroke-width="8"/><circle cx="94" cy="30" r="12" fill="#FFD21A"/><text x="17" y="110" font-family="Arial" font-size="24" font-weight="800" fill="#D6E5EF">Solar</text><text x="77" y="110" font-family="Arial" font-size="24" font-weight="800" fill="#FFD21A">EX</text></svg>';
 
   if (!document.querySelector('link[rel="icon"]')) {
