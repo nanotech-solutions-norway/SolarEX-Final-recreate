@@ -32,6 +32,7 @@
 
 :root{
   --control-radius:2px;
+  --button-radius:5px;
   --hero-source-image:url('https://cdn.gamma.app/673vpq5nv1n08u4/generated-images/wy8zd-2GU49cprgvniQHw.jpg');
   --font-heading:'SolarEX Fauna','Fauna One',Georgia,serif;
   --font-body:'SolarEX Libre Baskerville','Libre Baskerville',Georgia,serif;
@@ -82,22 +83,28 @@ body > .skip-link + div[style*="border-bottom"]{
   display:none!important;
 }
 
-/* Global 2px radius for interactive fields, buttons and residual pill elements. */
-button,
-.btn,
+/* Global 2px radius for form fields and residual non-button pill elements. */
 input,
 select,
 textarea,
-.menu-toggle,
-.site-nav a,
 .form-tab-card,
-.contact-form button,
 .field input,
 .field select,
 .field textarea,
 .eyebrow,
 .tag{
   border-radius:var(--control-radius)!important;
+}
+
+/* Button radius: 5px. */
+button,
+.btn,
+.menu-toggle,
+.site-nav a,
+.contact-form button,
+input[type="submit"],
+input[type="button"]{
+  border-radius:var(--button-radius)!important;
 }
 
 /* Button hover and click states. */
