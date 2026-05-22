@@ -71,6 +71,22 @@ button,
   font-weight:500!important;
 }
 
+/* Reduce hero-section typography by 20%. */
+.hero h1{
+  font-size:clamp(33.6px,5.6vw,64px)!important;
+}
+.hero .lead{
+  font-size:clamp(14.4px,1.6vw,18.4px)!important;
+}
+.hero .mini,
+.hero p{
+  font-size:80%!important;
+}
+.hero .eyebrow,
+.hero .btn{
+  font-size:80%!important;
+}
+
 /* Remove the inline announcement/top strip shown above the main navigation. */
 body > .skip-link + div[style*="border-bottom"]{
   display:none!important;
@@ -140,6 +156,15 @@ button.is-clicked{
 .btn.secondary:active,
 .btn.secondary.is-clicked{
   background:rgba(92,201,123,.18)!important;
+}
+.email-cta{
+  display:inline-flex!important;
+  align-items:center;
+  justify-content:center;
+  margin-top:10px!important;
+}
+.site-footer .email-cta{
+  width:max-content;
 }
 
 /* Align CTA buttons at a consistent bottom position inside cards. */
