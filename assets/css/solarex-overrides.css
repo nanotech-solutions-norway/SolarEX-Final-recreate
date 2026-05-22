@@ -1,0 +1,66 @@
+/* SolarEX production overrides — rounded controls, contact form consolidation, source hero imagery. */
+:root{
+  --control-radius:2px;
+  --hero-source-image:url('https://cdn.gamma.app/673vpq5nv1n08u4/generated-images/wy8zd-2GU49cprgvniQHw.jpg');
+}
+
+/* Global 2px radius for interactive fields and buttons. */
+button,
+.btn,
+input,
+select,
+textarea,
+.menu-toggle,
+.site-nav a,
+.form-tab-card,
+.contact-form button,
+.field input,
+.field select,
+.field textarea{
+  border-radius:var(--control-radius)!important;
+}
+
+/* Hero image background applied across all SolarEX pages using source PV-glass imagery. */
+.hero{
+  background-image:
+    linear-gradient(90deg,rgba(16,20,26,.92) 0%,rgba(16,20,26,.82) 42%,rgba(16,20,26,.54) 74%,rgba(16,20,26,.62) 100%),
+    radial-gradient(circle at 76% 18%,rgba(94,152,241,.34),transparent 32%),
+    var(--hero-source-image)!important;
+  background-position:center center!important;
+  background-size:cover!important;
+  background-repeat:no-repeat!important;
+}
+.hero:after{
+  background:
+    linear-gradient(115deg,transparent 9%,rgba(214,229,239,.05) 9.3%,transparent 9.9%),
+    linear-gradient(160deg,transparent 22%,rgba(214,229,239,.06) 22.4%,transparent 22.9%)!important;
+  opacity:.54!important;
+  pointer-events:none;
+}
+.hero-inner{
+  text-shadow:0 2px 24px rgba(0,0,0,.35);
+}
+
+/* Contact page: remove right-side information boxes and allow forms to use full width. */
+.form-shell{
+  grid-template-columns:1fr!important;
+}
+.contact-aside{
+  display:none!important;
+}
+.contact-form{
+  width:100%;
+  max-width:none;
+}
+.contact-form .form-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+
+@media(max-width:980px){
+  .contact-form .form-grid{
+    grid-template-columns:1fr;
+  }
+  .hero{
+    background-position:center top!important;
+  }
+}
