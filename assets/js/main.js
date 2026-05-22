@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const overrideHref = 'https://nanotech-solutions-norway.github.io/SolarEX-Final-recreate/assets/css/solarex-overrides.css?v=20260522-clean-nav-hover-boxes-1';
+  const overrideHref = 'https://nanotech-solutions-norway.github.io/SolarEX-Final-recreate/assets/css/solarex-overrides.css?v=20260522-mobile-menu-2';
 
   if (!document.querySelector('link[data-solarex-overrides]')) {
     const overrides = document.createElement('link');
@@ -21,16 +21,16 @@ document.addEventListener('DOMContentLoaded', () => {
     nav.dataset.cleaned = 'true';
     nav.innerHTML = `
       <a href="${normalizeHref('index.html')}">Home</a>
-      <div class="nav-group">
-        <button class="nav-group-toggle" type="button" aria-expanded="false">Solutions</button>
+      <div class="nav-group is-open">
+        <button class="nav-group-toggle" type="button" aria-expanded="true">Solutions</button>
         <div class="nav-group-menu">
           <a href="${normalizeHref('quartz/')}">Quartz SiO₂</a>
           <a href="${normalizeHref('titan/')}">Titan TiO₂</a>
           <a href="${normalizeHref('technology/')}">Technology</a>
         </div>
       </div>
-      <div class="nav-group">
-        <button class="nav-group-toggle" type="button" aria-expanded="false">Evidence</button>
+      <div class="nav-group is-open">
+        <button class="nav-group-toggle" type="button" aria-expanded="true">Evidence</button>
         <div class="nav-group-menu">
           <a href="${normalizeHref('projects/')}">Projects</a>
           <a href="${normalizeHref('documentation/')}">Documentation</a>
@@ -42,28 +42,24 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
   }
 
+  const isMobileMenu = () => window.matchMedia('(max-width: 980px)').matches;
+
   document.querySelectorAll('.nav-group-toggle').forEach((button) => {
     button.addEventListener('click', (event) => {
       event.preventDefault();
+      event.stopPropagation();
       const group = button.closest('.nav-group');
       const isOpen = group.classList.toggle('is-open');
       button.setAttribute('aria-expanded', String(isOpen));
-      document.querySelectorAll('.nav-group').forEach((other) => {
-        if (other !== group) {
-          other.classList.remove('is-open');
-          other.querySelector('.nav-group-toggle')?.setAttribute('aria-expanded', 'false');
-        }
-      });
+      if (!isMobileMenu()) {
+        document.querySelectorAll('.nav-group').forEach((other) => {
+          if (other !== group) {
+            other.classList.remove('is-open');
+            other.querySelector('.nav-group-toggle')?.setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
     });
-  });
-
-  document.addEventListener('click', (event) => {
-    if (!event.target.closest('.nav-group')) {
-      document.querySelectorAll('.nav-group').forEach((group) => {
-        group.classList.remove('is-open');
-        group.querySelector('.nav-group-toggle')?.setAttribute('aria-expanded', 'false');
-      });
-    }
   });
 
   document.querySelectorAll('.site-footer').forEach((footer) => {
@@ -131,17 +127,51 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const menuButton = document.querySelector('[data-menu-toggle]');
 
+  const closeMobileMenu = () => {
+    if (!nav || !menuButton) return;
+    nav.classList.remove('is-open');
+    menuButton.setAttribute('aria-expanded', 'false');
+  };
+
   if (menuButton && nav) {
-    menuButton.addEventListener('click', () => {
+    menuButton.textContent = 'Menu';
+    menuButton.setAttribute('aria-label', 'Open menu');
+
+    menuButton.addEventListener('click', (event) => {
+      event.stopPropagation();
       const isOpen = nav.classList.toggle('is-open');
       menuButton.setAttribute('aria-expanded', String(isOpen));
+      menuButton.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+      if (isOpen && isMobileMenu()) {
+        document.querySelectorAll('.nav-group').forEach((group) => {
+          group.classList.add('is-open');
+          group.querySelector('.nav-group-toggle')?.setAttribute('aria-expanded', 'true');
+        });
+      }
+    });
+
+    nav.addEventListener('click', (event) => {
+      event.stopPropagation();
     });
 
     nav.querySelectorAll('a').forEach((link) => {
       link.addEventListener('click', () => {
-        nav.classList.remove('is-open');
-        menuButton.setAttribute('aria-expanded', 'false');
+        closeMobileMenu();
       });
+    });
+
+    document.addEventListener('click', (event) => {
+      if (isMobileMenu() && nav.classList.contains('is-open') && !event.target.closest('.site-header')) {
+        closeMobileMenu();
+      }
+      if (!event.target.closest('.nav-group')) {
+        document.querySelectorAll('.nav-group').forEach((group) => {
+          if (!isMobileMenu()) {
+            group.classList.remove('is-open');
+            group.querySelector('.nav-group-toggle')?.setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
     });
   }
 
