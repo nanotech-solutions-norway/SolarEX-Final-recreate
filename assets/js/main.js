@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const overrideHref = 'https://nanotech-solutions-norway.github.io/SolarEX-Final-recreate/assets/css/solarex-overrides.css?v=20260523-mobile-flat-logo-1';
+  const overrideHref = 'https://nanotech-solutions-norway.github.io/SolarEX-Final-recreate/assets/css/solarex-overrides.css?v=20260523-mobile-no-home-1';
 
   if (!document.querySelector('link[data-solarex-overrides]')) {
     const overrides = document.createElement('link');
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     nav.dataset.cleaned = 'true';
     nav.innerHTML = `
       <a class="mobile-menu-logo" href="${normalizeHref('index.html')}" aria-label="SolarEX home">SolarEX</a>
-      <a class="nav-home" href="${normalizeHref('index.html')}">Home</a>
+      <a class="nav-home desktop-only" href="${normalizeHref('index.html')}">Home</a>
       <div class="nav-group is-open">
         <button class="nav-group-toggle" type="button" aria-expanded="true">Solutions</button>
         <div class="nav-group-menu">
