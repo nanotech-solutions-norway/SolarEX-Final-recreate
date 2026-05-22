@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const overrideHref = 'https://nanotech-solutions-norway.github.io/SolarEX-Final-recreate/assets/css/solarex-overrides.css?v=20260522-fonts-buttons-1';
+  const overrideHref = 'https://nanotech-solutions-norway.github.io/SolarEX-Final-recreate/assets/css/solarex-overrides.css?v=20260522-button-radius-5';
 
   if (!document.querySelector('link[data-solarex-overrides]')) {
     const overrides = document.createElement('link');
