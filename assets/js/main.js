@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const overrideHref = 'https://nanotech-solutions-norway.github.io/SolarEX-Final-recreate/assets/css/solarex-overrides.css?v=20260522-email-cta-hero-80';
+  const overrideHref = 'https://nanotech-solutions-norway.github.io/SolarEX-Final-recreate/assets/css/solarex-overrides.css?v=20260522-clean-nav-hover-boxes-1';
 
   if (!document.querySelector('link[data-solarex-overrides]')) {
     const overrides = document.createElement('link');
@@ -9,7 +9,72 @@ document.addEventListener('DOMContentLoaded', () => {
     document.head.appendChild(overrides);
   }
 
-  const contactPath = window.location.pathname.includes('/contact/') ? '#technical-form' : '../contact/#technical-form';
+  const currentPath = window.location.pathname;
+  const isContact = currentPath.includes('/contact/');
+  const prefix = currentPath.endsWith('/') && currentPath.split('/').filter(Boolean).length > 1 ? '../' : '';
+  const contactPath = isContact ? '#technical-form' : `${prefix}contact/#technical-form`;
+
+  const normalizeHref = (path) => prefix + path;
+
+  const nav = document.querySelector('[data-nav]');
+  if (nav && !nav.dataset.cleaned) {
+    nav.dataset.cleaned = 'true';
+    nav.innerHTML = `
+      <a href="${normalizeHref('index.html')}">Home</a>
+      <div class="nav-group">
+        <button class="nav-group-toggle" type="button" aria-expanded="false">Solutions</button>
+        <div class="nav-group-menu">
+          <a href="${normalizeHref('quartz/')}">Quartz SiO₂</a>
+          <a href="${normalizeHref('titan/')}">Titan TiO₂</a>
+          <a href="${normalizeHref('technology/')}">Technology</a>
+        </div>
+      </div>
+      <div class="nav-group">
+        <button class="nav-group-toggle" type="button" aria-expanded="false">Evidence</button>
+        <div class="nav-group-menu">
+          <a href="${normalizeHref('projects/')}">Projects</a>
+          <a href="${normalizeHref('documentation/')}">Documentation</a>
+          <a href="${normalizeHref('faq/')}">FAQ</a>
+        </div>
+      </div>
+      <a class="nav-cta" href="${contactPath}">Contact</a>
+      <a class="lang-flag" href="${normalizeHref('index.html')}" aria-label="English language">🇬🇧</a>
+    `;
+  }
+
+  document.querySelectorAll('.nav-group-toggle').forEach((button) => {
+    button.addEventListener('click', (event) => {
+      event.preventDefault();
+      const group = button.closest('.nav-group');
+      const isOpen = group.classList.toggle('is-open');
+      button.setAttribute('aria-expanded', String(isOpen));
+      document.querySelectorAll('.nav-group').forEach((other) => {
+        if (other !== group) {
+          other.classList.remove('is-open');
+          other.querySelector('.nav-group-toggle')?.setAttribute('aria-expanded', 'false');
+        }
+      });
+    });
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!event.target.closest('.nav-group')) {
+      document.querySelectorAll('.nav-group').forEach((group) => {
+        group.classList.remove('is-open');
+        group.querySelector('.nav-group-toggle')?.setAttribute('aria-expanded', 'false');
+      });
+    }
+  });
+
+  document.querySelectorAll('.site-footer').forEach((footer) => {
+    if (!footer.querySelector('.footer-language')) {
+      const firstColumn = footer.querySelector('.footer-grid > div:first-child') || footer;
+      const lang = document.createElement('div');
+      lang.className = 'footer-language';
+      lang.innerHTML = `<a href="${normalizeHref('index.html')}" aria-label="English language"><span>🇬🇧</span><span>English</span></a>`;
+      firstColumn.appendChild(lang);
+    }
+  });
 
   document.querySelectorAll('a[href^="mailto:info@solarex.no"], a[href="mailto:info@solarex.no"]').forEach((link) => {
     link.href = contactPath;
@@ -57,8 +122,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  document.querySelectorAll('.card, .stat, .step, .source-visual, .form-tab-card, .contact-form, .table-wrap, .form-note, .contact-method').forEach((element) => {
+    element.addEventListener('pointerdown', () => element.classList.add('is-clicked'));
+    ['pointerup', 'pointercancel', 'pointerleave', 'blur'].forEach((eventName) => {
+      element.addEventListener(eventName, () => element.classList.remove('is-clicked'));
+    });
+  });
+
   const menuButton = document.querySelector('[data-menu-toggle]');
-  const nav = document.querySelector('[data-nav]');
 
   if (menuButton && nav) {
     menuButton.addEventListener('click', () => {
