@@ -4,6 +4,11 @@
   --hero-source-image:url('https://cdn.gamma.app/673vpq5nv1n08u4/generated-images/wy8zd-2GU49cprgvniQHw.jpg');
 }
 
+/* Remove the inline announcement/top strip shown above the main navigation. */
+body > .skip-link + div[style*="border-bottom"]{
+  display:none!important;
+}
+
 /* Global 2px radius for interactive fields and buttons. */
 button,
 .btn,
@@ -18,6 +23,26 @@ textarea,
 .field select,
 .field textarea{
   border-radius:var(--control-radius)!important;
+}
+
+/* Align CTA buttons at a consistent bottom position inside cards. */
+.card{
+  display:flex;
+  flex-direction:column;
+}
+.card > .btn{
+  margin-top:auto!important;
+  align-self:flex-start;
+}
+.card:has(> .btn){
+  padding-bottom:10px!important;
+}
+.card:has(> .btn) > .btn{
+  margin-bottom:0!important;
+}
+.card > .btn-row{
+  margin-top:auto!important;
+  padding-bottom:10px;
 }
 
 /* Hero image background applied across all SolarEX pages using source PV-glass imagery. */
