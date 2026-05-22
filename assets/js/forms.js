@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const ENDPOINT = 'https://forms.nanotech-solutions.com/submit.php';
+  const ENDPOINT = 'https://forms.nanotech-solutions.com/solarex_forms/submit.php';
   const THANKS_URL = '../contact/thanks/';
   const FALLBACK_EMAIL = 'info@solarex.no';
   const FORM_KEY_BY_SECTION_ID = {
