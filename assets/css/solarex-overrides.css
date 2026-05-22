@@ -1,7 +1,73 @@
-/* SolarEX production overrides — rounded controls, contact form consolidation, source hero imagery. */
+/* SolarEX production overrides — fonts, rounded controls, contact form consolidation, source hero imagery. */
+@import url('https://fonts.googleapis.com/css2?family=Fauna+One&family=Libre+Baskerville:wght@400;700&display=swap');
+
+@font-face{
+  font-family:'SolarEX Fauna';
+  src:local('Fauna Medium'),local('Fauna-Medium'),url('../fonts/Fauna-Medium.ttf') format('truetype');
+  font-weight:500;
+  font-style:normal;
+  font-display:swap;
+}
+@font-face{
+  font-family:'SolarEX Libre Baskerville';
+  src:local('Libre Baskerville'),url('../fonts/LibreBaskerville-Regular.ttf') format('truetype');
+  font-weight:400;
+  font-style:normal;
+  font-display:swap;
+}
+@font-face{
+  font-family:'SolarEX Libre Baskerville';
+  src:local('Libre Baskerville Bold'),url('../fonts/LibreBaskerville-Bold.ttf') format('truetype');
+  font-weight:700;
+  font-style:normal;
+  font-display:swap;
+}
+@font-face{
+  font-family:'SolarEX Libre Baskerville';
+  src:local('Libre Baskerville Italic'),url('../fonts/LibreBaskerville-Italic.ttf') format('truetype');
+  font-weight:400;
+  font-style:italic;
+  font-display:swap;
+}
+
 :root{
   --control-radius:2px;
   --hero-source-image:url('https://cdn.gamma.app/673vpq5nv1n08u4/generated-images/wy8zd-2GU49cprgvniQHw.jpg');
+  --font-heading:'SolarEX Fauna','Fauna One',Georgia,serif;
+  --font-body:'SolarEX Libre Baskerville','Libre Baskerville',Georgia,serif;
+}
+
+/* Typography: headings use Fauna; body/paragraph copy uses Libre Baskerville. */
+body,
+p,
+li,
+td,
+th,
+label,
+input,
+select,
+textarea,
+.lead,
+.mini,
+.muted,
+.card,
+.step,
+.form-status,
+.site-footer,
+.contact-form{
+  font-family:var(--font-body)!important;
+}
+h1,h2,h3,h4,h5,h6,
+.kicker,
+.eyebrow,
+.site-nav a,
+.btn,
+button,
+.menu-toggle,
+.badge,
+.num{
+  font-family:var(--font-heading)!important;
+  font-weight:500!important;
 }
 
 /* Remove the inline announcement/top strip shown above the main navigation. */
@@ -32,6 +98,41 @@ textarea,
 .eyebrow,
 .tag{
   border-radius:var(--control-radius)!important;
+}
+
+/* Button hover and click states. */
+.btn,
+button,
+input[type="submit"],
+input[type="button"]{
+  cursor:pointer;
+  transition:transform .16s ease,background .16s ease,border-color .16s ease,box-shadow .16s ease,filter .16s ease,color .16s ease!important;
+}
+.btn:hover,
+button:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover{
+  transform:translateY(-2px);
+  filter:brightness(1.08);
+  border-color:rgba(102,168,238,.82)!important;
+  box-shadow:0 16px 32px rgba(94,152,241,.28),0 0 0 1px rgba(214,229,239,.16) inset!important;
+}
+.btn:active,
+button:active,
+input[type="submit"]:active,
+input[type="button"]:active,
+.btn.is-clicked,
+button.is-clicked{
+  transform:translateY(1px) scale(.985)!important;
+  filter:brightness(.94)!important;
+  box-shadow:0 6px 16px rgba(0,0,0,.28),0 0 0 2px rgba(92,201,123,.36) inset!important;
+}
+.btn.secondary:hover{
+  background:rgba(94,152,241,.22)!important;
+}
+.btn.secondary:active,
+.btn.secondary.is-clicked{
+  background:rgba(92,201,123,.18)!important;
 }
 
 /* Align CTA buttons at a consistent bottom position inside cards. */
