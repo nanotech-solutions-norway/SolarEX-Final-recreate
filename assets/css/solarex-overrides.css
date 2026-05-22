@@ -13,6 +13,7 @@ h1,h2,h3,h4,h5,h6,.kicker,.eyebrow,.site-nav a,.nav-group-toggle,.btn,button,.me
 /* Clean grouped navigation. */
 .site-nav{align-items:center;gap:8px!important;}
 .site-nav a,.nav-group-toggle{border-radius:var(--button-radius)!important;}
+.mobile-menu-logo{display:none;}
 .nav-group{position:relative;display:flex;align-items:center;}
 .nav-group-toggle{border:1px solid transparent;background:rgba(214,229,239,.04);color:var(--muted);font-size:14px;font-weight:500;padding:8px 11px;cursor:pointer;}
 .nav-group-toggle:after{content:'⌄';margin-left:6px;font-size:11px;opacity:.8;}
@@ -51,16 +52,17 @@ button,.btn,.menu-toggle,.site-nav a,.nav-group-toggle,.contact-form button,inpu
   .menu-toggle{display:inline-flex!important;align-items:center;justify-content:center;width:52px;min-height:44px;font-size:0!important;line-height:1;border:1px solid rgba(102,168,238,.72)!important;background:rgba(214,229,239,.05)!important;color:#fff!important;}
   .menu-toggle:before{content:'☰';font-size:28px;line-height:1;font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif!important;}
   .menu-toggle[aria-expanded="true"]:before{content:'×';font-size:32px;}
-  .site-nav{left:30px!important;right:30px!important;top:76px!important;width:auto!important;max-height:calc(100vh - 106px);overflow:auto;padding:20px!important;border-radius:18px!important;background:rgba(8,12,18,.98)!important;box-shadow:0 22px 64px rgba(0,0,0,.54)!important;}
+  .site-nav{left:30px!important;right:30px!important;top:76px!important;width:auto!important;max-height:calc(100vh - 106px);overflow:auto;padding:22px!important;padding-top:82px!important;border-radius:18px!important;background:rgba(8,12,18,.98)!important;box-shadow:0 22px 64px rgba(0,0,0,.54)!important;position:absolute!important;}
   .site-nav.is-open{display:flex!important;flex-direction:column;align-items:stretch!important;gap:12px!important;}
-  .site-nav > a{display:flex!important;justify-content:center;align-items:center;width:100%;padding:13px 14px!important;text-align:center;}
-  .nav-group{display:block;width:100%;}
-  .nav-group-toggle{width:100%;display:flex;justify-content:space-between;align-items:center;padding:13px 14px!important;background:rgba(214,229,239,.045)!important;color:var(--text)!important;text-align:left;}
-  .nav-group-toggle:after{content:'⌄';font-size:14px;}
-  .nav-group-menu{position:static!important;min-width:0!important;margin:6px 0 0!important;opacity:1!important;transform:none!important;pointer-events:auto!important;background:rgba(214,229,239,.035)!important;box-shadow:none!important;display:grid!important;border-radius:10px!important;padding:8px!important;}
-  .nav-group-menu a{display:block!important;width:100%;padding:11px 12px!important;text-align:left!important;background:rgba(16,20,26,.58)!important;}
+  .mobile-menu-logo{display:block!important;position:absolute!important;top:18px!important;right:18px!important;width:86px!important;height:48px!important;padding:0!important;background:url('https://cdn.gamma.app/673vpq5nv1n08u4/8f48942a7aed413d950c7517aaefda1b/original/SolarEX_logo_v2.6.png') center/contain no-repeat!important;font-size:0!important;border:0!important;box-shadow:none!important;}
+  .nav-home{display:none!important;}
+  .site-nav > a:not(.mobile-menu-logo){display:flex!important;justify-content:center;align-items:center;width:100%;padding:13px 14px!important;text-align:center;background:rgba(16,20,26,.58)!important;border:1px solid rgba(214,229,239,.13)!important;}
+  .nav-group{display:block!important;width:100%;}
+  .nav-group-toggle{display:none!important;}
+  .nav-group-menu{position:static!important;min-width:0!important;margin:0!important;opacity:1!important;transform:none!important;pointer-events:auto!important;background:transparent!important;box-shadow:none!important;display:grid!important;border:0!important;border-radius:0!important;padding:0!important;gap:12px!important;}
+  .nav-group-menu a{display:flex!important;justify-content:center!important;align-items:center!important;width:100%!important;padding:13px 14px!important;text-align:center!important;background:rgba(16,20,26,.58)!important;border:1px solid rgba(214,229,239,.13)!important;border-radius:5px!important;}
   .nav-cta{justify-content:center!important;background:rgba(94,152,241,.32)!important;}
-  .lang-flag{width:100%;min-width:0;justify-content:center!important;text-align:center;font-size:24px!important;background:transparent!important;}
+  .lang-flag{width:100%;min-width:0;justify-content:center!important;text-align:center;font-size:24px!important;background:transparent!important;border:0!important;}
   .contact-form .form-grid{grid-template-columns:1fr;}
   .hero{background-position:center top!important;}
 }
