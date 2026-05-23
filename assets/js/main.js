@@ -42,16 +42,16 @@ document.addEventListener('DOMContentLoaded', () => {
     nav.innerHTML = `
       <a class="mobile-menu-logo" href="${normalizeHref('index.html')}" aria-label="SolarEX home">SolarEX</a>
       <a class="nav-home desktop-only" href="${normalizeHref('index.html')}">Home</a>
-      <div class="nav-group is-open">
-        <button class="nav-group-toggle" type="button" aria-expanded="true">Solutions</button>
+      <div class="nav-group">
+        <button class="nav-group-toggle" type="button" aria-expanded="false">Solutions</button>
         <div class="nav-group-menu">
           <a href="${normalizeHref('quartz/')}">Quartz SiO₂</a>
           <a href="${normalizeHref('titan/')}">Titan TiO₂</a>
           <a href="${normalizeHref('technology/')}">Technology</a>
         </div>
       </div>
-      <div class="nav-group is-open">
-        <button class="nav-group-toggle" type="button" aria-expanded="true">Evidence</button>
+      <div class="nav-group">
+        <button class="nav-group-toggle" type="button" aria-expanded="false">Evidence</button>
         <div class="nav-group-menu">
           <a href="${normalizeHref('projects/')}">Projects</a>
           <a href="${normalizeHref('documentation/')}">Documentation</a>
