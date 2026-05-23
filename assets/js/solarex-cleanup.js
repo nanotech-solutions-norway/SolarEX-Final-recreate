@@ -14,30 +14,6 @@
     const repoBase = repoIndex >= 0 ? `/${repoName}/` : '';
     const routeHref = (path) => repoBase ? `${repoBase}${path}` : `${relativePrefix}${path}`;
 
-    const iconFor = (text) => {
-      const value = (text || '').toLowerCase();
-      if (value.includes('quartz') || value.includes('sio')) return 'SiO₂';
-      if (value.includes('titan') || value.includes('tio') || value.includes('uv') || value.includes('photocatal')) return 'TiO₂';
-      if (value.includes('evidence') || value.includes('study') || value.includes('pilot') || value.includes('project') || value.includes('roi')) return '↗';
-      if (value.includes('document') || value.includes('tds') || value.includes('guide')) return '▣';
-      if (value.includes('contact') || value.includes('commercial') || value.includes('support')) return '→';
-      if (value.includes('clean') || value.includes('burden') || value.includes('application')) return '◌';
-      if (value.includes('mechanism') || value.includes('technology') || value.includes('surface')) return '⌬';
-      return '✦';
-    };
-
-    const linkFor = (text) => {
-      const value = (text || '').toLowerCase();
-      if (value.includes('quartz') || value.includes('sio')) return { href: routeHref('quartz/'), label: 'Open Quartz' };
-      if (value.includes('titan') || value.includes('tio') || value.includes('photocatal') || value.includes('uv-dependent')) return { href: routeHref('titan/'), label: 'Open Titan' };
-      if (value.includes('technology') || value.includes('mechanism') || value.includes('surface') || value.includes('cleaning burden') || value.includes('selection')) return { href: routeHref('technology/'), label: 'Open technology' };
-      if (value.includes('evidence') || value.includes('study') || value.includes('pilot') || value.includes('project') || value.includes('roi') || value.includes('baseline')) return { href: routeHref('projects/'), label: 'Open evidence' };
-      if (value.includes('document') || value.includes('tds') || value.includes('guide') || value.includes('application')) return { href: routeHref('documentation/'), label: 'Open documentation' };
-      if (value.includes('faq') || value.includes('question')) return { href: routeHref('faq/'), label: 'Open FAQ' };
-      if (value.includes('contact') || value.includes('commercial') || value.includes('support')) return { href: routeHref('contact/#technical-form'), label: 'Open contact form' };
-      return null;
-    };
-
     const ensureModal = () => {
       let modal = document.querySelector('.visual-modal');
       if (modal) return modal;
@@ -118,6 +94,7 @@
         }
       });
       document.querySelectorAll('.hero .email-cta').forEach((element) => element.remove());
+      document.querySelectorAll('.box-header-icon,.auto-card-link,.visual-label-hotspots,.visual-chip-row').forEach((element) => element.remove());
     };
 
     const enhanceLanguage = () => {
@@ -188,34 +165,11 @@
     const enhanceCards = () => {
       const cardSelector = '.card, .stat, .step, .form-tab-card, .visual-card, .diagram-card, .chart-card, .workflow-card';
       document.querySelectorAll(cardSelector).forEach((card) => {
-        const heading = card.querySelector(':scope > h3, :scope > h2, :scope header h3, :scope header h2');
-        const text = (card.textContent || '').replace(/\s+/g, ' ').trim();
-        if (heading && !heading.querySelector('.box-header-icon')) {
-          const icon = document.createElement('span');
-          icon.className = 'box-header-icon';
-          icon.setAttribute('aria-hidden', 'true');
-          icon.textContent = iconFor(text);
-          heading.appendChild(icon);
-        }
-
+        card.querySelectorAll('.box-header-icon,.auto-card-link').forEach((element) => element.remove());
         const containsAction = Boolean(card.closest('a[href]') || card.querySelector('a[href], button, input, select, textarea') || card.classList.contains('has-modal-action'));
-        const suggested = linkFor(text);
-        const skipAutoLink = card.closest('.site-header,.site-footer,.contact-form,.form-shell') || card.matches('.diagram-card') || card.querySelector('.auto-card-link');
-        if (suggested && !containsAction && !skipAutoLink) {
-          const link = document.createElement('a');
-          link.className = 'btn secondary auto-card-link';
-          link.href = suggested.href;
-          link.textContent = suggested.label;
-          card.appendChild(link);
-          card.classList.add('has-action-card', 'has-card-cta');
-        } else if (containsAction || suggested) {
-          card.classList.add('has-action-card');
-        } else {
-          card.classList.remove('has-action-card');
-        }
-
-        const ctas = card.querySelectorAll(':scope > .btn, :scope > a.btn, :scope > .btn-row .btn, :scope > .auto-card-link');
-        if (ctas.length) card.classList.add('has-card-cta');
+        card.classList.toggle('has-action-card', containsAction);
+        const ctas = card.querySelectorAll(':scope > .btn, :scope > a.btn, :scope > .btn-row .btn');
+        card.classList.toggle('has-card-cta', ctas.length > 0);
       });
     };
 
