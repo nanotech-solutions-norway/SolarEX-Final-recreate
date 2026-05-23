@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://nanotech-solutions-norway.github.io/SolarEX-Final-recreate/sitemap.xml
+Sitemap: https://www.solarex.no/sitemap.xml
