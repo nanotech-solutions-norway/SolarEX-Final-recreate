@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.head.appendChild(script);
   };
 
-  loadCss(assetPath('assets/css/solarex-overrides.css?v=20260523-mobile-no-home-1'), 'data-solarex-overrides');
+  loadCss(assetPath('assets/css/solarex-overrides.css?v=20260523-desktop-dropdown-hover-1'), 'data-solarex-overrides');
   loadCss(assetPath('assets/css/visual-upgrade.css?v=visual-upgrade-v1-20260523'), 'data-solarex-visual-css');
   loadScript(assetPath('assets/js/visual-upgrade.js?v=visual-upgrade-v1-20260523'), 'data-solarex-visual-js');
 
