@@ -1,13 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
   const currentPath = window.location.pathname;
-  const depth = currentPath.split('/').filter(Boolean).length;
-  const isRepoPath = currentPath.includes('/SolarEX-Final-recreate/');
-  const basePrefix = (() => {
-    if (isRepoPath) return '/SolarEX-Final-recreate/';
-    if (depth > 1) return '../';
-    return '';
-  })();
-  const assetPath = (path) => `${basePrefix}${path}`;
+  const repoName = 'SolarEX-Final-recreate';
+  const pathParts = currentPath.split('/').filter(Boolean);
+  const repoIndex = pathParts.indexOf(repoName);
+  const routeParts = repoIndex >= 0 ? pathParts.slice(repoIndex + 1) : pathParts;
+  const isFileRoute = routeParts.length > 0 && /\.[a-z0-9]+$/i.test(routeParts[routeParts.length - 1]);
+  const directoryDepth = isFileRoute ? Math.max(routeParts.length - 1, 0) : routeParts.length;
+  const relativePrefix = '../'.repeat(directoryDepth);
+  const repoBase = repoIndex >= 0 ? `/${repoName}/` : '';
+  const assetPath = (path) => repoBase ? `${repoBase}${path}` : `${relativePrefix}${path}`;
+  const routePrefix = relativePrefix;
 
   const loadCss = (href, marker) => {
     if (document.querySelector(`link[${marker}]`)) return;
@@ -27,13 +29,13 @@ document.addEventListener('DOMContentLoaded', () => {
     document.head.appendChild(script);
   };
 
-  loadCss(assetPath('assets/css/solarex-overrides.css?v=20260523-desktop-dropdown-hover-1'), 'data-solarex-overrides');
+  loadCss(assetPath('assets/css/solarex-overrides.css?v=20260523-visual-upgrade-prefix-1'), 'data-solarex-overrides');
   loadCss(assetPath('assets/css/visual-upgrade.css?v=visual-upgrade-v1-20260523'), 'data-solarex-visual-css');
   loadScript(assetPath('assets/js/visual-upgrade.js?v=visual-upgrade-v1-20260523'), 'data-solarex-visual-js');
 
-  const isContact = currentPath.includes('/contact/');
-  const routePrefix = currentPath.endsWith('/') && currentPath.split('/').filter(Boolean).length > 1 ? '../' : '';
-  const contactPath = isContact ? '#technical-form' : `${routePrefix}contact/#technical-form`;
+  const routePath = routeParts.join('/').replace(/\/$/, '');
+  const isContactIndex = routePath === 'contact';
+  const contactPath = isContactIndex ? '#technical-form' : `${routePrefix}contact/#technical-form`;
   const normalizeHref = (path) => routePrefix + path;
 
   const nav = document.querySelector('[data-nav]');
