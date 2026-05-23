@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://nanotech-solutions-norway.github.io/SolarEX-Final-recreate/</loc></url>
-<url><loc>https://nanotech-solutions-norway.github.io/SolarEX-Final-recreate/quartz/</loc></url>
-<url><loc>https://nanotech-solutions-norway.github.io/SolarEX-Final-recreate/titan/</loc></url>
-<url><loc>https://nanotech-solutions-norway.github.io/SolarEX-Final-recreate/technology/</loc></url>
-<url><loc>https://nanotech-solutions-norway.github.io/SolarEX-Final-recreate/projects/</loc></url>
-<url><loc>https://nanotech-solutions-norway.github.io/SolarEX-Final-recreate/documentation/</loc></url>
-<url><loc>https://nanotech-solutions-norway.github.io/SolarEX-Final-recreate/faq/</loc></url>
-<url><loc>https://nanotech-solutions-norway.github.io/SolarEX-Final-recreate/contact/</loc></url>
+  <url><loc>https://www.solarex.no/</loc></url>
+  <url><loc>https://www.solarex.no/quartz/</loc></url>
+  <url><loc>https://www.solarex.no/titan/</loc></url>
+  <url><loc>https://www.solarex.no/technology/</loc></url>
+  <url><loc>https://www.solarex.no/projects/</loc></url>
+  <url><loc>https://www.solarex.no/documentation/</loc></url>
+  <url><loc>https://www.solarex.no/faq/</loc></url>
+  <url><loc>https://www.solarex.no/contact/</loc></url>
 </urlset>
