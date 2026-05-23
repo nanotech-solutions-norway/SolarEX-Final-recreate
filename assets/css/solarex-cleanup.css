@@ -86,6 +86,296 @@ input[type="button"]{
   padding-bottom:8px!important;
 }
 
+/* Interaction refinement pass — modal, flag, card alignment, image routing and non-link animation control. */
+.lang-flag{
+  position:relative!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  min-width:42px!important;
+  width:42px!important;
+  height:34px!important;
+  padding:0!important;
+  font-size:0!important;
+  color:transparent!important;
+  overflow:hidden!important;
+}
+.lang-flag::before,
+.site-footer .footer-language a .footer-gb-flag::before{
+  content:'';
+  display:block;
+  width:28px;
+  height:20px;
+  border-radius:2px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 40'%3E%3CclipPath id='c'%3E%3Crect width='60' height='40' rx='2'/%3E%3C/clipPath%3E%3Cg clip-path='url(%23c)'%3E%3Cpath fill='%23012169' d='M0 0h60v40H0z'/%3E%3Cpath stroke='%23fff' stroke-width='8' d='M0 0l60 40M60 0L0 40'/%3E%3Cpath stroke='%23C8102E' stroke-width='4.8' d='M0 0l60 40M60 0L0 40'/%3E%3Cpath stroke='%23fff' stroke-width='13' d='M30 0v40M0 20h60'/%3E%3Cpath stroke='%23C8102E' stroke-width='8' d='M30 0v40M0 20h60'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:cover;
+  background-position:center;
+  box-shadow:0 0 0 1px rgba(214,229,239,.28),0 8px 18px rgba(0,0,0,.24);
+}
+.site-footer .footer-language a .footer-gb-flag{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:28px;
+  height:20px;
+  font-size:0!important;
+  color:transparent!important;
+}
+
+.visual-asset,
+.source-visual img.has-modal-action,
+.source-visual.has-modal-action img,
+.chart-card.has-modal-action{
+  cursor:zoom-in!important;
+}
+.source-visual img.has-internal-link-action,
+.source-visual.has-internal-link-action img{
+  cursor:pointer!important;
+}
+.source-visual figcaption,
+.source-visual .caption,
+figure.source-visual > p:last-child,
+figure.source-visual > div:last-child{
+  text-align:center!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+.source-visual a.source-image-link{
+  display:block;
+  color:inherit;
+  text-decoration:none;
+}
+.visual-chip-row a.visual-chip{
+  color:#eef8ff!important;
+  text-decoration:none!important;
+  cursor:pointer;
+}
+.visual-chip-row a.visual-chip:hover,
+.visual-chip-row a.visual-chip:focus-visible{
+  border-color:rgba(102,168,238,.72);
+  background:rgba(102,168,238,.16);
+}
+.visual-diagram-panel{
+  position:relative;
+}
+.visual-label-hotspots{
+  position:absolute;
+  inset:22px;
+  pointer-events:none;
+}
+.visual-hotspot{
+  position:absolute;
+  left:var(--x);
+  top:var(--y);
+  transform:translate(-50%,-50%);
+  z-index:3;
+  pointer-events:auto;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:104px;
+  max-width:168px;
+  padding:7px 10px;
+  border-radius:5px;
+  border:1px solid rgba(214,229,239,.38);
+  background:rgba(16,20,26,.84);
+  color:#fff!important;
+  text-decoration:none!important;
+  font:500 12px/1.25 'SolarEX Fauna','Fauna One',Georgia,serif!important;
+  text-align:center;
+  box-shadow:0 10px 26px rgba(0,0,0,.34);
+  backdrop-filter:blur(8px);
+}
+.visual-hotspot:hover,
+.visual-hotspot:focus-visible{
+  background:rgba(102,168,238,.28);
+  border-color:rgba(102,168,238,.78);
+  transform:translate(-50%,-50%) translateY(-1px);
+}
+.visual-modal{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:28px;
+  background:rgba(4,7,11,.84);
+  backdrop-filter:blur(10px);
+}
+.visual-modal.is-open{
+  display:flex;
+}
+.visual-modal-panel{
+  position:relative;
+  width:min(1120px,96vw);
+  max-height:92vh;
+  padding:18px;
+  border:1px solid rgba(214,229,239,.22);
+  border-radius:16px;
+  background:#10141a;
+  box-shadow:0 34px 90px rgba(0,0,0,.58);
+}
+.visual-modal img{
+  display:block;
+  width:100%;
+  height:auto;
+  max-height:78vh;
+  object-fit:contain;
+  border-radius:12px;
+  background:#0b1017;
+}
+.visual-modal-html{
+  max-height:78vh;
+  overflow:auto;
+  border-radius:12px;
+  background:#0b1017;
+  padding:22px;
+}
+.visual-modal-html .chart-card{
+  transform:none!important;
+  box-shadow:none!important;
+  margin:0!important;
+}
+.visual-modal-caption{
+  margin:12px 46px 0 4px;
+  color:#d6e5ef;
+  text-align:center;
+  font-size:14px;
+}
+.visual-modal-close{
+  position:absolute;
+  right:16px;
+  top:14px;
+  width:38px;
+  height:38px;
+  min-height:38px!important;
+  padding:0!important;
+  border-radius:5px!important;
+  border:1px solid rgba(214,229,239,.25);
+  background:rgba(214,229,239,.08);
+  color:#fff;
+  font-size:24px!important;
+  line-height:1!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+.grid > .card,
+.grid.two > .card,
+.stats > .stat,
+.visual-grid > .visual-card,
+.visual-grid > .workflow-card,
+.visual-grid > .chart-card,
+.visual-grid > .diagram-card{
+  display:flex!important;
+  flex-direction:column!important;
+}
+.card h3,
+.stat h3,
+.step h3,
+.form-tab-card h3,
+.visual-card h3,
+.diagram-card h3,
+.chart-card h3,
+.workflow-card h3{
+  display:flex!important;
+  align-items:flex-start!important;
+  gap:12px!important;
+}
+.box-header-icon{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  flex:0 0 32px;
+  width:32px;
+  height:32px;
+  margin-left:auto;
+  border:1px solid rgba(214,229,239,.18);
+  border-radius:9px;
+  background:rgba(214,229,239,.07);
+  color:#d6e5ef;
+  font-size:15px;
+  line-height:1;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.03);
+}
+.grid.two > .card h3,
+.grid > .card h3{
+  min-height:56px;
+}
+.grid.four > .card h3{
+  min-height:68px;
+}
+.visual-grid > .visual-card h3,
+.visual-grid > .workflow-card h3,
+.visual-grid > .chart-card h3{
+  min-height:54px;
+}
+.stats > .stat h3{
+  min-height:52px;
+}
+.card p:first-of-type,
+.stat p:first-of-type,
+.step p:first-of-type,
+.form-tab-card p:first-of-type,
+.visual-card p:first-of-type,
+.workflow-card p:first-of-type,
+.chart-card p:first-of-type{
+  margin-top:0!important;
+}
+.auto-card-link{
+  margin-top:auto!important;
+  align-self:flex-start!important;
+  padding:10px 14px!important;
+  font-size:13px!important;
+  line-height:1.2!important;
+  min-height:0!important;
+}
+.card.has-card-cta,
+.stat.has-card-cta,
+.step.has-card-cta,
+.form-tab-card.has-card-cta,
+.workflow-card.has-card-cta,
+.chart-card.has-card-cta{
+  gap:10px;
+}
+.card:not(.has-action-card),
+.stat:not(.has-action-card),
+.step:not(.has-action-card),
+.form-tab-card:not(.has-action-card),
+.visual-card:not(.has-action-card),
+.workflow-card:not(.has-action-card),
+.chart-card:not(.has-action-card){
+  transition:none!important;
+}
+.card:not(.has-action-card):hover,
+.stat:not(.has-action-card):hover,
+.step:not(.has-action-card):hover,
+.form-tab-card:not(.has-action-card):hover,
+.visual-card:not(.has-action-card):hover,
+.workflow-card:not(.has-action-card):hover,
+.chart-card:not(.has-action-card):hover,
+.card:not(.has-action-card).is-clicked,
+.stat:not(.has-action-card).is-clicked,
+.step:not(.has-action-card).is-clicked,
+.form-tab-card:not(.has-action-card).is-clicked,
+.visual-card:not(.has-action-card).is-clicked,
+.workflow-card:not(.has-action-card).is-clicked,
+.chart-card:not(.has-action-card).is-clicked{
+  transform:none!important;
+  filter:none!important;
+}
+.checklist p,
+.visual-checklist p{
+  display:grid!important;
+  grid-template-columns:20px 1fr!important;
+  column-gap:9px!important;
+  align-items:start!important;
+}
+.checklist p::before,
+.visual-checklist p::before{
+  margin:0!important;
+}
+
 @media(max-width:980px){
   .btn,
   a.btn,
@@ -97,5 +387,31 @@ input[type="button"]{
   input[type="button"]{
     justify-content:center!important;
     text-align:center!important;
+  }
+  .visual-label-hotspots{
+    position:static;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:12px;
+  }
+  .visual-hotspot{
+    position:static;
+    transform:none;
+    min-width:0;
+    max-width:none;
+  }
+  .visual-hotspot:hover,
+  .visual-hotspot:focus-visible{
+    transform:translateY(-1px);
+  }
+  .grid.two > .card h3,
+  .grid > .card h3,
+  .grid.four > .card h3,
+  .visual-grid > .visual-card h3,
+  .visual-grid > .workflow-card h3,
+  .visual-grid > .chart-card h3,
+  .stats > .stat h3{
+    min-height:auto;
   }
 }
