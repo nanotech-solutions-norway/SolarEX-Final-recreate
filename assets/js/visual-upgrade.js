@@ -14,6 +14,7 @@
     const relativePrefix = '../'.repeat(directoryDepth);
     const repoBase = repoIndex >= 0 ? `/${repoName}/` : '';
     const assetPath = (path) => repoBase ? `${repoBase}${path}` : `${relativePrefix}${path}`;
+    const routeHref = (path) => repoBase ? `${repoBase}${path}` : `${relativePrefix}${path}`;
     const routePath = routeParts.join('/').replace(/\/$/, '');
 
     const page = (() => {
@@ -30,13 +31,44 @@
     document.body.dataset.visualPage = page;
 
     const diagramBase = assetPath('assets/img/diagrams/');
+    const chipLinks = {
+      'Quartz SiO₂': routeHref('quartz/'),
+      'Quartz SiO2': routeHref('quartz/'),
+      'Titan TiO₂': routeHref('titan/'),
+      'Titan TiO2': routeHref('titan/'),
+      Technology: routeHref('technology/'),
+      'Cleaning burden': routeHref('technology/'),
+      'Pilot evidence': routeHref('projects/'),
+      Evidence: routeHref('projects/'),
+      Projects: routeHref('projects/'),
+      Documentation: routeHref('documentation/'),
+      FAQ: routeHref('faq/'),
+      'Application guide': routeHref('documentation/'),
+      'Commercial review': routeHref('contact/#commercial-form'),
+      'Technical review': routeHref('contact/#technical-form'),
+      'Documentation / pilot': routeHref('contact/#documentation-form'),
+      'Pilot plan': routeHref('contact/#documentation-form')
+    };
+    const chipMarkup = (chips) => chips.map((chip) => {
+      const href = chipLinks[chip] || routeHref('technology/');
+      return `<a class="visual-chip" href="${href}">${chip}</a>`;
+    }).join('');
+    const hotspotsMarkup = () => `
+      <div class="visual-label-hotspots" aria-label="SolarEX diagram links">
+        <a class="visual-hotspot" style="--x:16%;--y:34%" href="${routeHref('technology/')}">Site profile</a>
+        <a class="visual-hotspot" style="--x:45%;--y:25%" href="${routeHref('quartz/')}">Quartz SiO₂</a>
+        <a class="visual-hotspot" style="--x:45%;--y:56%" href="${routeHref('titan/')}">Titan TiO₂</a>
+        <a class="visual-hotspot" style="--x:80%;--y:43%" href="${routeHref('projects/')}">Pilot evidence</a>
+      </div>`;
+
     const copy = {
       home: {
         title: 'Mechanism-led visual decision layer',
         img: `${diagramBase}pathway-selection-flow.svg`,
         alt: 'SolarEX pathway selection diagram comparing Quartz SiO₂ and Titan TiO₂',
         intro: 'SolarEX should be read as a two-route PV glass platform, not as a generic coating claim. The correct route is selected by soiling profile, UV availability, O&M burden and validation objective.',
-        chips: ['Quartz SiO₂', 'Titan TiO₂', 'Cleaning burden', 'Pilot evidence']
+        chips: ['Quartz SiO₂', 'Titan TiO₂', 'Cleaning burden', 'Pilot evidence'],
+        hotspots: true
       },
       quartz: {
         title: 'Passive SiO₂ easy-clean mechanism',
@@ -101,18 +133,21 @@
     section.innerHTML = `
       <div class="container">
         <div class="visual-media-card">
-          <div class="diagram-card">
-            <img class="visual-asset" src="${selected.img}" alt="${selected.alt}" loading="lazy" width="1200" height="720">
+          <div class="diagram-card has-action-card has-modal-action">
+            <div class="visual-diagram-panel">
+              <img class="visual-asset has-modal-action" src="${selected.img}" alt="${selected.alt}" loading="lazy" width="1200" height="720" data-modal-caption="${selected.title}">
+              ${selected.hotspots ? hotspotsMarkup() : ''}
+            </div>
           </div>
           <div class="visual-media-copy">
             <div class="kicker">Visual upgrade layer</div>
             <h2 id="visual-upgrade-title">${selected.title}</h2>
             <p class="lead">${selected.intro}</p>
-            <div class="visual-chip-row">${selected.chips.map((chip) => `<span class="visual-chip">${chip}</span>`).join('')}</div>
+            <div class="visual-chip-row">${chipMarkup(selected.chips)}</div>
           </div>
         </div>
         <div class="visual-grid three" style="margin-top:24px">
-          <article class="chart-card visual-reveal">
+          <article class="chart-card visual-reveal has-action-card has-modal-action" tabindex="0" role="button" aria-label="Open cleaning burden graph">
             <h3>Cleaning burden drivers</h3>
             <div class="chart-row"><span>Adhesion tendency</span><i class="chart-track"><b class="chart-bar" style="--bar-width:${page === 'titan' ? '58%' : '72%'}"></b></i></div>
             <div class="chart-row"><span>UV dependency</span><i class="chart-track"><b class="chart-bar" style="--bar-width:${page === 'quartz' ? '8%' : page === 'titan' ? '86%' : '52%'}"></b></i></div>
@@ -147,9 +182,9 @@
           <div class="kicker">Conversion routing</div>
           <h2>Three managed request paths.</h2>
           <div class="visual-grid three">
-            <a class="visual-card" href="#technical-form"><h3>Technical review</h3><p>Pathway selection, contamination profile, UV review and pilot logic.</p></a>
-            <a class="visual-card" href="#commercial-form"><h3>Commercial discussion</h3><p>Procurement, partnership, volume planning and project qualification.</p></a>
-            <a class="visual-card" href="#documentation-form"><h3>Documentation / pilot support</h3><p>Application files, study context, ROI material and validation framework.</p></a>
+            <a class="visual-card has-action-card" href="#technical-form"><h3>Technical review</h3><p>Pathway selection, contamination profile, UV review and pilot logic.</p></a>
+            <a class="visual-card has-action-card" href="#commercial-form"><h3>Commercial discussion</h3><p>Procurement, partnership, volume planning and project qualification.</p></a>
+            <a class="visual-card has-action-card" href="#documentation-form"><h3>Documentation / pilot support</h3><p>Application files, study context, ROI material and validation framework.</p></a>
           </div>
           <div class="chart-card contact-response-flow visual-reveal">
             <h3>Response workflow</h3>
