@@ -48,6 +48,13 @@ button,.btn,.menu-toggle,.site-nav a,.nav-group-toggle,.contact-form button,inpu
 .hero:after{background:linear-gradient(115deg,transparent 9%,rgba(214,229,239,.05) 9.3%,transparent 9.9%),linear-gradient(160deg,transparent 22%,rgba(214,229,239,.06) 22.4%,transparent 22.9%)!important;opacity:.54!important;pointer-events:none;}.hero-inner{text-shadow:0 2px 24px rgba(0,0,0,.35);}
 .form-shell{grid-template-columns:1fr!important;}.contact-aside{display:none!important;}.contact-form{width:100%;max-width:none;}.contact-form .form-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
 
+/* Desktop dropdown hover bridge: keeps dropdown selectable when moving from top menu to submenu. */
+@media(min-width:981px){
+  .nav-group::after{content:'';position:absolute;left:-12px;right:-12px;top:100%;height:22px;display:block;background:transparent;z-index:39;}
+  .nav-group-menu{top:calc(100% + 8px)!important;}
+  .nav-group:hover .nav-group-menu,.nav-group:focus-within .nav-group-menu,.nav-group.is-open .nav-group-menu,.nav-group-menu:hover{opacity:1!important;transform:translateY(0)!important;pointer-events:auto!important;}
+}
+
 @media(max-width:980px){
   .menu-toggle{display:inline-flex!important;align-items:center;justify-content:center;width:52px;min-height:44px;font-size:0!important;line-height:1;border:1px solid rgba(102,168,238,.72)!important;background:rgba(214,229,239,.05)!important;color:#fff!important;}
   .menu-toggle:before{content:'☰';font-size:28px;line-height:1;font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif!important;}
