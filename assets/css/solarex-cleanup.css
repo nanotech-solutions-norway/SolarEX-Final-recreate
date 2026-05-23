@@ -1,0 +1,101 @@
+/* SolarEX cleanup layer — source-remnant suppression and CTA normalization. */
+
+/* Remove old inline top-strip / previous-header remnants before JavaScript cleanup finishes. */
+body > .skip-link + div[style*="border-bottom"]{
+  display:none!important;
+  visibility:hidden!important;
+  height:0!important;
+  overflow:hidden!important;
+}
+
+/* Remove legacy hero contact microcopy/button traces. */
+.hero .mini:has(a[href^="mailto:info@solarex.no"]),
+.hero .mini:has(.email-cta),
+.hero .mini:has(a.email-cta){
+  display:none!important;
+}
+.hero .email-cta{
+  display:none!important;
+}
+
+/* CTA/link-button normalization. */
+.btn,
+a.btn,
+.btn.secondary,
+.nav-cta,
+.email-cta,
+.contact-form button,
+input[type="submit"],
+input[type="button"]{
+  font-size:80%!important;
+  min-height:52px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  text-align:left!important;
+  line-height:1.25!important;
+  padding-top:12px!important;
+  padding-bottom:12px!important;
+}
+
+/* In side-by-side box/card layouts, force CTA buttons to equal height and keep them aligned near the bottom. */
+.card > .btn,
+.visual-card > .btn,
+.diagram-card > .btn,
+.chart-card > .btn,
+.workflow-card > .btn,
+.card > a.btn,
+.visual-card > a.btn{
+  width:100%!important;
+  min-height:58px!important;
+  margin-top:auto!important;
+  margin-bottom:20px!important;
+}
+
+.card:has(> .btn),
+.visual-card:has(> .btn),
+.diagram-card:has(> .btn),
+.chart-card:has(> .btn),
+.workflow-card:has(> .btn){
+  padding-bottom:20px!important;
+}
+
+.card > .btn-row,
+.visual-card > .btn-row,
+.diagram-card > .btn-row,
+.chart-card > .btn-row,
+.workflow-card > .btn-row{
+  margin-top:auto!important;
+  padding-bottom:20px!important;
+  align-items:stretch!important;
+}
+
+.card > .btn-row .btn,
+.visual-card > .btn-row .btn,
+.diagram-card > .btn-row .btn,
+.chart-card > .btn-row .btn,
+.workflow-card > .btn-row .btn{
+  min-height:58px!important;
+  margin-bottom:0!important;
+}
+
+/* Preserve compact header navigation while reducing only actual CTA/link-button text. */
+.site-nav .nav-cta{
+  min-height:0!important;
+  padding-top:8px!important;
+  padding-bottom:8px!important;
+}
+
+@media(max-width:980px){
+  .btn,
+  a.btn,
+  .btn.secondary,
+  .nav-cta,
+  .email-cta,
+  .contact-form button,
+  input[type="submit"],
+  input[type="button"]{
+    justify-content:center!important;
+    text-align:center!important;
+  }
+}
