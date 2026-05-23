@@ -1,20 +1,40 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const overrideHref = 'https://nanotech-solutions-norway.github.io/SolarEX-Final-recreate/assets/css/solarex-overrides.css?v=20260523-mobile-no-home-1';
-
-  if (!document.querySelector('link[data-solarex-overrides]')) {
-    const overrides = document.createElement('link');
-    overrides.rel = 'stylesheet';
-    overrides.href = overrideHref;
-    overrides.setAttribute('data-solarex-overrides', 'true');
-    document.head.appendChild(overrides);
-  }
-
   const currentPath = window.location.pathname;
-  const isContact = currentPath.includes('/contact/');
-  const prefix = currentPath.endsWith('/') && currentPath.split('/').filter(Boolean).length > 1 ? '../' : '';
-  const contactPath = isContact ? '#technical-form' : `${prefix}contact/#technical-form`;
+  const depth = currentPath.split('/').filter(Boolean).length;
+  const isRepoPath = currentPath.includes('/SolarEX-Final-recreate/');
+  const basePrefix = (() => {
+    if (isRepoPath) return '/SolarEX-Final-recreate/';
+    if (depth > 1) return '../';
+    return '';
+  })();
+  const assetPath = (path) => `${basePrefix}${path}`;
 
-  const normalizeHref = (path) => prefix + path;
+  const loadCss = (href, marker) => {
+    if (document.querySelector(`link[${marker}]`)) return;
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = href;
+    link.setAttribute(marker, 'true');
+    document.head.appendChild(link);
+  };
+
+  const loadScript = (src, marker) => {
+    if (document.querySelector(`script[${marker}]`)) return;
+    const script = document.createElement('script');
+    script.defer = true;
+    script.src = src;
+    script.setAttribute(marker, 'true');
+    document.head.appendChild(script);
+  };
+
+  loadCss(assetPath('assets/css/solarex-overrides.css?v=20260523-mobile-no-home-1'), 'data-solarex-overrides');
+  loadCss(assetPath('assets/css/visual-upgrade.css?v=visual-upgrade-v1-20260523'), 'data-solarex-visual-css');
+  loadScript(assetPath('assets/js/visual-upgrade.js?v=visual-upgrade-v1-20260523'), 'data-solarex-visual-js');
+
+  const isContact = currentPath.includes('/contact/');
+  const routePrefix = currentPath.endsWith('/') && currentPath.split('/').filter(Boolean).length > 1 ? '../' : '';
+  const contactPath = isContact ? '#technical-form' : `${routePrefix}contact/#technical-form`;
+  const normalizeHref = (path) => routePrefix + path;
 
   const nav = document.querySelector('[data-nav]');
   if (nav && !nav.dataset.cleaned) {
@@ -89,21 +109,17 @@ document.addEventListener('DOMContentLoaded', () => {
         return NodeFilter.FILTER_ACCEPT;
       }
     });
-
     const nodes = [];
     while (walker.nextNode()) nodes.push(walker.currentNode);
-
     nodes.forEach((node) => {
       node.nodeValue = node.nodeValue
         .replace(/Contact:\s*info@solarex\.no\.?/gi, 'Use the contact form for SolarEX requests.')
         .replace(/info@solarex\.no/gi, 'SolarEX contact form');
     });
   };
-
   removeEmailText(document.body);
 
   const svgFav = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><rect width="128" height="128" rx="28" fill="#171B21"/><path d="M25 80h78L88 42H40z" fill="none" stroke="#66A8EE" stroke-width="8"/><circle cx="94" cy="30" r="12" fill="#FFD21A"/><text x="17" y="110" font-family="Arial" font-size="24" font-weight="800" fill="#D6E5EF">Solar</text><text x="77" y="110" font-family="Arial" font-size="24" font-weight="800" fill="#FFD21A">EX</text></svg>';
-
   if (!document.querySelector('link[rel="icon"]')) {
     const favicon = document.createElement('link');
     favicon.rel = 'icon';
@@ -112,14 +128,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.head.appendChild(favicon);
   }
 
-  document.querySelectorAll('.btn, button').forEach((element) => {
-    element.addEventListener('pointerdown', () => element.classList.add('is-clicked'));
-    ['pointerup', 'pointercancel', 'pointerleave', 'blur'].forEach((eventName) => {
-      element.addEventListener(eventName, () => element.classList.remove('is-clicked'));
-    });
-  });
-
-  document.querySelectorAll('.card, .stat, .step, .source-visual, .form-tab-card, .contact-form, .table-wrap, .form-note, .contact-method').forEach((element) => {
+  const clickableSelector = '.btn, button, .card, .stat, .step, .source-visual, .form-tab-card, .contact-form, .table-wrap, .form-note, .contact-method, .visual-card, .diagram-card, .chart-card, .workflow-card';
+  document.querySelectorAll(clickableSelector).forEach((element) => {
     element.addEventListener('pointerdown', () => element.classList.add('is-clicked'));
     ['pointerup', 'pointercancel', 'pointerleave', 'blur'].forEach((eventName) => {
       element.addEventListener(eventName, () => element.classList.remove('is-clicked'));
@@ -127,7 +137,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   const menuButton = document.querySelector('[data-menu-toggle]');
-
   const closeMobileMenu = () => {
     if (!nav || !menuButton) return;
     nav.classList.remove('is-open');
@@ -138,7 +147,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (menuButton && nav) {
     menuButton.textContent = '';
     menuButton.setAttribute('aria-label', 'Open menu');
-
     menuButton.addEventListener('click', (event) => {
       event.stopPropagation();
       const isOpen = nav.classList.toggle('is-open');
@@ -151,19 +159,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
     });
-
-    nav.addEventListener('click', (event) => {
-      event.stopPropagation();
-    });
-
-    nav.querySelectorAll('a').forEach((link) => {
-      link.addEventListener('click', closeMobileMenu);
-    });
-
+    nav.addEventListener('click', (event) => event.stopPropagation());
+    nav.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMobileMenu));
     document.addEventListener('click', (event) => {
-      if (isMobileMenu() && nav.classList.contains('is-open') && !event.target.closest('.site-header')) {
-        closeMobileMenu();
-      }
+      if (isMobileMenu() && nav.classList.contains('is-open') && !event.target.closest('.site-header')) closeMobileMenu();
       if (!event.target.closest('.nav-group') && !isMobileMenu()) {
         document.querySelectorAll('.nav-group').forEach((group) => {
           group.classList.remove('is-open');
@@ -174,44 +173,32 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
   const countMetric = (element) => {
     if (element.dataset.done) return;
     element.dataset.done = '1';
-
     const target = parseFloat(element.dataset.count || '0');
     const prefix = element.dataset.prefix || '';
     const suffix = element.dataset.suffix || '';
     const decimals = parseInt(element.dataset.decimals || '0', 10);
-
     if (reduceMotion) {
       element.textContent = prefix + target.toFixed(decimals) + suffix;
       return;
     }
-
     const start = performance.now();
     const duration = 1200;
-
     const tick = (now) => {
       const progress = Math.min((now - start) / duration, 1);
       const eased = 1 - Math.pow(1 - progress, 3);
       element.textContent = prefix + (target * eased).toFixed(decimals) + suffix;
-
-      if (progress < 1) {
-        requestAnimationFrame(tick);
-      } else {
-        element.textContent = prefix + target.toFixed(decimals) + suffix;
-      }
+      if (progress < 1) requestAnimationFrame(tick);
+      else element.textContent = prefix + target.toFixed(decimals) + suffix;
     };
-
     requestAnimationFrame(tick);
   };
-
   const revealElement = (element) => {
     element.classList.add('is-visible');
     element.querySelectorAll('[data-count]').forEach(countMetric);
   };
-
   if ('IntersectionObserver' in window && !reduceMotion) {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -221,7 +208,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
     }, { threshold: 0.14 });
-
     document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
   } else {
     document.querySelectorAll('.reveal').forEach(revealElement);
