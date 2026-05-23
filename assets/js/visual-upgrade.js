@@ -14,7 +14,6 @@
     const relativePrefix = '../'.repeat(directoryDepth);
     const repoBase = repoIndex >= 0 ? `/${repoName}/` : '';
     const assetPath = (path) => repoBase ? `${repoBase}${path}` : `${relativePrefix}${path}`;
-    const routeHref = (path) => repoBase ? `${repoBase}${path}` : `${relativePrefix}${path}`;
     const routePath = routeParts.join('/').replace(/\/$/, '');
 
     const page = (() => {
@@ -31,93 +30,54 @@
     document.body.dataset.visualPage = page;
 
     const diagramBase = assetPath('assets/img/diagrams/');
-    const chipLinks = {
-      'Quartz SiO₂': routeHref('quartz/'),
-      'Quartz SiO2': routeHref('quartz/'),
-      'Titan TiO₂': routeHref('titan/'),
-      'Titan TiO2': routeHref('titan/'),
-      Technology: routeHref('technology/'),
-      'Cleaning burden': routeHref('technology/'),
-      'Pilot evidence': routeHref('projects/'),
-      Evidence: routeHref('projects/'),
-      Projects: routeHref('projects/'),
-      Documentation: routeHref('documentation/'),
-      FAQ: routeHref('faq/'),
-      'Application guide': routeHref('documentation/'),
-      'Commercial review': routeHref('contact/#commercial-form'),
-      'Technical review': routeHref('contact/#technical-form'),
-      'Documentation / pilot': routeHref('contact/#documentation-form'),
-      'Pilot plan': routeHref('contact/#documentation-form')
-    };
-    const chipMarkup = (chips) => chips.map((chip) => {
-      const href = chipLinks[chip] || routeHref('technology/');
-      return `<a class="visual-chip" href="${href}">${chip}</a>`;
-    }).join('');
-    const hotspotsMarkup = () => `
-      <div class="visual-label-hotspots" aria-label="SolarEX diagram links">
-        <a class="visual-hotspot" style="--x:16%;--y:34%" href="${routeHref('technology/')}">Site profile</a>
-        <a class="visual-hotspot" style="--x:45%;--y:25%" href="${routeHref('quartz/')}">Quartz SiO₂</a>
-        <a class="visual-hotspot" style="--x:45%;--y:56%" href="${routeHref('titan/')}">Titan TiO₂</a>
-        <a class="visual-hotspot" style="--x:80%;--y:43%" href="${routeHref('projects/')}">Pilot evidence</a>
-      </div>`;
-
     const copy = {
       home: {
         title: 'Mechanism-led visual decision layer',
         img: `${diagramBase}pathway-selection-flow.svg`,
         alt: 'SolarEX pathway selection diagram comparing Quartz SiO₂ and Titan TiO₂',
-        intro: 'SolarEX should be read as a two-route PV glass platform, not as a generic coating claim. The correct route is selected by soiling profile, UV availability, O&M burden and validation objective.',
-        chips: ['Quartz SiO₂', 'Titan TiO₂', 'Cleaning burden', 'Pilot evidence'],
-        hotspots: true
+        intro: 'SolarEX should be read as a two-route PV glass platform, not as a generic coating claim. The correct route is selected by soiling profile, UV availability, O&M burden and validation objective.'
       },
       quartz: {
         title: 'Passive SiO₂ easy-clean mechanism',
         img: `${diagramBase}quartz-passive-layer.svg`,
         alt: 'Quartz SiO₂ passive surface layer diagram showing water beading and reduced adhesion',
-        intro: 'Quartz is the passive route. It visualizes SiO₂ surface architecture, reduced adhesion tendency and UV-independent easy-clean behavior for dust, pollen, salt and mineral-dominated soiling.',
-        chips: ['Passive', 'UV-independent', 'Hydrophobic / oleophobic', 'Reduced adhesion']
+        intro: 'Quartz is the passive route. It visualizes SiO₂ surface architecture, reduced adhesion tendency and UV-independent easy-clean behavior for dust, pollen, salt and mineral-dominated soiling.'
       },
       titan: {
         title: 'Active TiO₂ UV and rinse mechanism',
         img: `${diagramBase}titan-active-uv-rinse.svg`,
         alt: 'Titan TiO₂ UV activation diagram showing photocatalysis and hydrophilic rinse behavior',
-        intro: 'Titan is the active route. It visualizes UV-triggered TiO₂ photocatalysis, organic contaminant breakdown and hydrophilic rinse behavior for UV-sufficient environments.',
-        chips: ['Active', 'UV-dependent', 'Photocatalytic', 'Hydrophilic rinse']
+        intro: 'Titan is the active route. It visualizes UV-triggered TiO₂ photocatalysis, organic contaminant breakdown and hydrophilic rinse behavior for UV-sufficient environments.'
       },
       technology: {
         title: 'Technology selection matrix',
         img: `${diagramBase}technology-selection-matrix.svg`,
         alt: 'SolarEX technology selection matrix for Quartz SiO₂ and Titan TiO₂',
-        intro: 'Technology selection should translate site data into a route recommendation: surface architecture, trigger dependency, contamination profile, cleaning logic and validation needs.',
-        chips: ['Surface architecture', 'Trigger dependency', 'Contamination fit', 'Validation needs']
+        intro: 'Technology selection should translate site data into a route recommendation: surface architecture, trigger dependency, contamination profile, cleaning logic and validation needs.'
       },
       projects: {
         title: 'Pilot evidence architecture',
         img: `${diagramBase}pilot-evidence-stack.svg`,
         alt: 'SolarEX pilot evidence stack diagram for baseline, control, monitoring and review',
-        intro: 'Project references become decision-grade only when mapped to baseline data, matched controls, monitoring intervals, cleaning logs and pathway-specific interpretation.',
-        chips: ['Baseline', 'Matched control', 'Monitoring', 'Commercial review']
+        intro: 'Project references become decision-grade only when mapped to baseline data, matched controls, monitoring intervals, cleaning logs and pathway-specific interpretation.'
       },
       documentation: {
         title: 'Documentation workflow map',
         img: `${diagramBase}documentation-flow.svg`,
         alt: 'SolarEX documentation workflow from technical review to pilot support',
-        intro: 'Documentation should route users from technical review to application guidance, pilot planning and commercial evaluation without forcing public email exposure.',
-        chips: ['TDS / overview', 'Application guide', 'Pilot plan', 'Evidence summary']
+        intro: 'Documentation should route users from technical review to application guidance, pilot planning and commercial evaluation without forcing public email exposure.'
       },
       faq: {
         title: 'FAQ decision tree',
         img: `${diagramBase}faq-decision-tree.svg`,
         alt: 'SolarEX FAQ decision tree for selecting Quartz SiO₂ or Titan TiO₂',
-        intro: 'FAQ scanning improves when common questions are grouped as a decision tree: UV availability, soiling profile, cleaning objective and pilot validation.',
-        chips: ['Which pathway?', 'What validates?', 'How to apply?', 'What to measure?']
+        intro: 'FAQ scanning improves when common questions are grouped as a decision tree: UV availability, soiling profile, cleaning objective and pilot validation.'
       },
       contact: {
         title: 'Contact conversion workflow',
         img: `${diagramBase}contact-routing-flow.svg`,
         alt: 'SolarEX contact routing flow for technical review, commercial discussion and documentation support',
-        intro: 'Contact should behave as a conversion hub: route technical, commercial and documentation requests through validated forms, then register internally for follow-up.',
-        chips: ['Technical review', 'Commercial discussion', 'Documentation / pilot', 'SQL routing']
+        intro: 'Contact should behave as a conversion hub: route technical, commercial and documentation requests through validated forms, then register internally for follow-up.'
       }
     };
 
@@ -136,37 +96,37 @@
           <div class="diagram-card has-action-card has-modal-action">
             <div class="visual-diagram-panel">
               <img class="visual-asset has-modal-action" src="${selected.img}" alt="${selected.alt}" loading="lazy" width="1200" height="720" data-modal-caption="${selected.title}">
-              ${selected.hotspots ? hotspotsMarkup() : ''}
             </div>
           </div>
           <div class="visual-media-copy">
             <div class="kicker">Visual upgrade layer</div>
             <h2 id="visual-upgrade-title">${selected.title}</h2>
             <p class="lead">${selected.intro}</p>
-            <div class="visual-chip-row">${chipMarkup(selected.chips)}</div>
           </div>
         </div>
         <div class="visual-grid three" style="margin-top:24px">
-          <article class="chart-card visual-reveal has-action-card has-modal-action" tabindex="0" role="button" aria-label="Open cleaning burden graph">
-            <h3>Cleaning burden drivers</h3>
+          <article class="chart-card visual-reveal has-action-card has-modal-action" tabindex="0" role="button" aria-label="Open SolarEX pathway suitability graph">
+            <h3>Pathway suitability drivers</h3>
             <div class="chart-row"><span>Adhesion tendency</span><i class="chart-track"><b class="chart-bar" style="--bar-width:${page === 'titan' ? '58%' : '72%'}"></b></i></div>
             <div class="chart-row"><span>UV dependency</span><i class="chart-track"><b class="chart-bar" style="--bar-width:${page === 'quartz' ? '8%' : page === 'titan' ? '86%' : '52%'}"></b></i></div>
             <div class="chart-row"><span>Pilot relevance</span><i class="chart-track"><b class="chart-bar" style="--bar-width:76%"></b></i></div>
+            <div class="chart-row"><span>Water-rinse support</span><i class="chart-track"><b class="chart-bar" style="--bar-width:${page === 'titan' ? '82%' : '64%'}"></b></i></div>
+            <div class="chart-row"><span>Organic fouling fit</span><i class="chart-track"><b class="chart-bar" style="--bar-width:${page === 'titan' ? '86%' : '42%'}"></b></i></div>
           </article>
-          <article class="workflow-card visual-reveal">
-            <h3>Decision workflow</h3>
+          <article class="workflow-card visual-reveal quartz-benefits-card">
+            <h3>SiO₂ Quartz benefits</h3>
             <div class="visual-checklist">
-              <p>Classify contamination profile.</p>
-              <p>Confirm UV and climate context.</p>
-              <p>Select Quartz SiO₂, Titan TiO₂ or pilot review.</p>
+              <p>Passive surface architecture for dust and mineral soiling.</p>
+              <p>UV-independent route for lower-UV operating contexts.</p>
+              <p>Easy-clean behavior through reduced surface adhesion.</p>
             </div>
           </article>
-          <article class="workflow-card visual-reveal">
-            <h3>Claims control</h3>
+          <article class="workflow-card visual-reveal titan-benefits-card">
+            <h3>TiO₂ Titan benefits</h3>
             <div class="visual-checklist">
-              <p>Use context-specific evidence.</p>
-              <p>Avoid universal performance promises.</p>
-              <p>Route conversion through forms.</p>
+              <p>Active photocatalytic pathway under suitable UV exposure.</p>
+              <p>Hydrophilic rinse behavior for organic contaminant contexts.</p>
+              <p>Best suited where UV, rain and contamination profile support the mechanism.</p>
             </div>
           </article>
         </div>
