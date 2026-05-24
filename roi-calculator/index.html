@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="../assets/css/solarex-overrides.css">
   <link rel="stylesheet" href="../assets/css/seo-pages.css">
   <link rel="stylesheet" href="../assets/css/roi-calculator.css?v=20260524-roi-refine-1">
-  <link rel="stylesheet" href="../assets/css/roi-calculator-layout-fix.css?v=20260524-spacing-detail-1">
+  <link rel="stylesheet" href="../assets/css/roi-calculator-layout-fix.css?v=20260524-tech-currency-1">
 </head>
 <body class="roi-page">
   <a class="skip-link" href="#calculator">Skip to calculator</a>
@@ -58,7 +58,7 @@
         <div>
           <p class="eyebrow">SolarEX ROI model</p>
           <h1>Estimate coating value from site-specific solar data.</h1>
-          <p class="lead">A focused ROI calculator for SolarEX Quartz SiO₂ and SolarEX Titan TiO₂. Enter panel area, cell type, location, sunlight hours and electricity value. The calculator can estimate sunlight hours online, resolve GPS location, apply Quartz/Titan defaults and display Euro plus local-currency values.</p>
+          <p class="lead">A focused ROI calculator for SolarEX Quartz SiO₂ and SolarEX Titan TiO₂. Enter panel area, cell type, location, sunlight hours and electricity value. The calculator can estimate sunlight hours online, resolve GPS location, apply Quartz/Titan defaults and display local-currency plus Euro reference values.</p>
           <div class="roi-actions">
             <a class="btn primary" href="#calculator">Start calculation</a>
             <a class="btn ghost" href="#method">View method</a>
@@ -66,8 +66,8 @@
           </div>
         </div>
         <aside class="roi-hero-panel" aria-label="Reference assumptions">
-          <div><span class="roi-metric">90</span><span class="roi-metric-label">Default W/m² specific power</span></div>
-          <div><span class="roi-metric">+10%</span><span class="roi-metric-label">Quartz Europe model default</span></div>
+          <div><span class="roi-metric">195</span><span class="roi-metric-label">Default Polycrystalline W/m²</span></div>
+          <div><span class="roi-metric">227</span><span class="roi-metric-label">TOPCon high-efficiency reference W/m²</span></div>
           <div><span class="roi-metric">+5.15%</span><span class="roi-metric-label">Titan 360-day study uplift reference</span></div>
         </aside>
       </div>
@@ -92,10 +92,14 @@
               <div>
                 <label for="cellType">Solar cell type <span class="required-mark">*</span></label>
                 <select id="cellType" required>
-                  <option value="mono">Monocrystalline</option>
-                  <option value="poly">Polycrystalline</option>
+                  <option value="poly" selected>Polycrystalline c-Si</option>
+                  <option value="mono">Monocrystalline c-Si</option>
+                  <option value="perc">PERC</option>
+                  <option value="topcon">TOPCon</option>
                   <option value="thinfilm">Thin-film</option>
+                  <option value="perovskite">Perovskites / tandem pilot</option>
                 </select>
+                <p class="field-note" id="cellTypeNote">Polycrystalline is treated as a legacy installed-base technology; default specific power is set to 195 W/m².</p>
               </div>
               <div>
                 <label for="installedDate">Installed date (optional)</label>
@@ -114,7 +118,8 @@
               </div>
               <div>
                 <label for="wPerM2">Panel specific power (W/m²) <span class="required-mark">*</span></label>
-                <input type="number" id="wPerM2" value="90" step="1" min="1" required>
+                <input type="number" id="wPerM2" value="195" step="1" min="1" required>
+                <p class="field-note" id="wPerM2Note">Auto-set by selected cell type. Edit only when module datasheet values are available.</p>
               </div>
             </div>
 
@@ -159,8 +164,8 @@
                 <p class="field-note">Used for coverage / self-sufficiency insight.</p>
               </div>
               <div>
-                <label for="price">Average electricity price (€/kWh) <span class="required-mark">*</span></label>
-                <input type="number" id="price" step="0.001" min="0" placeholder="e.g., 0.289" required>
+                <label for="price">Average electricity price (<span id="priceCurrencyLabel">€/kWh</span>) <span class="required-mark">*</span></label>
+                <input type="number" id="price" step="0.0001" min="0" value="0.0462" placeholder="0.0462" required>
                 <div class="checkbox-action-row">
                   <span class="checkbox-field compact-check"><input type="checkbox" id="useNordPool" checked><label for="useNordPool">Try Nord Pool auto-price</label></span>
                   <button class="btn compact" id="fetchPriceBtn" type="button">Fetch price</button>
@@ -178,7 +183,7 @@
                 </select>
               </div>
               <div>
-                <label for="coatPrice">Coating price (€/m²) <span class="required-mark">*</span></label>
+                <label for="coatPrice">Coating price (<span id="coatPriceCurrencyLabel">€/m²</span>) <span class="required-mark">*</span></label>
                 <input type="number" id="coatPrice" value="2.44" step="0.01" min="0" required>
               </div>
             </div>
@@ -206,7 +211,7 @@
               <div class="kpi"><span>Simple payback</span><strong id="payback">—</strong><small>days</small></div>
             </div>
             <div class="net-value"><span>Net value over selected analysis horizon</span><strong id="netValueOut">—</strong><small id="netValueLocalOut">—</small></div>
-            <div class="currency-panel"><span>Currency conversion</span><strong id="localCurrencyOut">Awaiting location</strong><small id="exchangeRateOut">Select country, geocode a location or use GPS to display local currency.</small></div>
+            <div class="currency-panel"><span>Currency conversion</span><strong id="localCurrencyOut">Local currency: EUR</strong><small id="exchangeRateOut">Local currency rate: 1 EUR = 1 EUR</small></div>
             <h3 class="detail-heading">Detail</h3>
             <table class="result-table" id="detailTable"><thead><tr><th>Metric</th><th>Value</th></tr></thead><tbody></tbody></table>
           </section>
@@ -250,6 +255,6 @@
       <div><h3>Conversion</h3><a href="../technical-review/">Technical Review</a><a href="../roi-calculator/">ROI Calculator</a><a href="../partners/">Partners</a></div>
     </div>
   </footer>
-  <script src="../assets/js/roi-calculator.js?v=20260524-roi-refine-1"></script>
+  <script src="../assets/js/roi-calculator.js?v=20260524-tech-currency-1"></script>
 </body>
 </html>
