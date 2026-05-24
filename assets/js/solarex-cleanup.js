@@ -30,8 +30,10 @@
       script.setAttribute(marker, 'true');
       document.head.appendChild(script);
     };
-    loadCss(asset('assets/css/strategy-optimization.css?v=20260524-strategy-1'), 'data-solarex-strategy-css');
-    loadScript(asset('assets/js/strategy-optimization.js?v=20260524-strategy-1'), 'data-solarex-strategy-js');
+    loadCss(asset('assets/css/strategy-optimization.css?v=20260524-strategy-2'), 'data-solarex-strategy-css');
+    loadCss(asset('assets/css/roi-cta.css?v=20260524-roi-cta-1'), 'data-solarex-roi-cta-css');
+    loadScript(asset('assets/js/strategy-optimization.js?v=20260524-strategy-2'), 'data-solarex-strategy-js');
+    loadScript(asset('assets/js/roi-cta.js?v=20260524-roi-cta-1'), 'data-solarex-roi-cta-js');
 
     const ensureModal = () => {
       let modal = document.querySelector('.visual-modal');
