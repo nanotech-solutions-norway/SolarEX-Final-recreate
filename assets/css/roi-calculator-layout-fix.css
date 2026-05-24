@@ -1,0 +1,62 @@
+/* ROI calculator final layout corrections — 2026-05-24. */
+.roi-page .input-card #runBtn{
+  margin-top:24px;
+}
+.roi-page .input-card .two-col:has(#gainPct){
+  margin-bottom:6px;
+}
+.roi-page .result-card{
+  overflow:hidden;
+  max-width:100%;
+}
+.roi-page .result-card .detail-heading{
+  margin-top:24px!important;
+  margin-bottom:12px!important;
+}
+.roi-page .result-card .result-table{
+  display:table;
+  width:100%!important;
+  min-width:0!important;
+  max-width:100%!important;
+  table-layout:fixed!important;
+  margin:0!important;
+  border-collapse:separate!important;
+  border-spacing:0!important;
+  overflow:hidden!important;
+  border-radius:12px!important;
+  box-sizing:border-box!important;
+}
+.roi-page .result-card .result-table thead,
+.roi-page .result-card .result-table tbody,
+.roi-page .result-card .result-table tr{
+  width:100%;
+  max-width:100%;
+}
+.roi-page .result-card .result-table th,
+.roi-page .result-card .result-table td{
+  box-sizing:border-box;
+  max-width:100%;
+  overflow-wrap:anywhere;
+  word-break:normal;
+}
+.roi-page .result-card .result-table th{
+  background:#D6E5EF!important;
+  color:#10141a!important;
+  font-family:'SolarEX Libre Baskerville','Libre Baskerville',Georgia,serif;
+  font-weight:700;
+}
+.roi-page .result-card .result-table th:first-child,
+.roi-page .result-card .result-table td:first-child{
+  width:52%!important;
+  text-align:left!important;
+}
+.roi-page .result-card .result-table th:last-child,
+.roi-page .result-card .result-table td:last-child{
+  width:48%!important;
+  text-align:right!important;
+}
+@media(max-width:980px){
+  .roi-page .input-card #runBtn{margin-top:20px;}
+  .roi-page .result-card .result-table th,
+  .roi-page .result-card .result-table td{font-size:.86rem;padding:10px;}
+}
