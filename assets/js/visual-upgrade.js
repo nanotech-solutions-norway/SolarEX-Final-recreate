@@ -104,15 +104,7 @@
             <p class="lead">${selected.intro}</p>
           </div>
         </div>
-        <div class="visual-grid three" style="margin-top:24px">
-          <article class="chart-card visual-reveal has-action-card has-modal-action" tabindex="0" role="button" aria-label="Open SolarEX pathway suitability graph">
-            <h3>Pathway suitability drivers</h3>
-            <div class="chart-row"><span>Adhesion tendency</span><i class="chart-track"><b class="chart-bar" style="--bar-width:${page === 'titan' ? '58%' : '72%'}"></b></i></div>
-            <div class="chart-row"><span>UV dependency</span><i class="chart-track"><b class="chart-bar" style="--bar-width:${page === 'quartz' ? '8%' : page === 'titan' ? '86%' : '52%'}"></b></i></div>
-            <div class="chart-row"><span>Pilot relevance</span><i class="chart-track"><b class="chart-bar" style="--bar-width:76%"></b></i></div>
-            <div class="chart-row"><span>Water-rinse support</span><i class="chart-track"><b class="chart-bar" style="--bar-width:${page === 'titan' ? '82%' : '64%'}"></b></i></div>
-            <div class="chart-row"><span>Organic fouling fit</span><i class="chart-track"><b class="chart-bar" style="--bar-width:${page === 'titan' ? '86%' : '42%'}"></b></i></div>
-          </article>
+        <div class="visual-grid three pathway-benefit-layout" style="margin-top:24px">
           <article class="workflow-card visual-reveal quartz-benefits-card">
             <h3>SiO₂ Quartz benefits</h3>
             <div class="visual-checklist">
@@ -128,6 +120,16 @@
               <p>Hydrophilic rinse behavior for organic contaminant contexts.</p>
               <p>Best suited where UV, rain and contamination profile support the mechanism.</p>
             </div>
+          </article>
+          <article class="chart-card pathway-driver-card visual-reveal has-action-card has-modal-action" tabindex="0" role="button" aria-label="Open SolarEX pathway suitability graph">
+            <h3>Route-selection driver relevance</h3>
+            <p class="mini">Bars are qualitative route-selection scores. They do not represent guaranteed coating-performance claims.</p>
+            <div class="chart-scale"><span>Low</span><span>Medium</span><span>High</span></div>
+            <div class="chart-row"><span>Soiling adhesion relevance</span><i class="chart-track"><b class="chart-bar" style="--bar-width:${page === 'titan' ? '58%' : '72%'}"></b></i></div>
+            <div class="chart-row"><span>UV activation relevance</span><i class="chart-track"><b class="chart-bar" style="--bar-width:${page === 'quartz' ? '8%' : page === 'titan' ? '86%' : '52%'}"></b></i></div>
+            <div class="chart-row"><span>Pilot validation relevance</span><i class="chart-track"><b class="chart-bar" style="--bar-width:76%"></b></i></div>
+            <div class="chart-row"><span>Rain / rinse relevance</span><i class="chart-track"><b class="chart-bar" style="--bar-width:${page === 'titan' ? '82%' : '64%'}"></b></i></div>
+            <div class="chart-row"><span>Organic fouling relevance</span><i class="chart-track"><b class="chart-bar" style="--bar-width:${page === 'titan' ? '86%' : '42%'}"></b></i></div>
           </article>
         </div>
       </div>`;
