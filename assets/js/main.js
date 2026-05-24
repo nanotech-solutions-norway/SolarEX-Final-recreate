@@ -29,11 +29,11 @@ document.addEventListener('DOMContentLoaded', () => {
     document.head.appendChild(script);
   };
 
-  loadCss(assetPath('assets/css/solarex-overrides.css?v=20260523-visual-upgrade-prefix-1'), 'data-solarex-overrides');
-  loadCss(assetPath('assets/css/visual-upgrade.css?v=visual-upgrade-v1-20260523'), 'data-solarex-visual-css');
-  loadCss(assetPath('assets/css/solarex-cleanup.css?v=20260523-cleanup-cta-1'), 'data-solarex-cleanup-css');
-  loadScript(assetPath('assets/js/visual-upgrade.js?v=visual-upgrade-v1-20260523'), 'data-solarex-visual-js');
-  loadScript(assetPath('assets/js/solarex-cleanup.js?v=20260523-cleanup-cta-1'), 'data-solarex-cleanup-js');
+  loadCss(assetPath('assets/css/solarex-overrides.css?v=20260524-strategy-final-1'), 'data-solarex-overrides');
+  loadCss(assetPath('assets/css/visual-upgrade.css?v=20260524-strategy-final-1'), 'data-solarex-visual-css');
+  loadCss(assetPath('assets/css/solarex-cleanup.css?v=20260524-strategy-final-1'), 'data-solarex-cleanup-css');
+  loadScript(assetPath('assets/js/visual-upgrade.js?v=20260524-strategy-final-1'), 'data-solarex-visual-js');
+  loadScript(assetPath('assets/js/solarex-cleanup.js?v=20260524-strategy-final-1'), 'data-solarex-cleanup-js');
 
   const routePath = routeParts.join('/').replace(/\/$/, '');
   const isContactIndex = routePath === 'contact';
