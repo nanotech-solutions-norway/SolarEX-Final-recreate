@@ -13,26 +13,40 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.solarex.no/roi-calculator/">
   <meta name="theme-color" content="#171B21">
+  <link rel="icon" type="image/svg+xml" href="../assets/img/solarex-favicon.svg">
   <link rel="stylesheet" href="../assets/css/styles.css">
   <link rel="stylesheet" href="../assets/css/solarex-overrides.css">
   <link rel="stylesheet" href="../assets/css/seo-pages.css">
-  <link rel="stylesheet" href="../assets/css/roi-calculator.css?v=20260524-fix-1">
+  <link rel="stylesheet" href="../assets/css/roi-calculator.css?v=20260524-roi-refine-1">
 </head>
 <body class="roi-page">
   <a class="skip-link" href="#calculator">Skip to calculator</a>
-  <header class="roi-header">
-    <div class="roi-shell roi-header-inner">
-      <a class="roi-brand" href="../index.html" aria-label="SolarEX home">Solar<span>EX</span></a>
-      <button class="roi-menu-toggle" id="roiMenuToggle" type="button" aria-expanded="false" aria-controls="roiNav">Menu</button>
-      <nav class="roi-nav" id="roiNav" aria-label="Primary navigation">
-        <a href="../quartz/">Quartz SiO₂</a>
-        <a href="../titan/">Titan TiO₂</a>
-        <a href="../technology/">Technology</a>
-        <a href="../applications/">Applications</a>
-        <a href="../markets/">Markets</a>
-        <a href="../case-studies/">Evidence</a>
-        <a href="../documentation/">Documentation</a>
+  <header class="site-header roi-site-header">
+    <div class="nav-shell">
+      <a class="brand" href="../index.html" aria-label="SolarEX home">Solar<span>EX</span></a>
+      <button class="menu-toggle" id="roiMenuToggle" type="button" aria-expanded="false" aria-controls="roiNav">Menu</button>
+      <nav id="roiNav" class="site-nav roi-nav" aria-label="Primary navigation">
+        <a href="../index.html">Home</a>
+        <div class="nav-group">
+          <button class="nav-group-toggle" type="button" aria-expanded="false">Solutions</button>
+          <div class="nav-group-menu">
+            <a href="../quartz/">Quartz SiO₂</a>
+            <a href="../titan/">Titan TiO₂</a>
+            <a href="../technology/">Technology</a>
+          </div>
+        </div>
+        <div class="nav-group">
+          <button class="nav-group-toggle" type="button" aria-expanded="false">Evidence</button>
+          <div class="nav-group-menu">
+            <a href="../projects/">Projects</a>
+            <a href="../case-studies/">Case Studies</a>
+            <a href="../documentation/">Documentation</a>
+            <a href="../faq/">FAQ</a>
+          </div>
+        </div>
+        <a class="nav-roi-link" href="../roi-calculator/" aria-current="page">ROI Calculator</a>
         <a class="nav-cta" href="../technical-review/">Technical Review</a>
+        <a class="lang-flag" href="../index.html" aria-label="English language"></a>
       </nav>
     </div>
   </header>
@@ -63,7 +77,7 @@
         <div class="roi-section-head">
           <p class="eyebrow">Commercial planning tool</p>
           <h2>SolarEX ROI Calculator</h2>
-          <p>This version restores the validated calculator input model from the attached working HTML while adopting the current SolarEX website layout, dark palette, typography and button/form geometry.</p>
+          <p>Use the calculator as a screening model for coated PV glass area, sunlight hours, electricity value, coating pathway and project economics.</p>
         </div>
 
         <div class="roi-calculator-layout">
@@ -75,8 +89,8 @@
 
             <div class="two-col">
               <div>
-                <label for="cellType">Solar cell type</label>
-                <select id="cellType">
+                <label for="cellType">Solar cell type <span class="required-mark">*</span></label>
+                <select id="cellType" required>
                   <option value="mono">Monocrystalline</option>
                   <option value="poly">Polycrystalline</option>
                   <option value="thinfilm">Thin-film</option>
@@ -91,24 +105,23 @@
 
             <div class="two-col">
               <div>
-                <label for="area">Panel area</label>
+                <label for="area">Panel area <span class="required-mark">*</span></label>
                 <div class="input-row area-row">
                   <input type="number" id="area" placeholder="Enter area" min="0" step="0.01" required>
                   <select id="areaUnit" aria-label="Area unit"><option value="m2">m²</option><option value="ft2">ft²</option></select>
                 </div>
               </div>
               <div>
-                <label for="wPerM2">Panel specific power (W/m²)</label>
-                <input type="number" id="wPerM2" value="90" step="1" min="1">
-                <p class="field-note">Default 90 W/m² based on SolarEX ROI examples.</p>
+                <label for="wPerM2">Panel specific power (W/m²) <span class="required-mark">*</span></label>
+                <input type="number" id="wPerM2" value="90" step="1" min="1" required>
               </div>
             </div>
 
-            <label for="country">Location</label>
+            <label for="country">Location <span class="required-mark">*</span></label>
             <div class="two-col location-grid">
               <div>
-                <select id="country"><option value="">Loading countries…</option></select>
-                <p class="field-note">Country list is loaded dynamically, with fallback options if unavailable.</p>
+                <select id="country" required><option value="">Loading countries…</option></select>
+                <p class="field-note">Country is used for region defaults and local currency.</p>
               </div>
               <div>
                 <input id="address" placeholder="Address, city or project location">
@@ -121,15 +134,15 @@
             </div>
 
             <div class="checkbox-field">
-              <input type="checkbox" id="useOnlineSun">
+              <input type="checkbox" id="useOnlineSun" checked>
               <label for="useOnlineSun">Estimate sunlight hours/year from online weather for chosen location</label>
             </div>
 
             <div class="two-col">
               <div>
-                <label for="sunHours">Sunlight hours per year</label>
-                <input type="number" id="sunHours" placeholder="e.g., 2335" step="1" min="0">
-                <p class="field-note">Auto-filled if online estimation is enabled and coordinates are available.</p>
+                <label for="sunHours">Sunlight hours per year <span class="required-mark">*</span></label>
+                <input type="number" id="sunHours" placeholder="e.g., 2335" step="1" min="0" required>
+                <p class="field-note">Auto-filled when online estimation is enabled and coordinates are available.</p>
               </div>
               <div>
                 <label for="sunYear">Reference year for estimation</label>
@@ -145,28 +158,27 @@
                 <p class="field-note">Used for coverage / self-sufficiency insight.</p>
               </div>
               <div>
-                <label for="price">Average electricity price (€/kWh)</label>
-                <input type="number" id="price" step="0.001" min="0" placeholder="e.g., 0.289">
+                <label for="price">Average electricity price (€/kWh) <span class="required-mark">*</span></label>
+                <input type="number" id="price" step="0.001" min="0" placeholder="e.g., 0.289" required>
                 <div class="checkbox-action-row">
                   <span class="checkbox-field compact-check"><input type="checkbox" id="useNordPool"><label for="useNordPool">Try Nord Pool auto-price</label></span>
                   <button class="btn compact" id="fetchPriceBtn" type="button">Fetch price</button>
                 </div>
-                <p class="field-note">If fetching fails, enter your tariff manually.</p>
               </div>
             </div>
 
             <div class="two-col">
               <div>
-                <label for="coating">Coating</label>
-                <select id="coating">
+                <label for="coating">Coating <span class="required-mark">*</span></label>
+                <select id="coating" required>
                   <option value="none">No coating (baseline)</option>
                   <option value="sio2">SolarEX Quartz SiO₂</option>
                   <option value="tio2">SolarEX Titan TiO₂</option>
                 </select>
               </div>
               <div>
-                <label for="coatPrice">Coating price (€/m²)</label>
-                <input type="number" id="coatPrice" value="2.44" step="0.01" min="0">
+                <label for="coatPrice">Coating price (€/m²) <span class="required-mark">*</span></label>
+                <input type="number" id="coatPrice" value="2.44" step="0.01" min="0" required>
               </div>
             </div>
 
@@ -174,12 +186,10 @@
               <div>
                 <label for="gainPct">Expected performance gain (%)</label>
                 <input type="number" id="gainPct" placeholder="Auto" step="0.1" min="0">
-                <p class="field-note">If blank: 10% Europe SiO₂, 2% Middle East SiO₂, or 5.15% TiO₂.</p>
               </div>
               <div>
                 <label for="coatLife">Coating service life (years)</label>
                 <input type="number" id="coatLife" placeholder="Auto" step="0.1" min="0">
-                <p class="field-note">If blank: 5y Europe SiO₂, 3y Middle East SiO₂, 5y TiO₂.</p>
               </div>
             </div>
 
@@ -198,9 +208,9 @@
             <div class="currency-panel"><span>Currency conversion</span><strong id="localCurrencyOut">Awaiting location</strong><small id="exchangeRateOut">Select country, geocode a location or use GPS to display local currency.</small></div>
             <h3 class="detail-heading">Detail</h3>
             <table class="result-table" id="detailTable"><thead><tr><th>Metric</th><th>Value</th></tr></thead><tbody></tbody></table>
-            <div class="callout" id="notes">Enter project data and run the model to generate ROI outputs.</div>
           </section>
         </div>
+        <div class="roi-card roi-notes-box" id="notes">• Baseline method: kWh = Area × (W/m² ÷ 1000) × Sunlight hours/year.<br>• Quartz SiO₂ defaults: Europe 10% gain and 5y life; Middle East 2% gain and 3y life.<br>• Outputs are screening scenarios and should be reviewed against project conditions before procurement decisions.</div>
       </div>
     </section>
 
@@ -232,13 +242,13 @@
 
   <footer class="roi-footer">
     <div class="roi-shell roi-footer-grid">
-      <div><a class="roi-brand" href="../index.html">Solar<span>EX</span></a><p class="mini">PV glass surface engineering for commercial solar assets.</p></div>
+      <div><a class="brand" href="../index.html">Solar<span>EX</span></a><p class="mini">PV glass surface engineering for commercial solar assets.</p></div>
       <div><h3>Products</h3><a href="../quartz/">Quartz SiO₂</a><a href="../titan/">Titan TiO₂</a><a href="../technology/">Technology</a></div>
       <div><h3>Markets</h3><a href="../markets/europe/">Europe</a><a href="../markets/middle-east/">Middle East</a><a href="../markets/nordics/">Nordics</a></div>
       <div><h3>Evidence</h3><a href="../case-studies/">Case Studies</a><a href="../documentation/">Documentation</a><a href="../faq/">FAQ</a></div>
       <div><h3>Conversion</h3><a href="../technical-review/">Technical Review</a><a href="../roi-calculator/">ROI Calculator</a><a href="../partners/">Partners</a></div>
     </div>
   </footer>
-  <script src="../assets/js/roi-calculator.js?v=20260524-fix-1"></script>
+  <script src="../assets/js/roi-calculator.js?v=20260524-roi-refine-1"></script>
 </body>
 </html>
