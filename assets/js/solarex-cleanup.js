@@ -32,8 +32,10 @@
     };
     loadCss(asset('assets/css/strategy-optimization.css?v=20260524-strategy-2'), 'data-solarex-strategy-css');
     loadCss(asset('assets/css/roi-cta.css?v=20260524-roi-cta-1'), 'data-solarex-roi-cta-css');
+    loadCss(asset('assets/css/driver-bars.css?v=20260524-driver-bars-1'), 'data-solarex-driver-bars-css');
     loadScript(asset('assets/js/strategy-optimization.js?v=20260524-strategy-2'), 'data-solarex-strategy-js');
     loadScript(asset('assets/js/roi-cta.js?v=20260524-roi-cta-1'), 'data-solarex-roi-cta-js');
+    loadScript(asset('assets/js/driver-bars.js?v=20260524-driver-bars-1'), 'data-solarex-driver-bars-js');
 
     const ensureModal = () => {
       let modal = document.querySelector('.visual-modal');
