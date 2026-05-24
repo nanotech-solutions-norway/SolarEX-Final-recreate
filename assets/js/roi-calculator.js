@@ -1,57 +1,259 @@
 const $ = (id) => document.getElementById(id);
 
-const CONTACT_FORM_TECHNICAL = '/technical-review/';
-const EUROPE = new Set(['NO','SE','FI','DK','IS','GB','IE','FR','DE','ES','PT','IT','NL','BE','LU','AT','CH','PL','CZ','SK','HU','SI','HR','BA','RS','ME','MK','AL','GR','BG','RO','MD','UA','LT','LV','EE']);
-const MIDDLE_EAST = new Set(['SA','AE','QA','BH','KW','OM','IQ','JO','IL','PS','EG','LB','SY','YE']);
-const COUNTRY_CURRENCY = {NO:'NOK',SE:'SEK',DK:'DKK',IS:'ISK',GB:'GBP',CH:'CHF',PL:'PLN',CZ:'CZK',HU:'HUF',RO:'RON',BG:'BGN',HR:'EUR',SI:'EUR',SK:'EUR',FI:'EUR',EE:'EUR',LV:'EUR',LT:'EUR',DE:'EUR',FR:'EUR',ES:'EUR',PT:'EUR',IT:'EUR',NL:'EUR',BE:'EUR',LU:'EUR',AT:'EUR',IE:'EUR',GR:'EUR',CY:'EUR',MT:'EUR',SA:'SAR',AE:'AED',QA:'QAR',BH:'BHD',KW:'KWD',OM:'OMR',IQ:'IQD',JO:'JOD',IL:'ILS',PS:'ILS',EG:'EGP',LB:'LBP',TR:'TRY',US:'USD',CA:'CAD',AU:'AUD',NZ:'NZD',JP:'JPY',CN:'CNY',IN:'INR',BR:'BRL',MX:'MXN',ZA:'ZAR'};
+const EUROPE = new Set(['Norway','Sweden','Finland','Denmark','Iceland','United Kingdom','Ireland','France','Germany','Spain','Portugal','Italy','Netherlands','Belgium','Luxembourg','Austria','Switzerland','Poland','Czechia','Czech Republic','Slovakia','Hungary','Slovenia','Croatia','Bosnia and Herzegovina','Serbia','Montenegro','North Macedonia','Albania','Greece','Bulgaria','Romania','Moldova','Ukraine','Belarus','Lithuania','Latvia','Estonia']);
+const MIDDLE_EAST = new Set(['Saudi Arabia','United Arab Emirates','UAE','Qatar','Bahrain','Kuwait','Oman','Iraq','Jordan','Israel','Palestine','Egypt','Lebanon','Syria','Yemen']);
+const COUNTRY_TO_CURRENCY = {Norway:'NOK',Sweden:'SEK',Denmark:'DKK',Iceland:'ISK','United Kingdom':'GBP',Switzerland:'CHF',Poland:'PLN',Czechia:'CZK','Czech Republic':'CZK',Hungary:'HUF',Romania:'RON',Bulgaria:'BGN','Saudi Arabia':'SAR','United Arab Emirates':'AED',UAE:'AED',Qatar:'QAR',Bahrain:'BHD',Kuwait:'KWD',Oman:'OMR',Jordan:'JOD',Israel:'ILS',Egypt:'EGP'};
+const CCA2_TO_CURRENCY = {NO:'NOK',SE:'SEK',DK:'DKK',IS:'ISK',GB:'GBP',CH:'CHF',PL:'PLN',CZ:'CZK',HU:'HUF',RO:'RON',BG:'BGN',SA:'SAR',AE:'AED',QA:'QAR',BH:'BHD',KW:'KWD',OM:'OMR',JO:'JOD',IL:'ILS',EG:'EGP'};
+let currentCurrency = { code:'EUR', rate:1, source:'EUR base', date:'' };
 
-let currentLocation = null;
-let currentCurrency = { code: 'EUR', rate: 1, source: 'Euro base', date: '', countryCode: '' };
+function inferRegion(countryName) { if (MIDDLE_EAST.has(countryName)) return 'ME'; if (EUROPE.has(countryName)) return 'EU'; return 'ROW'; }
+function defaultLifeYears(cellType) { if (cellType === 'mono') return 30; if (cellType === 'poly') return 25; return 20; }
+function yearsBetween(d1, d2) { return (d2 - d1) / (1000 * 60 * 60 * 24 * 365.25); }
+function toM2(area, unit) { return unit === 'ft2' ? area * 0.09290304 : area; }
+function format(n, digits = 2) { if (Number.isNaN(n) || !Number.isFinite(n)) return '—'; return Number(n).toLocaleString('en-GB', { maximumFractionDigits: digits, minimumFractionDigits: digits }); }
+function money(value, currency = 'EUR', digits = 2) { if (!Number.isFinite(value)) return '—'; try { return new Intl.NumberFormat('en-GB', { style:'currency', currency, maximumFractionDigits:digits, minimumFractionDigits:digits }).format(value); } catch(e) { return `${format(value,digits)} ${currency}`; } }
+function selectedCountryCode() { const option = $('country')?.selectedOptions?.[0]; return (option?.dataset?.cca2 || '').toUpperCase(); }
+function currencyForCountry(countryName) { return COUNTRY_TO_CURRENCY[countryName] || CCA2_TO_CURRENCY[selectedCountryCode()] || 'EUR'; }
+function setStatus(text, type='neutral') { const el = $('dataStatus'); if (!el) return; el.textContent = text; el.style.color = type === 'ok' ? 'var(--roi-green)' : type === 'warn' ? 'var(--roi-gold)' : type === 'error' ? 'var(--roi-danger)' : 'var(--roi-muted)'; }
+function setSource(text) { const el = $('sourceBadge'); if (el) el.textContent = text; }
 
-function nf(value, digits = 0) {
-  if (!Number.isFinite(value)) return '—';
-  return new Intl.NumberFormat('en-GB', { maximumFractionDigits: digits, minimumFractionDigits: digits }).format(value);
+async function fetchExchangeRate(currency) {
+  if (!currency || currency === 'EUR') return { code:'EUR', rate:1, source:'EUR base currency', date:new Date().toISOString().slice(0,10) };
+  const endpoints = [`https://api.frankfurter.app/latest?from=EUR&to=${encodeURIComponent(currency)}`, 'https://open.er-api.com/v6/latest/EUR'];
+  let lastError = null;
+  for (const endpoint of endpoints) {
+    try {
+      const res = await fetch(endpoint);
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      const rate = Number(data?.rates?.[currency]);
+      if (!Number.isFinite(rate)) throw new Error('rate missing');
+      return { code:currency, rate, source:endpoint.includes('frankfurter') ? 'Frankfurter / ECB reference' : 'ExchangeRate-API open endpoint', date:data.date || new Date().toISOString().slice(0,10) };
+    } catch (error) { lastError = error; }
+  }
+  return { code:currency, rate:null, source:'Exchange rate unavailable', date:'', warning:lastError?.message || 'unavailable' };
 }
-function eur(value, digits = 0) {
-  if (!Number.isFinite(value)) return '—';
-  return new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'EUR', maximumFractionDigits: digits, minimumFractionDigits: digits }).format(value);
+
+async function updateCurrencyForCountry(countryName) {
+  const currency = currencyForCountry(countryName);
+  currentCurrency = await fetchExchangeRate(currency);
+  updateCurrencyPanel(null, null, null);
+  return currentCurrency;
 }
-function money(value, currency = 'EUR', digits = 0) {
-  if (!Number.isFinite(value)) return '—';
+
+function updateCurrencyPanel(annualGainEUR, netEUR, priceEUR) {
+  const c = currentCurrency?.code || 'EUR';
+  const rate = currentCurrency?.rate;
+  const currencyOut = $('localCurrencyOut');
+  const exchangeOut = $('exchangeRateOut');
+  const annualLocal = $('annualGainLocal');
+  const netLocal = $('netValueLocalOut');
+  if (!currencyOut || !exchangeOut) return;
+  if (!rate) {
+    currencyOut.textContent = `${c} conversion unavailable`;
+    exchangeOut.textContent = 'Euro values are shown. Live exchange-rate lookup failed.';
+    if (annualLocal) annualLocal.textContent = 'local conversion unavailable';
+    if (netLocal) netLocal.textContent = 'local conversion unavailable';
+    return;
+  }
+  currencyOut.textContent = c === 'EUR' ? 'Local currency: EUR' : `Local currency: ${c}`;
+  exchangeOut.textContent = c === 'EUR' ? 'Exchange rate used: 1 EUR = 1 EUR' : `Exchange rate used: 1 EUR = ${format(rate,4)} ${c} · ${currentCurrency.source}${currentCurrency.date ? ' · ' + currentCurrency.date : ''}`;
+  if (Number.isFinite(annualGainEUR) && annualLocal) annualLocal.textContent = c === 'EUR' ? '€/year' : `${money(annualGainEUR,'EUR',2)} / ${money(annualGainEUR * rate,c,2)} per year`;
+  if (Number.isFinite(netEUR) && netLocal) netLocal.textContent = c === 'EUR' ? money(netEUR,'EUR',2) : `${money(netEUR,'EUR',2)} / ${money(netEUR * rate,c,2)}`;
+}
+
+async function loadCountries() {
+  const fallback = ['Norway','Sweden','Finland','Denmark','Germany','United Kingdom','France','Spain','Italy','United Arab Emirates','Saudi Arabia','Qatar','Oman','Kuwait'];
   try {
-    return new Intl.NumberFormat('en-GB', { style: 'currency', currency, maximumFractionDigits: digits, minimumFractionDigits: digits }).format(value);
-  } catch (e) {
-    return nf(value, digits) + ' ' + currency;
+    const res = await fetch('https://restcountries.com/v3.1/all?fields=name,cca2,currencies');
+    if (!res.ok) throw new Error('Country list failed');
+    const data = await res.json();
+    data.sort((a,b) => a.name.common.localeCompare(b.name.common));
+    $('country').innerHTML = '<option value="">Select country</option>' + data.map(c => {
+      const name = c.name?.common || 'Unknown';
+      const cca2 = c.cca2 || '';
+      const currency = Object.keys(c.currencies || {})[0] || '';
+      return `<option value="${name}" data-cca2="${cca2}" data-currency="${currency}">${name}</option>`;
+    }).join('');
+  } catch(e) {
+    $('country').innerHTML = '<option value="">Select country</option>' + fallback.map(name => `<option value="${name}">${name}</option>`).join('');
   }
 }
-function latestFullYear() { return new Date().getFullYear() - 1; }
-function setStatus(text, type = 'neutral') {
-  const el = $('dataStatus');
-  el.textContent = text;
-  el.style.color = type === 'ok' ? 'var(--roi-green)' : type === 'warn' ? 'var(--roi-gold)' : type === 'error' ? 'var(--roi-danger)' : 'var(--roi-muted)';
+
+async function geocodeAddress() {
+  const address = $('address').value.trim();
+  if (!address) { alert('Enter an address first.'); return; }
+  setStatus('Geocoding…');
+  const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(address)}&count=1&language=en&format=json`;
+  const res = await fetch(url);
+  const data = await res.json();
+  if (data?.results?.length) {
+    const { latitude, longitude, name, country, country_code } = data.results[0];
+    $('coordsHint').textContent = `Lat: ${Number(latitude).toFixed(4)}, Lon: ${Number(longitude).toFixed(4)} (${name}, ${country})`;
+    $('coordsHint').dataset.lat = latitude;
+    $('coordsHint').dataset.lon = longitude;
+    const options = Array.from($('country').options);
+    const match = options.find(o => o.value === country || o.dataset.cca2 === country_code);
+    if (match) $('country').value = match.value;
+    await updateCurrencyForCountry($('country').value || country);
+    setStatus('Location ready','ok');
+  } else { setStatus('Geocode failed','error'); alert('No results for this address.'); }
 }
-function normalizeCountryCode(code) { return (code || '').trim().toUpperCase(); }
-function regionFromCountryCode(code) { const c = normalizeCountryCode(code); if (EUROPE.has(c)) return 'Europe'; if (MIDDLE_EAST.has(c)) return 'Middle East'; return 'International'; }
-function currencyFromCountryCode(code) { return COUNTRY_CURRENCY[normalizeCountryCode(code)] || 'EUR'; }
-function defaultTiltFromLat(lat) { const absoluteLat = Math.abs(lat || 30); return Math.max(10, Math.min(45, Math.round(absoluteLat * .76))); }
-function buildGpsDisplayName(parts) { return parts.filter(Boolean).map((p) => String(p).trim()).filter(Boolean).filter((value, index, arr) => arr.indexOf(value) === index).join(', '); }
-function applyResolvedLocation(location, name, countryCode) { location.name = name || location.name; location.countryCode = normalizeCountryCode(countryCode || location.countryCode); location.region = regionFromCountryCode(location.countryCode); location.currency = currencyFromCountryCode(location.countryCode); return location; }
-function autoApplyDefaults() { const coating = $('coating').value; const region = currentLocation?.region || 'Europe'; if (coating === 'titan') { $('gainPct').value = '5.15'; $('serviceLife').value = '5'; return; } if (region === 'Middle East') { $('gainPct').value = '2'; $('serviceLife').value = '3'; return; } if (region === 'Europe') { $('gainPct').value = '10'; $('serviceLife').value = '5'; return; } $('gainPct').value = '6'; $('serviceLife').value = '5'; }
-async function geocodeLocation(query) { const url = new URL('https://geocoding-api.open-meteo.com/v1/search'); url.searchParams.set('name', query); url.searchParams.set('count', '1'); url.searchParams.set('language', 'en'); url.searchParams.set('format', 'json'); const response = await fetch(url); if (!response.ok) throw new Error('Location lookup failed.'); const payload = await response.json(); if (!payload.results || !payload.results.length) throw new Error('No matching location found.'); const result = payload.results[0]; const location = { name: [result.name, result.admin1, result.country].filter(Boolean).join(', '), latitude: Number(result.latitude), longitude: Number(result.longitude), countryCode: normalizeCountryCode(result.country_code || ''), timezone: result.timezone || 'auto' }; location.region = regionFromCountryCode(location.countryCode); location.currency = currencyFromCountryCode(location.countryCode); return location; }
-async function reverseWithBigDataCloud(location) { const url = new URL('https://api.bigdatacloud.net/data/reverse-geocode-client'); url.searchParams.set('latitude', location.latitude); url.searchParams.set('longitude', location.longitude); url.searchParams.set('localityLanguage', 'en'); const response = await fetch(url, { cache: 'no-store' }); if (!response.ok) throw new Error('BigDataCloud HTTP ' + response.status); const data = await response.json(); const name = buildGpsDisplayName([data.locality, data.city, data.principalSubdivision, data.countryName]); if (!name) throw new Error('BigDataCloud returned no locality'); return applyResolvedLocation(location, name, data.countryCode); }
-async function reverseWithNominatim(location) { const url = new URL('https://nominatim.openstreetmap.org/reverse'); url.searchParams.set('format', 'jsonv2'); url.searchParams.set('lat', location.latitude); url.searchParams.set('lon', location.longitude); url.searchParams.set('zoom', '10'); url.searchParams.set('addressdetails', '1'); url.searchParams.set('accept-language', 'en'); const response = await fetch(url, { cache: 'no-store' }); if (!response.ok) throw new Error('Nominatim HTTP ' + response.status); const data = await response.json(); const a = data.address || {}; const name = buildGpsDisplayName([a.city, a.town, a.village, a.municipality, a.county, a.state, a.country]); if (!name) throw new Error('Nominatim returned no locality'); return applyResolvedLocation(location, name, a.country_code); }
-async function enrichGpsLocation(location) { const resolvers = [reverseWithBigDataCloud, reverseWithNominatim]; for (const resolver of resolvers) { try { return await resolver(location); } catch (e) { location.lastReverseGeocodeError = e.message || String(e); } } location.name = `Located position (${location.latitude.toFixed(4)}, ${location.longitude.toFixed(4)})`; return location; }
-function locateWithGps() { return new Promise((resolve, reject) => { if (!navigator.geolocation) { reject(new Error('GPS location is not supported in this browser.')); return; } navigator.geolocation.getCurrentPosition(async (pos) => { try { const location = await enrichGpsLocation({ name: '', latitude: pos.coords.latitude, longitude: pos.coords.longitude, countryCode: '', timezone: 'auto', region: 'International', currency: 'EUR' }); resolve(location); } catch (error) { reject(error); } }, (err) => reject(new Error(err.message || 'GPS location failed.')), { enableHighAccuracy: true, timeout: 12000 }); }); }
-async function fetchExchangeRate(currency) { if (!currency || currency === 'EUR') return { code: 'EUR', rate: 1, source: 'EUR base currency', date: new Date().toISOString().slice(0, 10) }; const endpoints = [`https://api.frankfurter.app/latest?from=EUR&to=${encodeURIComponent(currency)}`, 'https://open.er-api.com/v6/latest/EUR']; let lastError = null; for (const endpoint of endpoints) { try { const response = await fetch(endpoint); if (!response.ok) throw new Error('HTTP ' + response.status); const data = await response.json(); let rate = null; const date = data.date || data.time_last_update_utc || new Date().toISOString().slice(0, 10); if (data.rates && Number.isFinite(Number(data.rates[currency]))) rate = Number(data.rates[currency]); else if (data.result === 'success' && data.rates && Number.isFinite(Number(data.rates[currency]))) rate = Number(data.rates[currency]); if (!Number.isFinite(rate)) throw new Error('rate missing'); return { code: currency, rate, source: endpoint.includes('frankfurter') ? 'Frankfurter / ECB reference' : 'ExchangeRate-API open endpoint', date }; } catch (error) { lastError = error; } } return { code: currency, rate: null, source: 'Exchange rate unavailable', date: '', warning: lastError ? lastError.message : 'Unavailable' }; }
-async function ensureLocation() { if (currentLocation) return currentLocation; const query = $('locationQuery').value.trim(); if (!query) throw new Error('Enter a project location or use GPS.'); currentLocation = await geocodeLocation(query); $('tilt').value = defaultTiltFromLat(currentLocation.latitude); currentCurrency = await fetchExchangeRate(currentLocation.currency); $('locationNote').textContent = `${currentLocation.name} · ${currentLocation.latitude.toFixed(4)}, ${currentLocation.longitude.toFixed(4)} · ${currentLocation.region} · ${currentCurrency.code}`; autoApplyDefaults(); return currentLocation; }
-async function fetchPvgisAnnual(location, peakKw, tilt, azimuth, lossPct) { const urls = ['https://re.jrc.ec.europa.eu/api/v5_3/PVcalc', 'https://re.jrc.ec.europa.eu/api/v5_2/PVcalc']; let lastError = null; for (const endpoint of urls) { try { const url = new URL(endpoint); url.searchParams.set('lat', location.latitude); url.searchParams.set('lon', location.longitude); url.searchParams.set('peakpower', Math.max(0.001, peakKw).toFixed(4)); url.searchParams.set('loss', String(lossPct)); url.searchParams.set('angle', String(tilt)); url.searchParams.set('aspect', String(azimuth)); url.searchParams.set('outputformat', 'json'); const response = await fetch(url, { mode: 'cors' }); if (!response.ok) throw new Error(`PVGIS returned HTTP ${response.status}`); const data = await response.json(); const fixed = data?.outputs?.totals?.fixed; const annualKwh = Number(fixed?.E_y); const gti = Number(fixed?.['H(i)_y']); if (!Number.isFinite(annualKwh) || annualKwh <= 0) throw new Error('PVGIS annual output missing.'); return { source: 'PVGIS annual PV output', baselineKwh: annualKwh, solarKwhM2: Number.isFinite(gti) ? gti : null, sunshineHours: null, year: 'PVGIS climate series' }; } catch (error) { lastError = error; } } throw lastError || new Error('PVGIS unavailable.'); }
-async function fetchOpenMeteoAnnual(location, peakKw, tilt, azimuth, lossPct) { const year = latestFullYear(); const url = new URL('https://archive-api.open-meteo.com/v1/archive'); url.searchParams.set('latitude', location.latitude); url.searchParams.set('longitude', location.longitude); url.searchParams.set('start_date', `${year}-01-01`); url.searchParams.set('end_date', `${year}-12-31`); url.searchParams.set('hourly', 'global_tilted_irradiance,sunshine_duration'); url.searchParams.set('timezone', 'auto'); url.searchParams.set('tilt', String(tilt)); url.searchParams.set('azimuth', String(azimuth)); url.searchParams.set('cell_selection', 'land'); const response = await fetch(url); if (!response.ok) throw new Error(`Open-Meteo returned HTTP ${response.status}`); const data = await response.json(); const gtiValues = data?.hourly?.global_tilted_irradiance || []; const sunValues = data?.hourly?.sunshine_duration || []; if (!gtiValues.length) throw new Error('Open-Meteo irradiance data missing.'); const solarKwhM2 = gtiValues.reduce((sum, value) => sum + (Number(value) || 0), 0) / 1000; const sunshineHours = sunValues.reduce((sum, value) => sum + (Number(value) || 0), 0) / 3600; const performanceRatio = 1 - (lossPct / 100); return { source: `Open-Meteo historical tilted irradiance (${year})`, baselineKwh: peakKw * solarKwhM2 * performanceRatio, solarKwhM2, sunshineHours, year }; }
-function manualAnnual(peakKw, manualSunHours, lossPct) { const performanceRatio = 1 - (lossPct / 100); return { source: 'Manual equivalent full-sun hours', baselineKwh: peakKw * manualSunHours * performanceRatio, solarKwhM2: manualSunHours, sunshineHours: null, year: 'Manual input' }; }
-async function getAnnualProduction(location, peakKw, tilt, azimuth, lossPct, manualSunHours) { try { return await fetchPvgisAnnual(location, peakKw, tilt, azimuth, lossPct); } catch (pvgisError) { try { return await fetchOpenMeteoAnnual(location, peakKw, tilt, azimuth, lossPct); } catch (openMeteoError) { const manual = manualAnnual(peakKw, manualSunHours, lossPct); manual.warning = `Live environmental data was unavailable. PVGIS: ${pvgisError.message}. Open-Meteo: ${openMeteoError.message}.`; return manual; } } }
-function pathwayRecommendation(coating, region, gainPct, paybackDays) { const p = Number.isFinite(paybackDays) ? nf(paybackDays, 0) : '—'; if (coating === 'quartz') { if (region === 'Middle East') return `Quartz SiO₂ selected: passive easy-clean pathway for high-dust and water-constrained operating environments. The current model uses ${nf(gainPct, 2)}% uplift and produces a simple payback of ${p} days.`; if (region === 'Europe') return `Quartz SiO₂ selected: UV-independent passive pathway aligned with European and high-latitude sites. The current model uses ${nf(gainPct, 2)}% uplift and produces a simple payback of ${p} days.`; return 'Quartz SiO₂ selected: passive hydrophobic/oleophobic surface pathway. Use site soiling profile and cleaning data to refine uplift and O&M saving assumptions.'; } return `Titan TiO₂ selected: active photocatalytic pathway. Confirm sufficient UV availability and organic/biological or industrial contamination profile during technical review. The current model uses the ${nf(gainPct, 2)}% Titan study uplift reference.`; }
-function converted(value) { return Number.isFinite(value) && currentCurrency.rate ? value * currentCurrency.rate : NaN; }
-function updateCurrencyPanel(annualValue, netValue, energyPrice) { const c = currentCurrency.code || 'EUR'; const rate = currentCurrency.rate; if (!rate) { $('localCurrencyOut').textContent = `${c} conversion unavailable`; $('exchangeRateOut').textContent = 'Euro values are shown. Live exchange-rate lookup failed.'; $('annualValueLocalOut').textContent = 'Local conversion unavailable'; $('netValueLocalOut').textContent = 'Local conversion unavailable'; return; } $('localCurrencyOut').textContent = c === 'EUR' ? 'Local currency: EUR' : `Local currency: ${c} · Annual value ${money(converted(annualValue), c, 0)}`; $('exchangeRateOut').textContent = c === 'EUR' ? 'Exchange rate used: 1 EUR = 1 EUR' : `Exchange rate used: 1 EUR = ${nf(rate, 4)} ${c} · Source: ${currentCurrency.source}${currentCurrency.date ? ' · ' + currentCurrency.date : ''}`; $('annualValueLocalOut').textContent = c === 'EUR' ? '€/year' : `${eur(annualValue, 0)} / ${money(converted(annualValue), c, 0)} per year`; $('netValueLocalOut').textContent = c === 'EUR' ? eur(netValue, 0) : `${eur(netValue, 0)} / ${money(converted(netValue), c, 0)}`; return c === 'EUR' ? '' : ` · local electricity value ${money(energyPrice * rate, c, 3)}`; }
-function updateResults(result) { $('baselineOut').textContent = nf(result.baselineKwh, 0); $('addedOut').textContent = nf(result.addedKwh, 0); $('annualValueOut').textContent = eur(result.annualValue, 0); $('paybackOut').textContent = Number.isFinite(result.paybackDays) ? nf(result.paybackDays, 0) : '—'; $('netValueOut').textContent = eur(result.netValue, 0); $('sourceBadge').textContent = result.source; const priceLocal = updateCurrencyPanel(result.annualValue, result.netValue, result.energyPrice); $('detailRows').innerHTML = `<tr><td>Solar resource</td><td>${result.solarKwhM2 ? nf(result.solarKwhM2, 0) + ' kWh/m²/year' : 'PVGIS output model'}</td></tr><tr><td>Observed sunshine duration</td><td>${result.sunshineHours ? nf(result.sunshineHours, 0) + ' h/year' : '—'}</td></tr><tr><td>Peak PV capacity</td><td>${nf(result.peakKw, 2)} kWp</td></tr><tr><td>Energy value</td><td>${eur(result.energyPrice, 3)}${priceLocal} / kWh</td></tr><tr><td>Coating CAPEX</td><td>${eur(result.capex, 0)}${currentCurrency.rate && currentCurrency.code !== 'EUR' ? ' / ' + money(converted(result.capex), currentCurrency.code, 0) : ''}</td></tr><tr><td>Selected pathway</td><td>${result.pathwayLabel}</td></tr><tr><td>Yield uplift</td><td>${nf(result.gainPct, 2)}%</td></tr><tr><td>Data period</td><td>${result.year}</td></tr>`; $('recommendation').textContent = result.recommendation + (result.warning ? ` ${result.warning}` : ''); }
-async function calculate(event) { event.preventDefault(); setStatus('Calculating…'); $('sourceBadge').textContent = 'Collecting data'; try { const location = await ensureLocation(); if (!currentCurrency || !currentCurrency.code) currentCurrency = await fetchExchangeRate(location.currency); const area = Number($('areaM2').value); const specificPower = Number($('specificPower').value); const peakKw = (area * specificPower) / 1000; const energyPrice = Number($('energyPrice').value); const coating = $('coating').value; const gainPct = Number($('gainPct').value); const coatingCost = Number($('coatingCost').value); const serviceLife = Number($('serviceLife').value); const lossPct = Number($('systemLoss').value); const tilt = Number($('tilt').value); const azimuth = Number($('azimuth').value); const manualSunHours = Number($('manualSunHours').value); const omSaving = Number($('omSaving').value); if (![area, specificPower, peakKw, energyPrice, gainPct, coatingCost, serviceLife].every(Number.isFinite)) throw new Error('One or more required numeric inputs are invalid.'); const annual = await getAnnualProduction(location, peakKw, tilt, azimuth, lossPct, manualSunHours); const addedKwh = annual.baselineKwh * (gainPct / 100); const annualValue = (addedKwh * energyPrice) + (area * omSaving); const capex = area * coatingCost; const paybackDays = annualValue > 0 ? (capex / annualValue) * 365 : Infinity; const netValue = (annualValue * serviceLife) - capex; const pathwayLabel = coating === 'quartz' ? 'SolarEX Quartz — SiO₂' : 'SolarEX Titan — TiO₂'; updateResults({ ...annual, peakKw, addedKwh, annualValue, capex, paybackDays, netValue, pathwayLabel, gainPct, energyPrice, recommendation: pathwayRecommendation(coating, location.region, gainPct, paybackDays) }); setStatus('Complete', 'ok'); } catch (error) { setStatus('Input required', 'error'); $('sourceBadge').textContent = 'Calculation stopped'; $('recommendation').innerHTML = `Calculation could not be completed: ${error.message} <a href="${CONTACT_FORM_TECHNICAL}">Request a SolarEX technical review</a>.`; } }
-function applyPreset(name) { if (name === 'europe') { $('locationQuery').value = 'Oslo'; currentLocation = null; $('energyPrice').value = '0.289'; $('coating').value = 'quartz'; $('gainPct').value = '10'; $('serviceLife').value = '5'; $('manualSunHours').value = '2335'; $('coatingCost').value = '2.44'; $('systemLoss').value = '0'; } if (name === 'middle-east') { $('locationQuery').value = 'Dubai'; currentLocation = null; $('energyPrice').value = '0.759'; $('coating').value = 'quartz'; $('gainPct').value = '2'; $('serviceLife').value = '3'; $('manualSunHours').value = '3000'; $('coatingCost').value = '2.44'; $('systemLoss').value = '0'; } if (name === 'titan') { $('locationQuery').value = $('locationQuery').value || 'Madrid'; currentLocation = null; $('coating').value = 'titan'; $('gainPct').value = '5.15'; $('serviceLife').value = '5'; $('coatingCost').value = '2.44'; } $('locationNote').textContent = 'Preset loaded. Run calculation to fetch environmental and currency data for the selected site.'; setStatus('Preset loaded'); }
-window.addEventListener('DOMContentLoaded', () => { $('roiForm').addEventListener('submit', calculate); $('coating').addEventListener('change', autoApplyDefaults); $('locationQuery').addEventListener('input', () => { currentLocation = null; currentCurrency = { code: 'EUR', rate: 1, source: 'Euro base', date: '', countryCode: '' }; $('localCurrencyOut').textContent = 'Awaiting project location'; $('exchangeRateOut').textContent = 'Enter a project location or use GPS to convert Euro values to local currency.'; }); $('locateBtn').addEventListener('click', async () => { setStatus('Locating…'); $('locationQuery').value = 'Resolving location…'; try { currentLocation = await locateWithGps(); currentCurrency = await fetchExchangeRate(currentLocation.currency); $('locationQuery').value = currentLocation.name || `Located position (${currentLocation.latitude.toFixed(4)}, ${currentLocation.longitude.toFixed(4)})`; $('tilt').value = defaultTiltFromLat(currentLocation.latitude); $('locationNote').textContent = `${currentLocation.name} · ${currentLocation.latitude.toFixed(4)}, ${currentLocation.longitude.toFixed(4)} · ${currentLocation.region} · ${currentCurrency.code}`; autoApplyDefaults(); setStatus('Location ready', 'ok'); } catch (error) { setStatus('GPS failed', 'error'); $('locationNote').textContent = error.message; } }); document.querySelectorAll('.preset').forEach((button) => button.addEventListener('click', () => applyPreset(button.dataset.preset))); const menuButton = document.getElementById('roiMenuToggle'); const nav = document.getElementById('roiNav'); if (menuButton && nav) { menuButton.addEventListener('click', () => { const open = nav.classList.toggle('is-open'); menuButton.setAttribute('aria-expanded', String(open)); }); nav.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => { nav.classList.remove('is-open'); menuButton.setAttribute('aria-expanded', 'false'); })); } });
+
+function locateMe() {
+  if (!navigator.geolocation) { alert('Geolocation not supported in this browser.'); return; }
+  setStatus('Locating…');
+  navigator.geolocation.getCurrentPosition(async (pos) => {
+    const { latitude, longitude } = pos.coords;
+    $('coordsHint').dataset.lat = latitude;
+    $('coordsHint').dataset.lon = longitude;
+    try {
+      const url = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`;
+      const res = await fetch(url);
+      const data = await res.json();
+      const name = [data.locality, data.principalSubdivision, data.countryName].filter(Boolean).join(', ');
+      $('address').value = name || `Located position (${latitude.toFixed(4)}, ${longitude.toFixed(4)})`;
+      $('coordsHint').textContent = `Lat: ${latitude.toFixed(4)}, Lon: ${longitude.toFixed(4)}${name ? ` (${name})` : ''}`;
+      const options = Array.from($('country').options);
+      const match = options.find(o => o.dataset.cca2 === data.countryCode || o.value === data.countryName);
+      if (match) $('country').value = match.value;
+      await updateCurrencyForCountry($('country').value || data.countryName);
+      setStatus('Location ready','ok');
+      if ($('useOnlineSun').checked) await handleEstimateSun();
+    } catch(e) {
+      $('address').value = `Located position (${latitude.toFixed(4)}, ${longitude.toFixed(4)})`;
+      $('coordsHint').textContent = `Lat: ${latitude.toFixed(4)}, Lon: ${longitude.toFixed(4)} (GPS)`;
+      setStatus('Location ready','ok');
+    }
+  }, (err) => { setStatus('GPS failed','error'); alert('Unable to get location: ' + err.message); }, { enableHighAccuracy:true, timeout:10000 });
+}
+
+async function estimateSunHours(lat, lon, year) {
+  if (!lat || !lon) throw new Error('Missing coordinates for estimation.');
+  if (!year) year = new Date().getFullYear() - 1;
+  $('sunYear').value = year;
+  const start = `${year}-01-01`, end = `${year}-12-31`;
+  const url = `https://archive-api.open-meteo.com/v1/era5?latitude=${lat}&longitude=${lon}&daily=sunshine_duration&start_date=${start}&end_date=${end}&timezone=auto`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error('Sunshine API error');
+  const data = await res.json();
+  const secs = (data?.daily?.sunshine_duration || []).reduce((a,b) => a + (b || 0), 0);
+  return Math.round(secs / 3600);
+}
+
+async function handleEstimateSun() {
+  if (!$('useOnlineSun').checked) return;
+  const lat = parseFloat($('coordsHint').dataset.lat || '');
+  const lon = parseFloat($('coordsHint').dataset.lon || '');
+  if (!lat || !lon) { alert('Please geocode an address or use GPS first.'); return; }
+  const chosenYear = parseInt($('sunYear').value || '') || undefined;
+  $('sunHours').value = '…';
+  setSource('Open-Meteo sunshine estimate');
+  try { $('sunHours').value = await estimateSunHours(lat, lon, chosenYear); }
+  catch(e) { $('sunHours').value = ''; alert('Sunshine estimation failed: ' + e.message); }
+}
+
+async function fetchNordPoolAvgPrice(countryName) {
+  const supported = ['Norway','Sweden','Finland','Denmark','Estonia','Latvia','Lithuania'];
+  if (!supported.includes(countryName)) throw new Error('Nord Pool region not supported for this country. Enter price manually.');
+  throw new Error('Nord Pool direct browser lookup is commonly blocked by CORS. Enter price manually.');
+}
+async function handleFetchPrice() {
+  if (!$('useNordPool').checked) { alert('Check "Try Nord Pool auto-price" first.'); return; }
+  const countryName = $('country').value || '';
+  $('price').value = '…';
+  try { const p = await fetchNordPoolAvgPrice(countryName); $('price').value = p.toFixed(4); }
+  catch(e) { $('price').value = ''; alert(e.message); }
+}
+
+function recommendedDefaults(countryName, coating) {
+  const region = inferRegion(countryName || '');
+  let gain = null, life = null;
+  if (coating === 'sio2') { if (region === 'EU') { gain = 10; life = 5; } else if (region === 'ME') { gain = 2; life = 3; } else { gain = 6; life = 5; } }
+  else if (coating === 'tio2') { gain = 5.15; life = 5; }
+  return { gain, life };
+}
+function pushDetail(key, val, tbody) { const tr = document.createElement('tr'); const td1 = document.createElement('td'); const td2 = document.createElement('td'); td1.textContent = key; td2.textContent = val; tr.appendChild(td1); tr.appendChild(td2); tbody.appendChild(tr); }
+
+function computeROI() {
+  const countryName = $('country').value || '';
+  const area = parseFloat($('area').value || '0');
+  const m2 = toM2(area, $('areaUnit').value);
+  const wpm2 = parseFloat($('wPerM2').value || '90');
+  const sun = parseFloat($('sunHours').value || '0');
+  const price = parseFloat($('price').value || '0');
+  const coating = $('coating').value;
+  const gainPctInput = $('gainPct').value ? parseFloat($('gainPct').value) : null;
+  const coatPrice = parseFloat($('coatPrice').value || '0');
+  const coatLifeInput = $('coatLife').value ? parseFloat($('coatLife').value) : null;
+  const installed = $('installedDate').value ? new Date($('installedDate').value) : null;
+  const cellType = $('cellType').value;
+  const consumption = parseFloat($('consumption').value || '0');
+
+  const regionDefaults = recommendedDefaults(countryName, coating);
+  const gainPct = gainPctInput != null ? gainPctInput : (regionDefaults.gain || 0);
+  const coatLife = coatLifeInput != null ? coatLifeInput : (regionDefaults.life || 5);
+  const baselineKwh = m2 * (wpm2 / 1000) * sun;
+  const withCoatingKwh = coating === 'none' ? baselineKwh : baselineKwh * (1 + gainPct / 100);
+  const annualGainKwh = withCoatingKwh - baselineKwh;
+  const annualGainEUR = annualGainKwh * price;
+  const coatCapex = m2 * coatPrice;
+  const paybackDays = annualGainEUR > 0 ? coatCapex / annualGainEUR * 365 : Infinity;
+  const nominalLife = defaultLifeYears(cellType);
+  const age = installed ? yearsBetween(installed, new Date()) : 0;
+  const remainingLife = Math.max(0, nominalLife - age);
+  const analysisHorizon = Math.max(1, Math.min(remainingLife || nominalLife, coatLife || nominalLife));
+  const totalGainEUR = annualGainEUR * analysisHorizon;
+  const netEUR = totalGainEUR - coatCapex;
+  const rate = currentCurrency?.rate;
+  const c = currentCurrency?.code || 'EUR';
+
+  $('baselineKwh').textContent = format(baselineKwh, 0);
+  $('withCoatingKwh').textContent = format(withCoatingKwh, 0);
+  $('annualGain').textContent = money(annualGainEUR, 'EUR', 2);
+  $('payback').textContent = Number.isFinite(paybackDays) ? format(paybackDays, 0) : '—';
+  $('netValueOut').textContent = money(netEUR, 'EUR', 2);
+  updateCurrencyPanel(annualGainEUR, netEUR, price);
+  setSource($('useOnlineSun').checked ? 'Open-Meteo sunshine estimate' : 'Manual sunlight input');
+
+  const tbody = $('detailTable').querySelector('tbody');
+  tbody.innerHTML = '';
+  pushDetail('Area (m²)', format(m2, 2), tbody);
+  pushDetail('Sunlight hours / year', format(sun, 0), tbody);
+  pushDetail('Panel specific power (W/m²)', format(wpm2, 0), tbody);
+  pushDetail('Electricity price (€/kWh)', `${format(price, 4)}${rate && c !== 'EUR' ? ` / ${money(price * rate, c, 4)}` : ''}`, tbody);
+  pushDetail('Coating', coating === 'none' ? 'None' : (coating === 'sio2' ? 'SolarEX Quartz SiO₂' : 'SolarEX Titan TiO₂'), tbody);
+  if (coating !== 'none') {
+    pushDetail('Expected gain (%)', format(gainPct, 2), tbody);
+    pushDetail('Annual kWh gain', format(annualGainKwh, 0), tbody);
+    pushDetail('Annual gain', `${money(annualGainEUR,'EUR',2)}${rate && c !== 'EUR' ? ` / ${money(annualGainEUR * rate,c,2)}` : ''}`, tbody);
+    pushDetail('Coating CAPEX', `${money(coatCapex,'EUR',2)}${rate && c !== 'EUR' ? ` / ${money(coatCapex * rate,c,2)}` : ''}`, tbody);
+    pushDetail('Coating service life (y)', format(coatLife, 1), tbody);
+    pushDetail('Panel remaining life (y)', format(remainingLife || nominalLife, 1), tbody);
+    pushDetail('Analysis horizon (y)', format(analysisHorizon, 1), tbody);
+    pushDetail('Cumulative gain over horizon', `${money(totalGainEUR,'EUR',2)}${rate && c !== 'EUR' ? ` / ${money(totalGainEUR * rate,c,2)}` : ''}`, tbody);
+    pushDetail('Net gain minus CAPEX', `${money(netEUR,'EUR',2)}${rate && c !== 'EUR' ? ` / ${money(netEUR * rate,c,2)}` : ''}`, tbody);
+  }
+  if (consumption > 0) pushDetail('Baseline coverage of annual consumption', format((baselineKwh / consumption) * 100, 1) + '%', tbody);
+
+  const notes = [];
+  notes.push('Baseline method: kWh = Area × (W/m² ÷ 1000) × Sunlight hours/year.');
+  if (coating === 'sio2') notes.push('Quartz SiO₂ defaults: Europe 10% gain and 5y life; Middle East 2% gain and 3y life.');
+  else if (coating === 'tio2') notes.push('Titan TiO₂ default gain: 5.15% from a 360-day study reference; life assumed 5y.');
+  notes.push('Outputs are screening scenarios and should be reviewed against project conditions before procurement decisions.');
+  $('notes').innerHTML = notes.map(n => '• ' + n).join('<br>');
+  setStatus('Complete','ok');
+}
+
+window.addEventListener('DOMContentLoaded', async () => {
+  await loadCountries();
+  $('sunYear').value = new Date().getFullYear() - 1;
+  $('geocodeBtn').addEventListener('click', geocodeAddress);
+  $('locateBtn').addEventListener('click', locateMe);
+  $('useOnlineSun').addEventListener('change', handleEstimateSun);
+  $('fetchPriceBtn').addEventListener('click', handleFetchPrice);
+  $('country').addEventListener('change', async () => { await updateCurrencyForCountry($('country').value); });
+  $('roiForm').addEventListener('submit', (e) => { e.preventDefault(); computeROI(); });
+  const menuButton = $('roiMenuToggle'); const nav = $('roiNav');
+  if (menuButton && nav) { menuButton.addEventListener('click', () => { const open = nav.classList.toggle('is-open'); menuButton.setAttribute('aria-expanded', String(open)); }); nav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => { nav.classList.remove('is-open'); menuButton.setAttribute('aria-expanded','false'); })); }
+});
