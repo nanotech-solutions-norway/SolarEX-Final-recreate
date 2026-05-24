@@ -4,6 +4,7 @@ const EUROPE = new Set(['Norway','Sweden','Finland','Denmark','Iceland','United 
 const MIDDLE_EAST = new Set(['Saudi Arabia','United Arab Emirates','UAE','Qatar','Bahrain','Kuwait','Oman','Iraq','Jordan','Israel','Palestine','Egypt','Lebanon','Syria','Yemen']);
 const COUNTRY_TO_CURRENCY = {Norway:'NOK',Sweden:'SEK',Denmark:'DKK',Iceland:'ISK','United Kingdom':'GBP',Switzerland:'CHF',Poland:'PLN',Czechia:'CZK','Czech Republic':'CZK',Hungary:'HUF',Romania:'RON',Bulgaria:'BGN','Saudi Arabia':'SAR','United Arab Emirates':'AED',UAE:'AED',Qatar:'QAR',Bahrain:'BHD',Kuwait:'KWD',Oman:'OMR',Jordan:'JOD',Israel:'ILS',Egypt:'EGP'};
 const CCA2_TO_CURRENCY = {NO:'NOK',SE:'SEK',DK:'DKK',IS:'ISK',GB:'GBP',CH:'CHF',PL:'PLN',CZ:'CZK',HU:'HUF',RO:'RON',BG:'BGN',SA:'SAR',AE:'AED',QA:'QAR',BH:'BHD',KW:'KWD',OM:'OMR',JO:'JOD',IL:'ILS',EG:'EGP'};
+const NORD_POOL_ZONES = {Norway:'NO1',Sweden:'SE3',Finland:'FI',Denmark:'DK1',Estonia:'EE',Latvia:'LV',Lithuania:'LT'};
 let currentCurrency = { code:'EUR', rate:1, source:'EUR base', date:'' };
 
 function inferRegion(countryName) { if (MIDDLE_EAST.has(countryName)) return 'ME'; if (EUROPE.has(countryName)) return 'EU'; return 'ROW'; }
@@ -28,7 +29,7 @@ async function fetchExchangeRate(currency) {
       const data = await res.json();
       const rate = Number(data?.rates?.[currency]);
       if (!Number.isFinite(rate)) throw new Error('rate missing');
-      return { code:currency, rate, source:endpoint.includes('frankfurter') ? 'Frankfurter / ECB reference' : 'ExchangeRate-API open endpoint', date:data.date || new Date().toISOString().slice(0,10) };
+      return { code:currency, rate, source:endpoint.includes('frankfurter') ? 'ECB reference exchange rate' : 'public exchange-rate source', date:data.date || new Date().toISOString().slice(0,10) };
     } catch (error) { lastError = error; }
   }
   return { code:currency, rate:null, source:'Exchange rate unavailable', date:'', warning:lastError?.message || 'unavailable' };
@@ -57,7 +58,7 @@ function updateCurrencyPanel(annualGainEUR, netEUR, priceEUR) {
     return;
   }
   currencyOut.textContent = c === 'EUR' ? 'Local currency: EUR' : `Local currency: ${c}`;
-  exchangeOut.textContent = c === 'EUR' ? 'Exchange rate used: 1 EUR = 1 EUR' : `Exchange rate used: 1 EUR = ${format(rate,4)} ${c} · ${currentCurrency.source}${currentCurrency.date ? ' · ' + currentCurrency.date : ''}`;
+  exchangeOut.textContent = c === 'EUR' ? 'Exchange rate used: 1 EUR = 1 EUR' : `Exchange rate used: 1 EUR = ${format(rate,4)} ${c}${currentCurrency.date ? ' · ' + currentCurrency.date : ''}`;
   if (Number.isFinite(annualGainEUR) && annualLocal) annualLocal.textContent = c === 'EUR' ? '€/year' : `${money(annualGainEUR,'EUR',2)} / ${money(annualGainEUR * rate,c,2)} per year`;
   if (Number.isFinite(netEUR) && netLocal) netLocal.textContent = c === 'EUR' ? money(netEUR,'EUR',2) : `${money(netEUR,'EUR',2)} / ${money(netEUR * rate,c,2)}`;
 }
@@ -97,6 +98,7 @@ async function geocodeAddress() {
     if (match) $('country').value = match.value;
     await updateCurrencyForCountry($('country').value || country);
     setStatus('Location ready','ok');
+    if ($('useOnlineSun').checked) await handleEstimateSun();
   } else { setStatus('Geocode failed','error'); alert('No results for this address.'); }
 }
 
@@ -145,25 +147,45 @@ async function handleEstimateSun() {
   if (!$('useOnlineSun').checked) return;
   const lat = parseFloat($('coordsHint').dataset.lat || '');
   const lon = parseFloat($('coordsHint').dataset.lon || '');
-  if (!lat || !lon) { alert('Please geocode an address or use GPS first.'); return; }
+  if (!lat || !lon) return;
   const chosenYear = parseInt($('sunYear').value || '') || undefined;
   $('sunHours').value = '…';
   setSource('Open-Meteo sunshine estimate');
   try { $('sunHours').value = await estimateSunHours(lat, lon, chosenYear); }
-  catch(e) { $('sunHours').value = ''; alert('Sunshine estimation failed: ' + e.message); }
+  catch(e) { $('sunHours').value = ''; alert('Sunshine estimation failed. Enter sunlight hours manually.'); }
 }
 
 async function fetchNordPoolAvgPrice(countryName) {
-  const supported = ['Norway','Sweden','Finland','Denmark','Estonia','Latvia','Lithuania'];
-  if (!supported.includes(countryName)) throw new Error('Nord Pool region not supported for this country. Enter price manually.');
-  throw new Error('Nord Pool direct browser lookup is commonly blocked by CORS. Enter price manually.');
+  const zone = NORD_POOL_ZONES[countryName];
+  if (!zone) throw new Error('Auto-price is only available for selected Nord Pool countries. Enter price manually.');
+  const today = new Date();
+  const y = today.getFullYear();
+  const m = String(today.getMonth() + 1).padStart(2,'0');
+  const d = String(today.getDate()).padStart(2,'0');
+  const candidates = [
+    `https://www.hvakosterstrommen.no/api/v1/prices/${y}/${m}-${d}_${zone}.json`,
+    `https://www.hvakosterstrommen.no/api/v1/prices/${y}/${m}-${d}_NO1.json`
+  ];
+  let lastError = null;
+  for (const url of candidates) {
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const rows = await res.json();
+      const values = rows.map(r => Number(r.EUR_per_kWh)).filter(Number.isFinite);
+      if (!values.length) throw new Error('No EUR price values');
+      return values.reduce((a,b) => a + b, 0) / values.length;
+    } catch (error) { lastError = error; }
+  }
+  throw new Error('Auto-price lookup unavailable. Enter price manually.');
 }
 async function handleFetchPrice() {
   if (!$('useNordPool').checked) { alert('Check "Try Nord Pool auto-price" first.'); return; }
   const countryName = $('country').value || '';
   $('price').value = '…';
-  try { const p = await fetchNordPoolAvgPrice(countryName); $('price').value = p.toFixed(4); }
-  catch(e) { $('price').value = ''; alert(e.message); }
+  setStatus('Fetching price…');
+  try { const p = await fetchNordPoolAvgPrice(countryName); $('price').value = p.toFixed(4); setStatus('Price ready','ok'); }
+  catch(e) { $('price').value = ''; setStatus('Manual price needed','warn'); alert(e.message); }
 }
 
 function recommendedDefaults(countryName, coating) {
@@ -235,13 +257,8 @@ function computeROI() {
     pushDetail('Net gain minus CAPEX', `${money(netEUR,'EUR',2)}${rate && c !== 'EUR' ? ` / ${money(netEUR * rate,c,2)}` : ''}`, tbody);
   }
   if (consumption > 0) pushDetail('Baseline coverage of annual consumption', format((baselineKwh / consumption) * 100, 1) + '%', tbody);
-
-  const notes = [];
-  notes.push('Baseline method: kWh = Area × (W/m² ÷ 1000) × Sunlight hours/year.');
-  if (coating === 'sio2') notes.push('Quartz SiO₂ defaults: Europe 10% gain and 5y life; Middle East 2% gain and 3y life.');
-  else if (coating === 'tio2') notes.push('Titan TiO₂ default gain: 5.15% from a 360-day study reference; life assumed 5y.');
-  notes.push('Outputs are screening scenarios and should be reviewed against project conditions before procurement decisions.');
-  $('notes').innerHTML = notes.map(n => '• ' + n).join('<br>');
+  const notes = $('notes');
+  if (notes) notes.innerHTML = '• Baseline method: kWh = Area × (W/m² ÷ 1000) × Sunlight hours/year.<br>• Quartz SiO₂ defaults: Europe 10% gain and 5y life; Middle East 2% gain and 3y life.<br>• Outputs are screening scenarios and should be reviewed against project conditions before procurement decisions.';
   setStatus('Complete','ok');
 }
 
@@ -256,4 +273,5 @@ window.addEventListener('DOMContentLoaded', async () => {
   $('roiForm').addEventListener('submit', (e) => { e.preventDefault(); computeROI(); });
   const menuButton = $('roiMenuToggle'); const nav = $('roiNav');
   if (menuButton && nav) { menuButton.addEventListener('click', () => { const open = nav.classList.toggle('is-open'); menuButton.setAttribute('aria-expanded', String(open)); }); nav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => { nav.classList.remove('is-open'); menuButton.setAttribute('aria-expanded','false'); })); }
+  document.querySelectorAll('.nav-group-toggle').forEach((button) => button.addEventListener('click', (event) => { event.preventDefault(); const group = button.closest('.nav-group'); const open = group.classList.toggle('is-open'); button.setAttribute('aria-expanded', String(open)); }));
 });
