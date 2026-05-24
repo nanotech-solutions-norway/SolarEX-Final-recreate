@@ -5,6 +5,17 @@
 .roi-page .input-card .two-col:has(#gainPct){
   margin-bottom:6px;
 }
+.roi-page input[type="date"]{
+  color-scheme:dark;
+}
+.roi-page input[type="date"]::-webkit-calendar-picker-indicator{
+  filter:invert(1) brightness(1.35);
+  opacity:.95;
+  cursor:pointer;
+}
+.roi-page input[type="date"]::-webkit-calendar-picker-indicator:hover{
+  opacity:1;
+}
 .roi-page .result-card{
   overflow:hidden;
   max-width:100%;
