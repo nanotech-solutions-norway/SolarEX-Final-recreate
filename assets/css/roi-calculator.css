@@ -15,7 +15,7 @@
   --roi-shadow:0 24px 70px rgba(0,0,0,.30);
 }
 html{scroll-behavior:smooth}
-body.roi-page{background:var(--roi-bg);color:var(--roi-ink)}
+body.roi-page{background:var(--roi-bg);color:var(--roi-ink);margin:0}
 .roi-shell{width:min(1180px,calc(100% - 32px));margin-inline:auto}
 .roi-page h1,.roi-page h2,.roi-page h3,.roi-page .eyebrow,.roi-page .btn,.roi-page .roi-nav a,.roi-page label{font-family:'SolarEX Fauna','Fauna One',Georgia,serif}
 .roi-page p,.roi-page input,.roi-page select,.roi-page table,.roi-page li,.roi-page small{font-family:'SolarEX Libre Baskerville','Libre Baskerville',Georgia,serif}
@@ -58,9 +58,9 @@ body.roi-page{background:var(--roi-bg);color:var(--roi-ink)}
 .roi-page label{display:block;margin:16px 0 7px;color:#fff;font-size:.82rem}
 .roi-page input,.roi-page select{width:100%;min-height:46px;border:1px solid rgba(214,229,239,.18);border-radius:2px!important;background:#10141a;color:var(--roi-ink);padding:10px 12px;outline:none}
 .roi-page input:focus,.roi-page select:focus{border-color:rgba(94,152,241,.72);box-shadow:0 0 0 3px rgba(94,152,241,.16)}
-.input-row{display:grid;grid-template-columns:1fr auto;gap:10px}
-.two-col,.advanced-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.field-note{margin:8px 0 0;color:var(--roi-muted);font-size:.86rem}
+.input-row{display:grid;grid-template-columns:1fr auto;gap:10px}.area-row{grid-template-columns:1fr 90px}
+.two-col,.advanced-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.location-grid{align-items:start}
+.field-note{margin:8px 0 0;color:var(--roi-muted);font-size:.86rem}.inline-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}.checkbox-action-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;margin-top:8px}.checkbox-field{display:flex;align-items:flex-start;gap:10px;margin:16px 0;padding:12px;border:1px solid rgba(214,229,239,.14);border-radius:10px;background:rgba(16,20,26,.45)}.checkbox-field input{width:auto;min-height:auto;margin-top:3px}.checkbox-field label{margin:0;color:var(--roi-ink);font-family:'SolarEX Libre Baskerville','Libre Baskerville',Georgia,serif;font-size:.9rem}.compact-check{margin:0;padding:0;border:0;background:transparent}
 .advanced{margin:18px 0;border:1px solid rgba(214,229,239,.14);border-radius:10px;background:rgba(16,20,26,.45);padding:12px}
 .advanced summary{cursor:pointer;color:#fff;font-family:'SolarEX Fauna','Fauna One',Georgia,serif}
 .advanced-grid{margin-top:12px}
@@ -70,13 +70,12 @@ body.roi-page{background:var(--roi-bg);color:var(--roi-ink)}
 .kpi-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .kpi,.net-value,.currency-panel{border:1px solid rgba(214,229,239,.14);border-radius:12px;background:rgba(16,20,26,.48);padding:16px}
 .kpi span,.net-value span,.currency-panel span{display:block;color:var(--roi-muted);font-size:.84rem}
-.kpi strong,.net-value strong,.currency-panel strong{display:block;margin:8px 0 3px;font-family:'SolarEX Fauna','Fauna One',Georgia,serif;color:#fff;font-size:1.65rem;line-height:1}
+.kpi strong,.net-value strong,.currency-panel strong{display:block;margin:8px 0 3px;font-family:'SolarEX Fauna','Fauna One',Georgia,serif;color:#fff;font-size:1.65rem;line-height:1;word-break:break-word}
 .kpi small,.net-value small,.currency-panel small{color:var(--roi-muted)}
-.net-value,.currency-panel{margin-top:12px}
+.net-value,.currency-panel{margin-top:12px}.detail-heading{margin-top:18px!important}
 .result-table{width:100%;margin-top:14px;border-collapse:separate;border-spacing:0;overflow:hidden;border:1px solid rgba(214,229,239,.14);border-radius:12px}
-.result-table td{padding:11px 12px;border-bottom:1px solid rgba(214,229,239,.10);font-size:.9rem}
+.result-table th,.result-table td{padding:11px 12px;border-bottom:1px solid rgba(214,229,239,.10);font-size:.9rem;text-align:right}.result-table th:first-child,.result-table td:first-child{text-align:left;color:var(--roi-muted)}
 .result-table tr:last-child td{border-bottom:0}
-.result-table td:first-child{color:var(--roi-muted)}
 .callout{margin-top:14px;border-left:3px solid var(--roi-blue);background:rgba(94,152,241,.10);padding:14px;border-radius:0 10px 10px 0;color:#eef8ff}
 .method-grid,.pathway-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 .pathway-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -97,8 +96,8 @@ body.roi-page{background:var(--roi-bg);color:var(--roi-ink)}
   .roi-nav.is-open{display:grid}
   .roi-hero-grid,.roi-calculator-layout,.method-grid,.pathway-grid,.roi-footer-grid{grid-template-columns:1fr}
   .roi-hero-grid{min-height:auto;padding:72px 0}
-  .two-col,.advanced-grid,.kpi-grid,.preset-row{grid-template-columns:1fr}
-  .input-row{grid-template-columns:1fr}
+  .two-col,.advanced-grid,.kpi-grid,.preset-row,.inline-actions,.checkbox-action-row{grid-template-columns:1fr}
+  .input-row{grid-template-columns:1fr}.area-row{grid-template-columns:1fr}
   .roi-section{padding:54px 0}
 }
 @media(prefers-reduced-motion:reduce){
