@@ -6,12 +6,12 @@ const COUNTRY_TO_CURRENCY = {Norway:'NOK',Sweden:'SEK',Denmark:'DKK',Iceland:'IS
 const CCA2_TO_CURRENCY = {NO:'NOK',SE:'SEK',DK:'DKK',IS:'ISK',GB:'GBP',CH:'CHF',PL:'PLN',CZ:'CZK',HU:'HUF',RO:'RON',BG:'BGN',SA:'SAR',AE:'AED',QA:'QAR',BH:'BHD',KW:'KWD',OM:'OMR',JO:'JOD',IL:'ILS',EG:'EGP'};
 const NORD_POOL_ZONES = {Norway:'NO1',Sweden:'SE3',Finland:'FI',Denmark:'DK1',Estonia:'EE',Latvia:'LV',Lithuania:'LT'};
 const CELL_TECH = {
-  poly: { label:'Polycrystalline c-Si', wpm2:195, life:25, note:'Legacy installed-base crystalline silicon. Typical mass-production efficiency is lower than modern mono/TOPCon; default specific power is 195 W/m².' },
-  mono: { label:'Monocrystalline c-Si', wpm2:215, life:30, note:'Mainstream bankable PV platform. Default specific power reflects typical 20–22% module-level efficiency.' },
-  perc: { label:'PERC', wpm2:210, life:28, note:'Mature but declining p-type crystalline silicon architecture with rear passivation. Default specific power is 210 W/m².' },
-  topcon: { label:'TOPCon', wpm2:227, life:30, note:'Current high-efficiency n-type silicon reference. Default specific power uses a 22.7% crystalline-silicon module-efficiency proxy.' },
-  thinfilm: { label:'Thin-film', wpm2:180, life:25, note:'Specialized CdTe/CIGS-type pathway. Default specific power is conservative because thin-film subtypes vary by supplier and module format.' },
-  perovskite: { label:'Perovskites / tandem pilot', wpm2:240, life:20, note:'Emerging/pilot technology with high tandem potential but unresolved bankability and durability. Default specific power is a pilot scenario, not a procurement baseline.' }
+  poly: { label:'Polycrystalline c-Si', wpm2:195, life:25, note:'Legacy installed-base crystalline silicon.' },
+  mono: { label:'Monocrystalline c-Si', wpm2:215, life:30, note:'Mainstream bankable PV platform.' },
+  perc: { label:'PERC', wpm2:210, life:28, note:'PERC crystalline silicon architecture.' },
+  topcon: { label:'TOPCon', wpm2:227, life:30, note:'Current high-efficiency n-type silicon reference.' },
+  thinfilm: { label:'Thin-film', wpm2:180, life:25, note:'Specialized CdTe/CIGS-type pathway.' },
+  perovskite: { label:'Perovskites / tandem pilot', wpm2:240, life:20, note:'Emerging/pilot technology with high tandem potential.' }
 };
 let currentCurrency = { code:'EUR', rate:1, source:'EUR base', date:'' };
 let monetaryInputCurrency = 'EUR';
@@ -57,7 +57,7 @@ function applyCellDefaults(force = true) {
   const tech = CELL_TECH[$('cellType')?.value] || CELL_TECH.poly;
   if (force && $('wPerM2')) $('wPerM2').value = String(tech.wpm2);
   if ($('cellTypeNote')) $('cellTypeNote').textContent = tech.note;
-  if ($('wPerM2Note')) $('wPerM2Note').textContent = `Auto-set from ${tech.label}: ${tech.wpm2} W/m². Edit only when module datasheet values are available.`;
+  if ($('wPerM2Note')) $('wPerM2Note').textContent = 'Auto-adjusted by selected cell type. Edit when module datasheet values are available.';
 }
 
 async function fetchExchangeRate(currency) {
