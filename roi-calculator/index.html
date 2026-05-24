@@ -1,1 +1,170 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>SolarEX ROI Calculator</title><meta name="description" content="Model potential energy and maintenance impact using your site data and conservative scenario assumptions."><link rel="canonical" href="https://www.solarex.no/roi-calculator/"><link rel="stylesheet" href="/assets/css/styles.css"><link rel="stylesheet" href="/assets/css/solarex-overrides.css"><link rel="stylesheet" href="/assets/css/seo-pages.css"></head><body><header class="site-header"><a class="brand" href="/">Solar<span>EX</span></a><nav class="site-nav seo-static-nav"><a href="/quartz/">Quartz SiO₂</a><a href="/markets/">Markets</a><a href="/case-studies/">Case Studies</a><a href="/documentation/">Documentation</a><a class="nav-cta" href="/technical-review/">Technical Review</a></nav></header><main><section class="seo-hero"><div class="container"><div class="kicker">ROI scenario tool</div><h1>Calculate SolarEX site value.</h1><p class="lead">The ROI calculator page connects surface-engineering fit to project review. Use conservative assumptions, visible input labels and a technical review before material procurement decisions.</p><div class="seo-cta-row"><a class="btn" href="/technical-review/">Submit for review</a><a class="btn secondary" href="/documentation/">Review assumptions</a></div></div></section><section class="seo-section"><div class="container"><div class="seo-grid three"><article class="seo-card"><span class="evidence-label">Input</span><h3>Site and energy data</h3><p>Location, project size, electricity value, expected production, coating area and cleaning cost context.</p></article><article class="seo-card"><span class="evidence-label">Scenario</span><h3>Conservative assumptions</h3><p>Energy uplift and cleaning-burden scenarios must stay visibly labeled as scenario outputs, not universal claims.</p></article><article class="seo-card"><span class="evidence-label">Next step</span><h3>Technical review</h3><p>ROI output should trigger review of Quartz, Titan or pilot design with site-specific constraints.</p></article></div></div></section></main><footer class="site-footer strategy-footer"><div class="footer-grid"><div><a class="brand" href="/">Solar<span>EX</span></a></div><div><h3>Tools</h3><a href="/roi-calculator/">ROI calculator</a><a href="/technical-review/">Technical review</a></div><div><h3>Context</h3><a href="/markets/europe/">Europe</a><a href="/markets/middle-east/">Middle East</a></div><div><h3>Evidence</h3><a href="/case-studies/">Case studies</a><a href="/documentation/">Documentation</a></div></div></footer></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SolarEX ROI Calculator | PV Glass Coating Scenario Tool</title>
+  <meta name="description" content="Estimate SolarEX Quartz SiO₂ and Titan TiO₂ ROI using site-specific solar data, coating assumptions, Euro values, and local currency conversion.">
+  <link rel="canonical" href="https://www.solarex.no/roi-calculator/">
+  <link rel="alternate" hreflang="x-default" href="https://www.solarex.no/roi-calculator/">
+  <link rel="alternate" hreflang="en" href="https://www.solarex.no/roi-calculator/">
+  <meta property="og:title" content="SolarEX ROI Calculator">
+  <meta property="og:description" content="Model SolarEX coating ROI with PVGIS/Open-Meteo solar-resource fallback, pathway assumptions and local currency conversion.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.solarex.no/roi-calculator/">
+  <meta name="theme-color" content="#171B21">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/css/solarex-overrides.css">
+  <link rel="stylesheet" href="/assets/css/seo-pages.css">
+  <link rel="stylesheet" href="/assets/css/roi-calculator.css">
+</head>
+<body class="roi-page">
+  <a class="skip-link" href="#calculator">Skip to calculator</a>
+  <header class="roi-header">
+    <div class="roi-shell roi-header-inner">
+      <a class="roi-brand" href="/" aria-label="SolarEX home">Solar<span>EX</span></a>
+      <button class="roi-menu-toggle" id="roiMenuToggle" type="button" aria-expanded="false" aria-controls="roiNav">Menu</button>
+      <nav class="roi-nav" id="roiNav" aria-label="Primary navigation">
+        <a href="/quartz/">Quartz SiO₂</a>
+        <a href="/titan/">Titan TiO₂</a>
+        <a href="/technology/">Technology</a>
+        <a href="/applications/">Applications</a>
+        <a href="/markets/">Markets</a>
+        <a href="/case-studies/">Evidence</a>
+        <a href="/documentation/">Documentation</a>
+        <a class="nav-cta" href="/technical-review/">Technical Review</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="roi-hero">
+      <div class="roi-shell roi-hero-grid">
+        <div>
+          <p class="eyebrow">SolarEX ROI model</p>
+          <h1>Estimate coating value from site-specific solar data.</h1>
+          <p class="lead">A focused ROI calculator for SolarEX Quartz SiO₂ and SolarEX Titan TiO₂. Select the project location, PV glass area, electricity value and coating pathway. The model retrieves environmental solar data, calculates annual yield uplift, estimates payback and displays both Euro and local-currency values.</p>
+          <div class="roi-actions">
+            <a class="btn primary" href="#calculator">Start calculation</a>
+            <a class="btn ghost" href="#method">View method</a>
+            <a class="btn ghost" href="/technical-review/">Request technical review</a>
+          </div>
+        </div>
+        <aside class="roi-hero-panel" aria-label="Reference assumptions">
+          <div><span class="roi-metric">€2.44</span><span class="roi-metric-label">Reference coating cost / m²</span></div>
+          <div><span class="roi-metric">+10%</span><span class="roi-metric-label">Quartz Europe model default</span></div>
+          <div><span class="roi-metric">+5.15%</span><span class="roi-metric-label">Titan 360-day study uplift reference</span></div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="calculator" class="roi-section">
+      <div class="roi-shell">
+        <div class="roi-section-head">
+          <p class="eyebrow">Commercial planning tool</p>
+          <h2>SolarEX ROI Calculator</h2>
+          <p>Designed for fast screening and site-specific project discussions. The calculator prioritizes PVGIS annual PV-output modelling, then falls back to Open-Meteo tilted irradiance and manual assumptions only when live data cannot be retrieved.</p>
+        </div>
+
+        <div class="roi-calculator-layout">
+          <form class="roi-card input-card" id="roiForm">
+            <div class="roi-card-head">
+              <h3>Project inputs</h3>
+              <span class="status-pill" id="dataStatus">Ready</span>
+            </div>
+
+            <label for="locationQuery">Project location</label>
+            <div class="input-row">
+              <input id="locationQuery" type="text" placeholder="City, region or address" autocomplete="off">
+              <button class="btn compact" id="locateBtn" type="button">Use GPS</button>
+            </div>
+            <p class="field-note" id="locationNote">Example: Oslo, Stockholm, Copenhagen, Dubai, Madrid, Riyadh.</p>
+
+            <div class="two-col">
+              <div><label for="areaM2">Coated PV glass area (m²)</label><input id="areaM2" type="number" min="1" step="1" value="1000" required></div>
+              <div><label for="specificPower">Panel specific power (W/m²)</label><input id="specificPower" type="number" min="1" step="1" value="90" required></div>
+            </div>
+
+            <div class="two-col">
+              <div><label for="energyPrice">Electricity value (€/kWh)</label><input id="energyPrice" type="number" min="0" step="0.001" value="0.289" required></div>
+              <div><label for="coating">SolarEX pathway</label><select id="coating"><option value="quartz">SolarEX Quartz — SiO₂</option><option value="titan">SolarEX Titan — TiO₂</option></select></div>
+            </div>
+
+            <details class="advanced">
+              <summary>Advanced assumptions</summary>
+              <div class="advanced-grid">
+                <div><label for="gainPct">Expected yield uplift (%)</label><input id="gainPct" type="number" min="0" step="0.01" value="10"></div>
+                <div><label for="coatingCost">Coating cost (€/m²)</label><input id="coatingCost" type="number" min="0" step="0.01" value="2.44"></div>
+                <div><label for="serviceLife">Coating service life (years)</label><input id="serviceLife" type="number" min="0.1" step="0.1" value="5"></div>
+                <div><label for="systemLoss">PV system loss / derate (%)</label><input id="systemLoss" type="number" min="0" max="60" step="0.1" value="0"></div>
+                <div><label for="tilt">Panel tilt (degrees)</label><input id="tilt" type="number" min="0" max="90" step="1" value="30"></div>
+                <div><label for="azimuth">Azimuth (0° south, -90° east, 90° west)</label><input id="azimuth" type="number" min="-180" max="180" step="1" value="0"></div>
+                <div><label for="manualSunHours">Manual equivalent full-sun hours</label><input id="manualSunHours" type="number" min="0" step="1" value="2335"></div>
+                <div><label for="omSaving">O&M saving (€/m²/year)</label><input id="omSaving" type="number" min="0" step="0.01" value="0"></div>
+              </div>
+              <p class="field-note">Use advanced fields when validated project assumptions are available. Scenario outputs are not universal performance claims.</p>
+            </details>
+
+            <div class="preset-row">
+              <button type="button" class="preset" data-preset="europe">Europe Quartz reference</button>
+              <button type="button" class="preset" data-preset="middle-east">Middle East Quartz reference</button>
+              <button type="button" class="preset" data-preset="titan">Titan study uplift</button>
+            </div>
+            <button class="btn primary wide" type="submit">Calculate ROI</button>
+          </form>
+
+          <section class="roi-card result-card" aria-live="polite">
+            <div class="roi-card-head"><h3>Results</h3><span class="status-pill accent" id="sourceBadge">Awaiting calculation</span></div>
+            <div class="kpi-grid">
+              <div class="kpi"><span>Baseline production</span><strong id="baselineOut">—</strong><small>kWh/year</small></div>
+              <div class="kpi"><span>Added production</span><strong id="addedOut">—</strong><small>kWh/year</small></div>
+              <div class="kpi"><span>Annual value</span><strong id="annualValueOut">—</strong><small id="annualValueLocalOut">€/year</small></div>
+              <div class="kpi"><span>Simple payback</span><strong id="paybackOut">—</strong><small>days</small></div>
+            </div>
+            <div class="net-value"><span>Net value over selected service life</span><strong id="netValueOut">—</strong><small id="netValueLocalOut" class="currency-subline">—</small></div>
+            <div class="currency-panel" id="currencyPanel"><span>Currency conversion</span><strong id="localCurrencyOut">Awaiting project location</strong><small id="exchangeRateOut">Enter a project location or use GPS to convert Euro values to local currency.</small></div>
+            <table class="result-table"><tbody id="detailRows"><tr><td>Solar resource</td><td>—</td></tr><tr><td>Peak PV capacity</td><td>—</td></tr><tr><td>Coating CAPEX</td><td>—</td></tr><tr><td>Model pathway</td><td>—</td></tr></tbody></table>
+            <div class="callout" id="recommendation">Enter project data and run the model to generate ROI outputs.</div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section id="method" class="roi-section">
+      <div class="roi-shell">
+        <div class="roi-section-head narrow">
+          <p class="eyebrow">Calculation method</p>
+          <h2>Environmental data first. Manual assumptions second.</h2>
+          <p>The model is structured to support practical project screening while keeping scenario outputs visibly separate from validated project claims.</p>
+        </div>
+        <div class="method-grid">
+          <div class="roi-card method-card"><span class="step">01</span><h3>PVGIS annual PV output</h3><p>Preferred baseline using coordinates, peak power, tilt, azimuth and loss setting.</p></div>
+          <div class="roi-card method-card"><span class="step">02</span><h3>Open-Meteo fallback</h3><p>Uses hourly global tilted irradiance and sunshine duration for the most recent full calendar year.</p></div>
+          <div class="roi-card method-card"><span class="step">03</span><h3>ROI + currency conversion</h3><p>Added energy is calculated from selected SolarEX uplift, then converted into Euro and local-currency commercial outputs.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="pathways" class="roi-section">
+      <div class="roi-shell">
+        <div class="roi-section-head narrow"><p class="eyebrow">Pathway logic</p><h2>Quartz and Titan are different technical mechanisms.</h2></div>
+        <div class="pathway-grid">
+          <article class="roi-card pathway-card quartz"><h3>SolarEX Quartz — SiO₂</h3><p>Passive, UV-independent SiO₂ surface architecture for hydrophobic and oleophobic easy-clean behavior. Best aligned with dust, pollen, mineral soiling, high-latitude regions and low-UV conditions.</p><ul><li>No UV activation required</li><li>Reference Europe uplift: 10%</li><li>Reference Middle East uplift: 2%</li></ul></article>
+          <article class="roi-card pathway-card titan"><h3>SolarEX Titan — TiO₂</h3><p>Active TiO₂ photocatalytic pathway for UV-supported organic-contaminant decomposition and hydrophilic rinse behavior. Best aligned with UV-sufficient sites and organic, biological or industrial atmospheric contamination.</p><ul><li>UV activation required</li><li>360-day study uplift reference: 5.15%</li><li>Site UV availability is a key selection variable</li></ul></article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="roi-footer">
+    <div class="roi-shell roi-footer-grid">
+      <div><a class="roi-brand" href="/">Solar<span>EX</span></a><p class="mini">PV glass surface engineering for commercial solar assets.</p></div>
+      <div><h3>Products</h3><a href="/quartz/">Quartz SiO₂</a><a href="/titan/">Titan TiO₂</a><a href="/technology/">Technology</a></div>
+      <div><h3>Markets</h3><a href="/markets/europe/">Europe</a><a href="/markets/middle-east/">Middle East</a><a href="/markets/nordics/">Nordics</a></div>
+      <div><h3>Evidence</h3><a href="/case-studies/">Case Studies</a><a href="/documentation/">Documentation</a><a href="/faq/">FAQ</a></div>
+      <div><h3>Conversion</h3><a href="/technical-review/">Technical Review</a><a href="/roi-calculator/">ROI Calculator</a><a href="/partners/">Partners</a></div>
+    </div>
+  </footer>
+  <script src="/assets/js/roi-calculator.js"></script>
+</body>
+</html>
