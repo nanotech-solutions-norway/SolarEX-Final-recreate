@@ -5,10 +5,19 @@ const MIDDLE_EAST = new Set(['Saudi Arabia','United Arab Emirates','UAE','Qatar'
 const COUNTRY_TO_CURRENCY = {Norway:'NOK',Sweden:'SEK',Denmark:'DKK',Iceland:'ISK','United Kingdom':'GBP',Switzerland:'CHF',Poland:'PLN',Czechia:'CZK','Czech Republic':'CZK',Hungary:'HUF',Romania:'RON',Bulgaria:'BGN','Saudi Arabia':'SAR','United Arab Emirates':'AED',UAE:'AED',Qatar:'QAR',Bahrain:'BHD',Kuwait:'KWD',Oman:'OMR',Jordan:'JOD',Israel:'ILS',Egypt:'EGP'};
 const CCA2_TO_CURRENCY = {NO:'NOK',SE:'SEK',DK:'DKK',IS:'ISK',GB:'GBP',CH:'CHF',PL:'PLN',CZ:'CZK',HU:'HUF',RO:'RON',BG:'BGN',SA:'SAR',AE:'AED',QA:'QAR',BH:'BHD',KW:'KWD',OM:'OMR',JO:'JOD',IL:'ILS',EG:'EGP'};
 const NORD_POOL_ZONES = {Norway:'NO1',Sweden:'SE3',Finland:'FI',Denmark:'DK1',Estonia:'EE',Latvia:'LV',Lithuania:'LT'};
+const CELL_TECH = {
+  poly: { label:'Polycrystalline c-Si', wpm2:195, life:25, note:'Legacy installed-base crystalline silicon. Typical mass-production efficiency is lower than modern mono/TOPCon; default specific power is 195 W/m².' },
+  mono: { label:'Monocrystalline c-Si', wpm2:215, life:30, note:'Mainstream bankable PV platform. Default specific power reflects typical 20–22% module-level efficiency.' },
+  perc: { label:'PERC', wpm2:210, life:28, note:'Mature but declining p-type crystalline silicon architecture with rear passivation. Default specific power is 210 W/m².' },
+  topcon: { label:'TOPCon', wpm2:227, life:30, note:'Current high-efficiency n-type silicon reference. Default specific power uses a 22.7% crystalline-silicon module-efficiency proxy.' },
+  thinfilm: { label:'Thin-film', wpm2:180, life:25, note:'Specialized CdTe/CIGS-type pathway. Default specific power is conservative because thin-film subtypes vary by supplier and module format.' },
+  perovskite: { label:'Perovskites / tandem pilot', wpm2:240, life:20, note:'Emerging/pilot technology with high tandem potential but unresolved bankability and durability. Default specific power is a pilot scenario, not a procurement baseline.' }
+};
 let currentCurrency = { code:'EUR', rate:1, source:'EUR base', date:'' };
+let monetaryInputCurrency = 'EUR';
 
 function inferRegion(countryName) { if (MIDDLE_EAST.has(countryName)) return 'ME'; if (EUROPE.has(countryName)) return 'EU'; return 'ROW'; }
-function defaultLifeYears(cellType) { if (cellType === 'mono') return 30; if (cellType === 'poly') return 25; return 20; }
+function defaultLifeYears(cellType) { return CELL_TECH[cellType]?.life || 25; }
 function yearsBetween(d1, d2) { return (d2 - d1) / (1000 * 60 * 60 * 24 * 365.25); }
 function toM2(area, unit) { return unit === 'ft2' ? area * 0.09290304 : area; }
 function format(n, digits = 2) { if (Number.isNaN(n) || !Number.isFinite(n)) return '—'; return Number(n).toLocaleString('en-GB', { maximumFractionDigits: digits, minimumFractionDigits: digits }); }
@@ -17,6 +26,39 @@ function selectedCountryCode() { const option = $('country')?.selectedOptions?.[
 function currencyForCountry(countryName) { return COUNTRY_TO_CURRENCY[countryName] || CCA2_TO_CURRENCY[selectedCountryCode()] || 'EUR'; }
 function setStatus(text, type='neutral') { const el = $('dataStatus'); if (!el) return; el.textContent = text; el.style.color = type === 'ok' ? 'var(--roi-green)' : type === 'warn' ? 'var(--roi-gold)' : type === 'error' ? 'var(--roi-danger)' : 'var(--roi-muted)'; }
 function setSource(text) { const el = $('sourceBadge'); if (el) el.textContent = text; }
+function toEUR(valueLocal) { const rate = currentCurrency?.rate || 1; return monetaryInputCurrency === 'EUR' ? valueLocal : valueLocal / rate; }
+function fromEUR(valueEUR) { const rate = currentCurrency?.rate || 1; return monetaryInputCurrency === 'EUR' ? valueEUR : valueEUR * rate; }
+function syncCurrencyLabels() {
+  const c = currentCurrency?.code || 'EUR';
+  monetaryInputCurrency = c;
+  const priceLabel = $('priceCurrencyLabel');
+  const coatLabel = $('coatPriceCurrencyLabel');
+  if (priceLabel) priceLabel.textContent = `${c}/kWh`;
+  if (coatLabel) coatLabel.textContent = `${c}/m²`;
+}
+function convertMoneyInputsToCurrency(nextCurrency) {
+  const oldRate = currentCurrency?.rate || 1;
+  const oldCurrency = monetaryInputCurrency || 'EUR';
+  const nextRate = nextCurrency?.rate || 1;
+  const moneyIds = ['price','coatPrice'];
+  moneyIds.forEach((id) => {
+    const input = $(id);
+    if (!input) return;
+    const raw = parseFloat(input.value || '');
+    if (!Number.isFinite(raw)) return;
+    const eurValue = oldCurrency === 'EUR' ? raw : raw / oldRate;
+    const nextValue = nextCurrency.code === 'EUR' ? eurValue : eurValue * nextRate;
+    input.value = id === 'price' ? nextValue.toFixed(4) : nextValue.toFixed(2);
+  });
+  currentCurrency = nextCurrency;
+  syncCurrencyLabels();
+}
+function applyCellDefaults(force = true) {
+  const tech = CELL_TECH[$('cellType')?.value] || CELL_TECH.poly;
+  if (force && $('wPerM2')) $('wPerM2').value = String(tech.wpm2);
+  if ($('cellTypeNote')) $('cellTypeNote').textContent = tech.note;
+  if ($('wPerM2Note')) $('wPerM2Note').textContent = `Auto-set from ${tech.label}: ${tech.wpm2} W/m². Edit only when module datasheet values are available.`;
+}
 
 async function fetchExchangeRate(currency) {
   if (!currency || currency === 'EUR') return { code:'EUR', rate:1, source:'EUR base currency', date:new Date().toISOString().slice(0,10) };
@@ -37,11 +79,23 @@ async function fetchExchangeRate(currency) {
 
 async function updateCurrencyForCountry(countryName) {
   const currency = currencyForCountry(countryName);
-  currentCurrency = await fetchExchangeRate(currency);
+  const nextCurrency = await fetchExchangeRate(currency);
+  if (!nextCurrency.rate) {
+    currentCurrency = nextCurrency;
+    syncCurrencyLabels();
+  } else {
+    convertMoneyInputsToCurrency(nextCurrency);
+  }
   updateCurrencyPanel(null, null, null);
   return currentCurrency;
 }
 
+function localAndEur(valueEUR, digits = 2) {
+  const c = currentCurrency?.code || 'EUR';
+  const rate = currentCurrency?.rate || 1;
+  if (c === 'EUR') return money(valueEUR, 'EUR', digits);
+  return `${money(valueEUR * rate, c, digits)} / ${money(valueEUR, 'EUR', digits)}`;
+}
 function updateCurrencyPanel(annualGainEUR, netEUR, priceEUR) {
   const c = currentCurrency?.code || 'EUR';
   const rate = currentCurrency?.rate;
@@ -52,15 +106,15 @@ function updateCurrencyPanel(annualGainEUR, netEUR, priceEUR) {
   if (!currencyOut || !exchangeOut) return;
   if (!rate) {
     currencyOut.textContent = `${c} conversion unavailable`;
-    exchangeOut.textContent = 'Euro values are shown. Live exchange-rate lookup failed.';
+    exchangeOut.textContent = 'Euro reference values are shown. Live exchange-rate lookup failed.';
     if (annualLocal) annualLocal.textContent = 'local conversion unavailable';
     if (netLocal) netLocal.textContent = 'local conversion unavailable';
     return;
   }
   currencyOut.textContent = c === 'EUR' ? 'Local currency: EUR' : `Local currency: ${c}`;
-  exchangeOut.textContent = c === 'EUR' ? 'Exchange rate used: 1 EUR = 1 EUR' : `Exchange rate used: 1 EUR = ${format(rate,4)} ${c}${currentCurrency.date ? ' · ' + currentCurrency.date : ''}`;
-  if (Number.isFinite(annualGainEUR) && annualLocal) annualLocal.textContent = c === 'EUR' ? '€/year' : `${money(annualGainEUR,'EUR',2)} / ${money(annualGainEUR * rate,c,2)} per year`;
-  if (Number.isFinite(netEUR) && netLocal) netLocal.textContent = c === 'EUR' ? money(netEUR,'EUR',2) : `${money(netEUR,'EUR',2)} / ${money(netEUR * rate,c,2)}`;
+  exchangeOut.textContent = c === 'EUR' ? 'Local currency rate: 1 EUR = 1 EUR' : `Local currency rate: 1 ${c} = ${format(1 / rate, 4)} EUR · 1 EUR = ${format(rate, 4)} ${c}${currentCurrency.date ? ' · ' + currentCurrency.date : ''}`;
+  if (Number.isFinite(annualGainEUR) && annualLocal) annualLocal.textContent = c === 'EUR' ? '€/year' : `${money(annualGainEUR * rate,c,2)} / ${money(annualGainEUR,'EUR',2)} per year`;
+  if (Number.isFinite(netEUR) && netLocal) netLocal.textContent = localAndEur(netEUR, 2);
 }
 
 async function loadCountries() {
@@ -184,7 +238,11 @@ async function handleFetchPrice() {
   const countryName = $('country').value || '';
   $('price').value = '…';
   setStatus('Fetching price…');
-  try { const p = await fetchNordPoolAvgPrice(countryName); $('price').value = p.toFixed(4); setStatus('Price ready','ok'); }
+  try {
+    const pEUR = await fetchNordPoolAvgPrice(countryName);
+    $('price').value = fromEUR(pEUR).toFixed(4);
+    setStatus('Price ready','ok');
+  }
   catch(e) { $('price').value = ''; setStatus('Manual price needed','warn'); alert(e.message); }
 }
 
@@ -201,16 +259,19 @@ function computeROI() {
   const countryName = $('country').value || '';
   const area = parseFloat($('area').value || '0');
   const m2 = toM2(area, $('areaUnit').value);
-  const wpm2 = parseFloat($('wPerM2').value || '90');
+  const wpm2 = parseFloat($('wPerM2').value || '195');
   const sun = parseFloat($('sunHours').value || '0');
-  const price = parseFloat($('price').value || '0');
+  const priceLocal = parseFloat($('price').value || '0');
+  const price = toEUR(priceLocal);
   const coating = $('coating').value;
   const gainPctInput = $('gainPct').value ? parseFloat($('gainPct').value) : null;
-  const coatPrice = parseFloat($('coatPrice').value || '0');
+  const coatPriceLocal = parseFloat($('coatPrice').value || '0');
+  const coatPrice = toEUR(coatPriceLocal);
   const coatLifeInput = $('coatLife').value ? parseFloat($('coatLife').value) : null;
   const installed = $('installedDate').value ? new Date($('installedDate').value) : null;
   const cellType = $('cellType').value;
   const consumption = parseFloat($('consumption').value || '0');
+  const tech = CELL_TECH[cellType] || CELL_TECH.poly;
 
   const regionDefaults = recommendedDefaults(countryName, coating);
   const gainPct = gainPctInput != null ? gainPctInput : (regionDefaults.gain || 0);
@@ -227,44 +288,48 @@ function computeROI() {
   const analysisHorizon = Math.max(1, Math.min(remainingLife || nominalLife, coatLife || nominalLife));
   const totalGainEUR = annualGainEUR * analysisHorizon;
   const netEUR = totalGainEUR - coatCapex;
-  const rate = currentCurrency?.rate;
   const c = currentCurrency?.code || 'EUR';
 
   $('baselineKwh').textContent = format(baselineKwh, 0);
   $('withCoatingKwh').textContent = format(withCoatingKwh, 0);
-  $('annualGain').textContent = money(annualGainEUR, 'EUR', 2);
+  $('annualGain').textContent = localAndEur(annualGainEUR, 2);
   $('payback').textContent = Number.isFinite(paybackDays) ? format(paybackDays, 0) : '—';
-  $('netValueOut').textContent = money(netEUR, 'EUR', 2);
+  $('netValueOut').textContent = localAndEur(netEUR, 2);
   updateCurrencyPanel(annualGainEUR, netEUR, price);
   setSource($('useOnlineSun').checked ? 'Open-Meteo sunshine estimate' : 'Manual sunlight input');
 
   const tbody = $('detailTable').querySelector('tbody');
   tbody.innerHTML = '';
+  pushDetail('Cell technology', `${tech.label} (${format(wpm2,0)} W/m²)`, tbody);
   pushDetail('Area (m²)', format(m2, 2), tbody);
   pushDetail('Sunlight hours / year', format(sun, 0), tbody);
-  pushDetail('Panel specific power (W/m²)', format(wpm2, 0), tbody);
-  pushDetail('Electricity price (€/kWh)', `${format(price, 4)}${rate && c !== 'EUR' ? ` / ${money(price * rate, c, 4)}` : ''}`, tbody);
+  pushDetail('Electricity price', `${money(priceLocal, c, 4)} / ${money(price, 'EUR', 4)} per kWh`, tbody);
   pushDetail('Coating', coating === 'none' ? 'None' : (coating === 'sio2' ? 'SolarEX Quartz SiO₂' : 'SolarEX Titan TiO₂'), tbody);
   if (coating !== 'none') {
     pushDetail('Expected gain (%)', format(gainPct, 2), tbody);
     pushDetail('Annual kWh gain', format(annualGainKwh, 0), tbody);
-    pushDetail('Annual gain', `${money(annualGainEUR,'EUR',2)}${rate && c !== 'EUR' ? ` / ${money(annualGainEUR * rate,c,2)}` : ''}`, tbody);
-    pushDetail('Coating CAPEX', `${money(coatCapex,'EUR',2)}${rate && c !== 'EUR' ? ` / ${money(coatCapex * rate,c,2)}` : ''}`, tbody);
+    pushDetail('Annual gain', localAndEur(annualGainEUR, 2), tbody);
+    pushDetail('Coating CAPEX', localAndEur(coatCapex, 2), tbody);
     pushDetail('Coating service life (y)', format(coatLife, 1), tbody);
     pushDetail('Panel remaining life (y)', format(remainingLife || nominalLife, 1), tbody);
     pushDetail('Analysis horizon (y)', format(analysisHorizon, 1), tbody);
-    pushDetail('Cumulative gain over horizon', `${money(totalGainEUR,'EUR',2)}${rate && c !== 'EUR' ? ` / ${money(totalGainEUR * rate,c,2)}` : ''}`, tbody);
-    pushDetail('Net gain minus CAPEX', `${money(netEUR,'EUR',2)}${rate && c !== 'EUR' ? ` / ${money(netEUR * rate,c,2)}` : ''}`, tbody);
+    pushDetail('Cumulative gain over horizon', localAndEur(totalGainEUR, 2), tbody);
+    pushDetail('Net gain minus CAPEX', localAndEur(netEUR, 2), tbody);
   }
   if (consumption > 0) pushDetail('Baseline coverage of annual consumption', format((baselineKwh / consumption) * 100, 1) + '%', tbody);
   const notes = $('notes');
-  if (notes) notes.innerHTML = '• Baseline method: kWh = Area × (W/m² ÷ 1000) × Sunlight hours/year.<br>• Quartz SiO₂ defaults: Europe 10% gain and 5y life; Middle East 2% gain and 3y life.<br>• Outputs are screening scenarios and should be reviewed against project conditions before procurement decisions.';
+  if (notes) notes.innerHTML = '• Baseline method: kWh = Area × (W/m² ÷ 1000) × Sunlight hours/year.<br>• Quartz SiO₂ defaults: Europe 10% gain and 5y life; Middle East 2% gain and 3y life.<br>• Cell-technology defaults are scenario proxies from the Solar Cell Technology Report and should be replaced by module datasheet values where available.<br>• Outputs are screening scenarios and should be reviewed against project conditions before procurement decisions.';
   setStatus('Complete','ok');
 }
 
 window.addEventListener('DOMContentLoaded', async () => {
   await loadCountries();
   $('sunYear').value = new Date().getFullYear() - 1;
+  $('cellType').value = 'poly';
+  applyCellDefaults(true);
+  $('cellType').addEventListener('change', () => applyCellDefaults(true));
+  syncCurrencyLabels();
+  updateCurrencyPanel(null, null, null);
   $('geocodeBtn').addEventListener('click', geocodeAddress);
   $('locateBtn').addEventListener('click', locateMe);
   $('useOnlineSun').addEventListener('change', handleEstimateSun);
