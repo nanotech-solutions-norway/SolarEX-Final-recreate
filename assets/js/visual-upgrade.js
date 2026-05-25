@@ -121,15 +121,49 @@
               <p>Best suited where UV, rain and contamination profile support the mechanism.</p>
             </div>
           </article>
-          <article class="chart-card pathway-driver-card visual-reveal has-action-card has-modal-action" tabindex="0" role="button" aria-label="Open SolarEX pathway suitability graph">
+          <article class="chart-card pathway-driver-card visual-reveal has-action-card has-modal-action" tabindex="0" role="button" aria-label="Open SolarEX route-selection comparison graph">
             <h3>Route-selection driver relevance</h3>
-            <p class="mini">Bars are qualitative route-selection scores. They do not represent guaranteed coating-performance claims.</p>
-            <div class="chart-scale"><span>Low</span><span>Medium</span><span>High</span></div>
-            <div class="chart-row"><span>Soiling adhesion relevance</span><i class="chart-track"><b class="chart-bar" style="--bar-width:${page === 'titan' ? '58%' : '72%'}"></b></i></div>
-            <div class="chart-row"><span>UV activation relevance</span><i class="chart-track"><b class="chart-bar" style="--bar-width:${page === 'quartz' ? '8%' : page === 'titan' ? '86%' : '52%'}"></b></i></div>
-            <div class="chart-row"><span>Pilot validation relevance</span><i class="chart-track"><b class="chart-bar" style="--bar-width:76%"></b></i></div>
-            <div class="chart-row"><span>Rain / rinse relevance</span><i class="chart-track"><b class="chart-bar" style="--bar-width:${page === 'titan' ? '82%' : '64%'}"></b></i></div>
-            <div class="chart-row"><span>Organic fouling relevance</span><i class="chart-track"><b class="chart-bar" style="--bar-width:${page === 'titan' ? '86%' : '42%'}"></b></i></div>
+            <p class="mini">This compares how strongly each factor supports the Quartz SiO₂ route or the Titan TiO₂ route in SolarEX product selection. Longer bars mean stronger route-selection relevance. They do not represent energy-yield gain, ROI, cleaning reduction or lifetime performance.</p>
+            <div class="driver-legend" aria-label="Product legend">
+              <span class="legend-quartz">Quartz SiO₂</span>
+              <span class="legend-titan">Titan TiO₂</span>
+            </div>
+            <div class="chart-scale" aria-hidden="true"><span>Low</span><span>Medium</span><span>High</span></div>
+            <div class="comparison-row" style="--quartz-width:82%;--titan-width:58%">
+              <span class="driver-label">Soiling adhesion / mineral fouling</span>
+              <div class="comparison-bars">
+                <div class="comparison-bar-line"><span class="product-label">Quartz</span><i class="chart-track"><b class="chart-bar quartz-bar"></b></i></div>
+                <div class="comparison-bar-line"><span class="product-label">Titan</span><i class="chart-track"><b class="chart-bar titan-bar"></b></i></div>
+              </div>
+            </div>
+            <div class="comparison-row" style="--quartz-width:8%;--titan-width:88%">
+              <span class="driver-label">UV activation dependency</span>
+              <div class="comparison-bars">
+                <div class="comparison-bar-line"><span class="product-label">Quartz</span><i class="chart-track"><b class="chart-bar quartz-bar"></b></i></div>
+                <div class="comparison-bar-line"><span class="product-label">Titan</span><i class="chart-track"><b class="chart-bar titan-bar"></b></i></div>
+              </div>
+            </div>
+            <div class="comparison-row" style="--quartz-width:76%;--titan-width:76%">
+              <span class="driver-label">Pilot validation relevance</span>
+              <div class="comparison-bars">
+                <div class="comparison-bar-line"><span class="product-label">Quartz</span><i class="chart-track"><b class="chart-bar quartz-bar"></b></i></div>
+                <div class="comparison-bar-line"><span class="product-label">Titan</span><i class="chart-track"><b class="chart-bar titan-bar"></b></i></div>
+              </div>
+            </div>
+            <div class="comparison-row" style="--quartz-width:62%;--titan-width:84%">
+              <span class="driver-label">Rain / rinse behavior</span>
+              <div class="comparison-bars">
+                <div class="comparison-bar-line"><span class="product-label">Quartz</span><i class="chart-track"><b class="chart-bar quartz-bar"></b></i></div>
+                <div class="comparison-bar-line"><span class="product-label">Titan</span><i class="chart-track"><b class="chart-bar titan-bar"></b></i></div>
+              </div>
+            </div>
+            <div class="comparison-row" style="--quartz-width:42%;--titan-width:88%">
+              <span class="driver-label">Organic / biological fouling fit</span>
+              <div class="comparison-bars">
+                <div class="comparison-bar-line"><span class="product-label">Quartz</span><i class="chart-track"><b class="chart-bar quartz-bar"></b></i></div>
+                <div class="comparison-bar-line"><span class="product-label">Titan</span><i class="chart-track"><b class="chart-bar titan-bar"></b></i></div>
+              </div>
+            </div>
           </article>
         </div>
       </div>`;
