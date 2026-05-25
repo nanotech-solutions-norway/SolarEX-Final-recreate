@@ -143,13 +143,6 @@
                 <div class="comparison-bar-line"><span class="product-label">Titan</span><i class="chart-track"><b class="chart-bar titan-bar"></b></i></div>
               </div>
             </div>
-            <div class="comparison-row" style="--quartz-width:76%;--titan-width:76%">
-              <span class="driver-label">Pilot validation relevance</span>
-              <div class="comparison-bars">
-                <div class="comparison-bar-line"><span class="product-label">Quartz</span><i class="chart-track"><b class="chart-bar quartz-bar"></b></i></div>
-                <div class="comparison-bar-line"><span class="product-label">Titan</span><i class="chart-track"><b class="chart-bar titan-bar"></b></i></div>
-              </div>
-            </div>
             <div class="comparison-row" style="--quartz-width:62%;--titan-width:84%">
               <span class="driver-label">Rain / rinse behavior</span>
               <div class="comparison-bars">
