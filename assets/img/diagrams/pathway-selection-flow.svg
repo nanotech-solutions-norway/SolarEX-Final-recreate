@@ -1,1 +1,93 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc"><title id="title">SolarEX pathway selection flow</title><desc id="desc">Decision flow comparing passive Quartz SiO₂ and active Titan TiO₂ pathways for photovoltaic glass.</desc><defs><linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#10141a"/><stop offset="1" stop-color="#202733"/></linearGradient><linearGradient id="blue" x1="0" x2="1"><stop stop-color="#66a8ee"/><stop offset="1" stop-color="#204c8e"/></linearGradient><linearGradient id="green" x1="0" x2="1"><stop stop-color="#5cc97b"/><stop offset="1" stop-color="#1d8050"/></linearGradient></defs><rect width="1200" height="720" rx="28" fill="url(#bg)"/><g fill="none" stroke="rgba(214,229,239,.16)"><path d="M80 130h1040M80 590h1040M180 70v580M1020 70v580"/><path d="M120 440c220-70 420-70 640 0s300 50 340 0"/></g><text x="80" y="90" fill="#d6e5ef" font-family="Georgia" font-size="42">SolarEX route selection</text><text x="80" y="130" fill="#a8bdcb" font-family="Georgia" font-size="21">Select by UV availability, contamination profile, cleaning burden and pilot objective.</text><g transform="translate(80 190)"><rect width="270" height="132" rx="18" fill="rgba(214,229,239,.06)" stroke="rgba(214,229,239,.18)"/><text x="24" y="42" fill="#fff" font-family="Georgia" font-size="28">Site profile</text><text x="24" y="78" fill="#a8bdcb" font-family="Georgia" font-size="17">UV / climate</text><text x="24" y="105" fill="#a8bdcb" font-family="Georgia" font-size="17">Soiling / O&amp;M model</text></g><path d="M370 255h92" stroke="#66a8ee" stroke-width="5" marker-end="url(#m)"/><defs><marker id="m" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0 0L8 3L0 6z" fill="#66a8ee"/></marker></defs><g transform="translate(480 145)"><rect width="285" height="170" rx="18" fill="rgba(102,168,238,.12)" stroke="rgba(102,168,238,.45)"/><text x="24" y="42" fill="#fff" font-family="Georgia" font-size="28">Quartz SiO₂</text><text x="24" y="80" fill="#d6e5ef" font-family="Georgia" font-size="18">Passive architecture</text><text x="24" y="110" fill="#a8bdcb" font-family="Georgia" font-size="16">UV-independent</text><text x="24" y="138" fill="#a8bdcb" font-family="Georgia" font-size="16">Dust / mineral soiling</text></g><g transform="translate(480 365)"><rect width="285" height="170" rx="18" fill="rgba(92,201,123,.11)" stroke="rgba(92,201,123,.45)"/><text x="24" y="42" fill="#fff" font-family="Georgia" font-size="28">Titan TiO₂</text><text x="24" y="80" fill="#d6e5ef" font-family="Georgia" font-size="18">Active photocatalysis</text><text x="24" y="110" fill="#a8bdcb" font-family="Georgia" font-size="16">UV-dependent</text><text x="24" y="138" fill="#a8bdcb" font-family="Georgia" font-size="16">Organic / biological fouling</text></g><g transform="translate(845 255)"><rect width="275" height="156" rx="18" fill="rgba(214,229,239,.06)" stroke="rgba(255,210,26,.35)"/><text x="24" y="44" fill="#fff" font-family="Georgia" font-size="28">Pilot evidence</text><text x="24" y="82" fill="#a8bdcb" font-family="Georgia" font-size="16">Matched control</text><text x="24" y="110" fill="#a8bdcb" font-family="Georgia" font-size="16">Cleaning log</text><text x="24" y="138" fill="#a8bdcb" font-family="Georgia" font-size="16">Commercial review</text></g><path d="M765 230c36 0 46 104 78 104" stroke="url(#blue)" stroke-width="5" fill="none"/><path d="M765 450c36 0 46-116 78-116" stroke="url(#green)" stroke-width="5" fill="none"/><circle cx="1010" cy="110" r="32" fill="#ffd21a" opacity=".9"/><g opacity=".85"><rect x="105" y="500" width="210" height="70" rx="12" fill="url(#blue)"/><rect x="105" y="588" width="142" height="16" rx="8" fill="#66a8ee"/><rect x="105" y="612" width="188" height="16" rx="8" fill="#5cc97b"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">SolarEX pathway selection flow and route-assessment summary</title>
+  <desc id="desc">Decision flow comparing passive Quartz SiO₂ and active Titan TiO₂ pathways for photovoltaic glass. The embedded assessment bars are qualitative route-selection relevance indicators, not performance or ROI claims.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#10141a"/><stop offset="1" stop-color="#202733"/></linearGradient>
+    <linearGradient id="blue" x1="0" x2="1"><stop stop-color="#66a8ee"/><stop offset="1" stop-color="#204c8e"/></linearGradient>
+    <linearGradient id="green" x1="0" x2="1"><stop stop-color="#5cc97b"/><stop offset="1" stop-color="#1d8050"/></linearGradient>
+    <linearGradient id="gold" x1="0" x2="1"><stop stop-color="#ffd21a"/><stop offset="1" stop-color="#d99b22"/></linearGradient>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0 0L8 3L0 6z" fill="#66a8ee"/></marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0 0L8 3L0 6z" fill="#5cc97b"/></marker>
+  </defs>
+
+  <rect width="1200" height="720" rx="28" fill="url(#bg)"/>
+  <g fill="none" stroke="rgba(214,229,239,.16)">
+    <path d="M80 130h1040M80 598h1040M180 70v560M1020 70v560"/>
+    <path d="M120 438c220-70 420-70 640 0s300 50 340 0"/>
+  </g>
+
+  <text x="80" y="86" fill="#d6e5ef" font-family="Georgia" font-size="42">SolarEX route selection</text>
+  <text x="80" y="126" fill="#a8bdcb" font-family="Georgia" font-size="20">Select by UV availability, contamination profile, cleaning burden and validation objective.</text>
+
+  <g transform="translate(80 180)">
+    <rect width="270" height="132" rx="18" fill="rgba(214,229,239,.06)" stroke="rgba(214,229,239,.18)"/>
+    <text x="24" y="42" fill="#fff" font-family="Georgia" font-size="28">Site profile</text>
+    <text x="24" y="78" fill="#a8bdcb" font-family="Georgia" font-size="17">UV / climate</text>
+    <text x="24" y="105" fill="#a8bdcb" font-family="Georgia" font-size="17">Soiling / O&amp;M model</text>
+  </g>
+
+  <path d="M370 245h92" stroke="#66a8ee" stroke-width="5" marker-end="url(#arrowBlue)"/>
+
+  <g transform="translate(480 135)">
+    <rect width="285" height="170" rx="18" fill="rgba(102,168,238,.12)" stroke="rgba(102,168,238,.45)"/>
+    <text x="24" y="42" fill="#fff" font-family="Georgia" font-size="28">Quartz SiO₂</text>
+    <text x="24" y="80" fill="#d6e5ef" font-family="Georgia" font-size="18">Passive architecture</text>
+    <text x="24" y="110" fill="#a8bdcb" font-family="Georgia" font-size="16">UV-independent</text>
+    <text x="24" y="138" fill="#a8bdcb" font-family="Georgia" font-size="16">Dust / mineral soiling</text>
+  </g>
+
+  <g transform="translate(480 355)">
+    <rect width="285" height="170" rx="18" fill="rgba(92,201,123,.11)" stroke="rgba(92,201,123,.45)"/>
+    <text x="24" y="42" fill="#fff" font-family="Georgia" font-size="28">Titan TiO₂</text>
+    <text x="24" y="80" fill="#d6e5ef" font-family="Georgia" font-size="18">Active photocatalysis</text>
+    <text x="24" y="110" fill="#a8bdcb" font-family="Georgia" font-size="16">UV-dependent</text>
+    <text x="24" y="138" fill="#a8bdcb" font-family="Georgia" font-size="16">Organic / biological fouling</text>
+  </g>
+
+  <g transform="translate(845 245)">
+    <rect width="275" height="156" rx="18" fill="rgba(214,229,239,.06)" stroke="rgba(255,210,26,.35)"/>
+    <text x="24" y="44" fill="#fff" font-family="Georgia" font-size="28">Evidence gate</text>
+    <text x="24" y="82" fill="#a8bdcb" font-family="Georgia" font-size="16">Matched control</text>
+    <text x="24" y="110" fill="#a8bdcb" font-family="Georgia" font-size="16">Cleaning log</text>
+    <text x="24" y="138" fill="#a8bdcb" font-family="Georgia" font-size="16">Commercial review</text>
+  </g>
+
+  <path d="M765 220c36 0 46 104 78 104" stroke="url(#blue)" stroke-width="5" fill="none" marker-end="url(#arrowBlue)"/>
+  <path d="M765 440c36 0 46-116 78-116" stroke="url(#green)" stroke-width="5" fill="none" marker-end="url(#arrowGreen)"/>
+  <circle cx="1010" cy="108" r="32" fill="#ffd21a" opacity=".9"/>
+
+  <g transform="translate(80 548)">
+    <rect width="1040" height="126" rx="18" fill="rgba(214,229,239,.055)" stroke="rgba(214,229,239,.18)"/>
+    <text x="22" y="34" fill="#fff" font-family="Georgia" font-size="22">Qualitative route-assessment summary</text>
+    <text x="22" y="58" fill="#a8bdcb" font-family="Georgia" font-size="13">Bars show route-selection relevance only. They do not represent yield uplift, ROI, cleaning reduction or lifetime performance.</text>
+
+    <text x="22" y="86" fill="#d6e5ef" font-family="Georgia" font-size="14">Mineral / dust adhesion</text>
+    <rect x="210" y="74" width="180" height="11" rx="6" fill="rgba(214,229,239,.14)"/>
+    <rect x="210" y="74" width="158" height="11" rx="6" fill="url(#blue)"/>
+    <rect x="410" y="74" width="180" height="11" rx="6" fill="rgba(214,229,239,.14)"/>
+    <rect x="410" y="74" width="65" height="11" rx="6" fill="url(#green)"/>
+
+    <text x="22" y="112" fill="#d6e5ef" font-family="Georgia" font-size="14">UV activation dependency</text>
+    <rect x="210" y="100" width="180" height="11" rx="6" fill="rgba(214,229,239,.14)"/>
+    <rect x="210" y="100" width="9" height="11" rx="6" fill="url(#blue)"/>
+    <rect x="410" y="100" width="180" height="11" rx="6" fill="rgba(214,229,239,.14)"/>
+    <rect x="410" y="100" width="166" height="11" rx="6" fill="url(#green)"/>
+
+    <text x="640" y="86" fill="#d6e5ef" font-family="Georgia" font-size="14">Organic / biological fit</text>
+    <rect x="815" y="74" width="180" height="11" rx="6" fill="rgba(214,229,239,.14)"/>
+    <rect x="815" y="74" width="43" height="11" rx="6" fill="url(#blue)"/>
+    <rect x="1015" y="74" width="180" height="11" rx="6" fill="rgba(214,229,239,.14)" transform="translate(-175 0)"/>
+    <rect x="840" y="74" width="162" height="11" rx="6" fill="url(#green)"/>
+
+    <text x="640" y="112" fill="#d6e5ef" font-family="Georgia" font-size="14">Rain / rinse behavior</text>
+    <rect x="815" y="100" width="180" height="11" rx="6" fill="rgba(214,229,239,.14)"/>
+    <rect x="815" y="100" width="122" height="11" rx="6" fill="url(#blue)"/>
+    <rect x="1015" y="100" width="180" height="11" rx="6" fill="rgba(214,229,239,.14)" transform="translate(-175 0)"/>
+    <rect x="840" y="100" width="140" height="11" rx="6" fill="url(#green)"/>
+
+    <text x="210" y="125" fill="#66a8ee" font-family="Georgia" font-size="12">Quartz SiO₂</text>
+    <text x="410" y="125" fill="#5cc97b" font-family="Georgia" font-size="12">Titan TiO₂</text>
+    <text x="815" y="125" fill="#66a8ee" font-family="Georgia" font-size="12">Quartz SiO₂</text>
+    <text x="900" y="125" fill="#5cc97b" font-family="Georgia" font-size="12">Titan TiO₂</text>
+  </g>
+</svg>
