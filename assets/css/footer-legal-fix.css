@@ -1,0 +1,16 @@
+/* SolarEX footer legal cleanup — center copyright and remove procurement-claim sentence. */
+.strategy-footer .footer-legal-row,
+.footer-legal-row.footer-legal-centered{
+  justify-content:center!important;
+  text-align:center!important;
+  gap:0!important;
+}
+.strategy-footer .footer-legal-row span,
+.footer-legal-row.footer-legal-centered span{
+  width:100%!important;
+  text-align:center!important;
+}
+.strategy-footer .footer-legal-row span:not(:first-child),
+.footer-legal-row.footer-legal-centered span:not(:first-child){
+  display:none!important;
+}
