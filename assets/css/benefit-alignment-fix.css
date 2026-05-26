@@ -1,0 +1,33 @@
+/* SolarEX benefit-card alignment pass — keeps Quartz and Titan checklist boxes visually aligned. */
+.pathway-benefit-layout .workflow-card{
+  display:flex!important;
+  flex-direction:column!important;
+}
+.pathway-benefit-layout .visual-checklist.aligned-benefit-list,
+.pathway-benefit-layout .visual-checklist{
+  display:grid!important;
+  grid-template-rows:repeat(3,minmax(78px,auto))!important;
+  gap:10px!important;
+  height:100%!important;
+}
+.pathway-benefit-layout .visual-checklist.aligned-benefit-list p,
+.pathway-benefit-layout .visual-checklist p{
+  display:flex!important;
+  align-items:center!important;
+  min-height:78px!important;
+  line-height:1.42!important;
+}
+.pathway-benefit-layout .quartz-benefits-card,
+.pathway-benefit-layout .titan-benefits-card{
+  height:100%!important;
+}
+@media(max-width:980px){
+  .pathway-benefit-layout .visual-checklist.aligned-benefit-list,
+  .pathway-benefit-layout .visual-checklist{
+    grid-template-rows:auto!important;
+  }
+  .pathway-benefit-layout .visual-checklist.aligned-benefit-list p,
+  .pathway-benefit-layout .visual-checklist p{
+    min-height:auto!important;
+  }
+}
