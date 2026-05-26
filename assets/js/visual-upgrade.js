@@ -108,9 +108,9 @@
           <article class="workflow-card visual-reveal quartz-benefits-card">
             <h3>SiO₂ Quartz benefits</h3>
             <div class="visual-checklist aligned-benefit-list">
-              <p>Passive surface architecture for dust and mineral soiling. Supports easier surface recovery where inorganic contamination dominates.</p>
-              <p>UV-independent route for lower-UV operating contexts. Suitable for regions where photocatalytic activation is not the primary selection driver.</p>
-              <p>Easy-clean behavior through reduced surface adhesion. Helps reduce bonding tendency before cleaning or rain-assisted recovery.</p>
+              <p>Passive surface architecture for dust and mineral soiling. Supports easier recovery.</p>
+              <p>UV-independent route for lower-UV contexts. No UV activation required.</p>
+              <p>Easy-clean behavior through reduced adhesion. Supports rain or cleaning recovery.</p>
             </div>
           </article>
           <article class="workflow-card visual-reveal titan-benefits-card">
