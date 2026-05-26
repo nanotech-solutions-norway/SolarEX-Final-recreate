@@ -1,4 +1,4 @@
-/* SolarEX production overrides — fonts, navigation, interactions, contact form consolidation, source hero imagery. */
+/* SolarEX production overrides — fonts, navigation, interactions, contact form consolidation, localized hero imagery. */
 @import url('https://fonts.googleapis.com/css2?family=Fauna+One&family=Libre+Baskerville:wght@400;700&display=swap');
 
 @font-face{font-family:'SolarEX Fauna';src:local('Fauna Medium'),local('Fauna-Medium'),url('../fonts/Fauna-Medium.ttf') format('truetype');font-weight:500;font-style:normal;font-display:swap;}
@@ -6,7 +6,7 @@
 @font-face{font-family:'SolarEX Libre Baskerville';src:local('Libre Baskerville Bold'),url('../fonts/LibreBaskerville-Bold.ttf') format('truetype');font-weight:700;font-style:normal;font-display:swap;}
 @font-face{font-family:'SolarEX Libre Baskerville';src:local('Libre Baskerville Italic'),url('../fonts/LibreBaskerville-Italic.ttf') format('truetype');font-weight:400;font-style:italic;font-display:swap;}
 
-:root{--control-radius:2px;--button-radius:5px;--hero-source-image:url('https://cdn.gamma.app/673vpq5nv1n08u4/generated-images/wy8zd-2GU49cprgvniQHw.jpg');--font-heading:'SolarEX Fauna','Fauna One',Georgia,serif;--font-body:'SolarEX Libre Baskerville','Libre Baskerville',Georgia,serif;}
+:root{--control-radius:2px;--button-radius:5px;--hero-source-image:url('../img/visual-system/solarex-hero-soiling-rinse.svg');--font-heading:'SolarEX Fauna','Fauna One',Georgia,serif;--font-body:'SolarEX Libre Baskerville','Libre Baskerville',Georgia,serif;}
 body,p,li,td,th,label,input,select,textarea,.lead,.mini,.muted,.card,.step,.form-status,.site-footer,.contact-form{font-family:var(--font-body)!important;}
 h1,h2,h3,h4,h5,h6,.kicker,.eyebrow,.site-nav a,.nav-group-toggle,.btn,button,.menu-toggle,.badge,.num{font-family:var(--font-heading)!important;font-weight:500!important;}
 
@@ -44,9 +44,10 @@ button,.btn,.menu-toggle,.site-nav a,.nav-group-toggle,.contact-form button,inpu
 .card:active,.stat:active,.step:active,.source-visual:active,.form-tab-card:active,.contact-form:active,.table-wrap:active,.form-note:active,.contact-method:active,.card.is-clicked,.stat.is-clicked,.step.is-clicked,.source-visual.is-clicked,.form-tab-card.is-clicked,.contact-form.is-clicked,.table-wrap.is-clicked,.form-note.is-clicked,.contact-method.is-clicked{transform:translateY(1px) scale(.992)!important;filter:brightness(.96)!important;border-color:rgba(92,201,123,.48)!important;}
 
 .card{display:flex;flex-direction:column;}.card > .btn{margin-top:auto!important;align-self:flex-start;}.card:has(> .btn){padding-bottom:10px!important;}.card:has(> .btn) > .btn{margin-bottom:0!important;}.card > .btn-row{margin-top:auto!important;padding-bottom:10px;}
-.hero{background-image:linear-gradient(90deg,rgba(16,20,26,.92) 0%,rgba(16,20,26,.82) 42%,rgba(16,20,26,.54) 74%,rgba(16,20,26,.62) 100%),radial-gradient(circle at 76% 18%,rgba(94,152,241,.34),transparent 32%),var(--hero-source-image)!important;background-position:center center!important;background-size:cover!important;background-repeat:no-repeat!important;}
+.hero{background-image:linear-gradient(90deg,rgba(16,20,26,.95) 0%,rgba(16,20,26,.88) 40%,rgba(16,20,26,.40) 78%,rgba(16,20,26,.58) 100%),radial-gradient(circle at 76% 18%,rgba(94,152,241,.34),transparent 32%),var(--hero-source-image)!important;background-position:center center!important;background-size:cover!important;background-repeat:no-repeat!important;}
 .hero:after{background:linear-gradient(115deg,transparent 9%,rgba(214,229,239,.05) 9.3%,transparent 9.9%),linear-gradient(160deg,transparent 22%,rgba(214,229,239,.06) 22.4%,transparent 22.9%)!important;opacity:.54!important;pointer-events:none;}.hero-inner{text-shadow:0 2px 24px rgba(0,0,0,.35);}
 .form-shell{grid-template-columns:1fr!important;}.contact-aside{display:none!important;}.contact-form{width:100%;max-width:none;}.contact-form .form-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+.visual-caption,.chart-summary{margin-top:10px;color:var(--muted);font-size:14px;line-height:1.55}.mechanism-visual img,.responsive-chart img{display:block;width:100%;height:auto;border-radius:14px;border:1px solid rgba(214,229,239,.16);background:#10141a}.visual-warning{border:1px solid rgba(255,210,26,.35);background:rgba(255,210,26,.08);border-radius:14px;padding:18px;color:#eef8ff}.selector-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.selector-card{border:1px solid rgba(214,229,239,.16);border-radius:14px;padding:18px;background:rgba(214,229,239,.045)}.selector-output{border:1px solid rgba(92,201,123,.35);background:rgba(92,201,123,.08);border-radius:14px;padding:20px;margin-top:18px}
 
 /* Desktop dropdown hover bridge: keeps dropdown selectable when moving from top menu to submenu. */
 @media(min-width:981px){
@@ -61,7 +62,8 @@ button,.btn,.menu-toggle,.site-nav a,.nav-group-toggle,.contact-form button,inpu
   .menu-toggle[aria-expanded="true"]:before{content:'×';font-size:32px;}
   .site-nav{left:30px!important;right:30px!important;top:76px!important;width:auto!important;max-height:calc(100vh - 106px);overflow:auto;padding:22px!important;padding-top:82px!important;padding-bottom:74px!important;border-radius:18px!important;background:rgba(8,12,18,.98)!important;box-shadow:0 22px 64px rgba(0,0,0,.54)!important;position:absolute!important;}
   .site-nav.is-open{display:flex!important;flex-direction:column;align-items:stretch!important;gap:12px!important;}
-  .mobile-menu-logo{display:block!important;position:absolute!important;top:18px!important;left:18px!important;right:auto!important;width:86px!important;height:48px!important;padding:0!important;background:url('https://cdn.gamma.app/673vpq5nv1n08u4/8f48942a7aed413d950c7517aaefda1b/original/SolarEX_logo_v2.6.png') center/contain no-repeat!important;font-size:0!important;border:0!important;box-shadow:none!important;}
+  .mobile-menu-logo{display:block!important;position:absolute!important;top:18px!important;left:18px!important;right:auto!important;width:86px!important;height:48px!important;padding:0!important;background:linear-gradient(135deg,#111827,#20364f)!important;font-size:0!important;border:1px solid rgba(102,168,238,.35)!important;box-shadow:none!important;}
+  .mobile-menu-logo:after{content:'SolarEX';position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:15px;font-family:var(--font-heading)!important;}
   .nav-home{display:none!important;}
   .site-nav > a:not(.mobile-menu-logo){display:flex!important;justify-content:center;align-items:center;width:100%;padding:13px 14px!important;text-align:center;background:rgba(16,20,26,.58)!important;border:1px solid rgba(214,229,239,.13)!important;}
   .nav-group{display:block!important;width:100%;}
@@ -70,6 +72,6 @@ button,.btn,.menu-toggle,.site-nav a,.nav-group-toggle,.contact-form button,inpu
   .nav-group-menu a{display:flex!important;justify-content:center!important;align-items:center!important;width:100%!important;padding:13px 14px!important;text-align:center!important;background:rgba(16,20,26,.58)!important;border:1px solid rgba(214,229,239,.13)!important;border-radius:5px!important;}
   .nav-cta{justify-content:center!important;background:rgba(94,152,241,.32)!important;}
   .lang-flag{position:absolute!important;left:18px!important;bottom:18px!important;width:auto!important;min-width:0!important;padding:0!important;justify-content:flex-start!important;text-align:left!important;font-size:24px!important;background:transparent!important;border:0!important;box-shadow:none!important;}
-  .contact-form .form-grid{grid-template-columns:1fr;}
+  .contact-form .form-grid,.selector-grid{grid-template-columns:1fr;}
   .hero{background-position:center top!important;}
 }
