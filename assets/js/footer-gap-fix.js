@@ -6,7 +6,7 @@
   const getLastMeaningfulContentBottom = (section) => {
     if (!section) return 0;
     const selectors = [
-      '.card', '.card.blue', '.table-wrap', '.source-visual', '.mechanism-visual', '.responsive-chart',
+      '.roi-cross-cta', '.roi-cta-panel', '.card', '.card.blue', '.table-wrap', '.source-visual', '.mechanism-visual', '.responsive-chart',
       '.form-shell', '.contact-form', '.stats', '.grid', '.timeline', '.btn-row', '.visual-warning',
       '.selector-output', '.visual-audit-section .container', '.container > *:last-child'
     ].join(',');
@@ -29,10 +29,15 @@
     footer.style.marginTop = '';
     footer.classList.remove('footer-gap-pulled');
 
-    const sections = Array.from(main.querySelectorAll(':scope > .section'));
+    const sections = Array.from(main.querySelectorAll(':scope > .section, :scope > .roi-cross-cta'));
     sections.forEach((section) => {
+      if (section.classList.contains('roi-cross-cta')) {
+        section.classList.remove('footer-gap-empty');
+        section.removeAttribute('aria-hidden');
+        return;
+      }
       const visibleText = (section.textContent || '').replace(/\s+/g, ' ').trim();
-      const hasVisibleMedia = section.querySelector('img,svg,video,canvas,iframe,table,form,.card,.stat,.step,.source-visual,.visual-card,.table-wrap,.btn-row');
+      const hasVisibleMedia = section.querySelector('img,svg,video,canvas,iframe,table,form,.card,.stat,.step,.source-visual,.visual-card,.table-wrap,.btn-row,.roi-cta-panel');
       const rect = section.getBoundingClientRect();
       if (!visibleText && !hasVisibleMedia) {
         section.classList.add('footer-gap-empty');
@@ -75,6 +80,7 @@
     window.setTimeout(fixSolarEXFooterGap, 1100);
   };
 
+  document.addEventListener('solarex:layout-changed', scheduleFooterGapFix);
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', scheduleFooterGapFix, { once: true });
   } else {
