@@ -107,15 +107,15 @@
         <div class="visual-grid three pathway-benefit-layout" style="margin-top:24px">
           <article class="workflow-card visual-reveal quartz-benefits-card">
             <h3>SiO₂ Quartz benefits</h3>
-            <div class="visual-checklist">
-              <p>Passive surface architecture for dust and mineral soiling.</p>
-              <p>UV-independent route for lower-UV operating contexts.</p>
-              <p>Easy-clean behavior through reduced surface adhesion.</p>
+            <div class="visual-checklist aligned-benefit-list">
+              <p>Passive surface architecture for dust and mineral soiling. Supports easier surface recovery where inorganic contamination dominates.</p>
+              <p>UV-independent route for lower-UV operating contexts. Suitable for regions where photocatalytic activation is not the primary selection driver.</p>
+              <p>Easy-clean behavior through reduced surface adhesion. Helps reduce bonding tendency before cleaning or rain-assisted recovery.</p>
             </div>
           </article>
           <article class="workflow-card visual-reveal titan-benefits-card">
             <h3>TiO₂ Titan benefits</h3>
-            <div class="visual-checklist">
+            <div class="visual-checklist aligned-benefit-list">
               <p>Active photocatalytic pathway under suitable UV exposure.</p>
               <p>Hydrophilic rinse behavior for organic contaminant contexts.</p>
               <p>Best suited where UV, rain and contamination profile support the mechanism.</p>
