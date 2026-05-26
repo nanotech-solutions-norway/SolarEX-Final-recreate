@@ -29,17 +29,21 @@ main + .site-footer{
 .site-footer{
   margin-top:0!important;
 }
+.site-footer.footer-gap-pulled{
+  position:relative;
+  z-index:2;
+}
 @media(min-width:981px){
   main.footer-gap-compact > .section:last-of-type,
   main > .section.footer-proximity-section{
-    padding-top:46px!important;
-    padding-bottom:30px!important;
+    padding-top:34px!important;
+    padding-bottom:22px!important;
   }
 }
 @media(max-width:980px){
   main.footer-gap-compact > .section:last-of-type,
   main > .section.footer-proximity-section{
-    padding-top:36px!important;
-    padding-bottom:22px!important;
+    padding-top:28px!important;
+    padding-bottom:18px!important;
   }
 }
