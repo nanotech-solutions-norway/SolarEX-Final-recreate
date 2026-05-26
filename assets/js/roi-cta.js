@@ -14,7 +14,7 @@
     const route = (path) => repoBase ? `${repoBase}${path}` : `${prefix}${path}`;
     const routePath = routeParts.join('/').replace(/\/$/, '') || 'home';
     const roiHref = route('roi-calculator/');
-    const technicalHref = route('technical-review/');
+    const technicalHref = route('contact/#technical-form');
 
     const addNavLink = () => {
       document.querySelectorAll('[data-nav], .site-nav:not(.seo-static-nav):not(.roi-nav)').forEach((nav) => {
@@ -70,12 +70,19 @@
     };
 
     const addPageCta = () => {
-      if (!shouldAddPageCta() || document.querySelector('[data-roi-cross-cta]')) return;
+      if (!shouldAddPageCta()) return;
       const main = document.querySelector('main');
       if (!main) return;
+      const existing = document.querySelector('[data-roi-cross-cta]');
+      if (existing) {
+        existing.classList.remove('reveal');
+        existing.classList.add('is-visible');
+        existing.removeAttribute('aria-hidden');
+        return;
+      }
       const [title, text] = ctaCopy();
       const section = document.createElement('section');
-      section.className = 'roi-cross-cta reveal';
+      section.className = 'roi-cross-cta is-visible';
       section.dataset.roiCrossCta = 'true';
       section.innerHTML = `
         <div class="container">
@@ -87,6 +94,7 @@
       const footer = main.querySelector('.site-footer, .roi-footer') || document.querySelector('.site-footer,.roi-footer');
       if (footer && footer.parentElement === main) main.insertBefore(section, footer);
       else main.appendChild(section);
+      document.dispatchEvent(new CustomEvent('solarex:layout-changed'));
     };
 
     const run = () => { addNavLink(); addFooterLink(); addPageCta(); };
