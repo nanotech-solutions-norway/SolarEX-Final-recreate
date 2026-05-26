@@ -29,16 +29,17 @@ document.addEventListener('DOMContentLoaded', () => {
     document.head.appendChild(script);
   };
 
-  loadCss(assetPath('assets/css/solarex-overrides.css?v=20260526-footer-gap-2'), 'data-solarex-overrides');
-  loadCss(assetPath('assets/css/visual-upgrade.css?v=20260526-footer-gap-2'), 'data-solarex-visual-css');
-  loadCss(assetPath('assets/css/solarex-cleanup.css?v=20260526-footer-gap-2'), 'data-solarex-cleanup-css');
-  loadCss(assetPath('assets/css/table-enhancements.css?v=20260526-footer-gap-2'), 'data-solarex-table-css');
-  loadCss(assetPath('assets/css/footer-gap-fix.css?v=20260526-footer-gap-2'), 'data-solarex-footer-gap-css');
-  loadScript(assetPath('assets/js/visual-upgrade.js?v=20260526-footer-gap-2'), 'data-solarex-visual-js');
-  loadScript(assetPath('assets/js/visual-audit-upgrades.js?v=20260526-footer-gap-2'), 'data-solarex-visual-audit-js');
-  loadScript(assetPath('assets/js/table-enhancements.js?v=20260526-footer-gap-2'), 'data-solarex-table-js');
-  loadScript(assetPath('assets/js/footer-gap-fix.js?v=20260526-footer-gap-2'), 'data-solarex-footer-gap-js');
-  loadScript(assetPath('assets/js/solarex-cleanup.js?v=20260526-footer-gap-2'), 'data-solarex-cleanup-js');
+  loadCss(assetPath('assets/css/solarex-overrides.css?v=20260526-visible-roi-cta-1'), 'data-solarex-overrides');
+  loadCss(assetPath('assets/css/visual-upgrade.css?v=20260526-visible-roi-cta-1'), 'data-solarex-visual-css');
+  loadCss(assetPath('assets/css/solarex-cleanup.css?v=20260526-visible-roi-cta-1'), 'data-solarex-cleanup-css');
+  loadCss(assetPath('assets/css/table-enhancements.css?v=20260526-visible-roi-cta-1'), 'data-solarex-table-css');
+  loadCss(assetPath('assets/css/footer-gap-fix.css?v=20260526-visible-roi-cta-1'), 'data-solarex-footer-gap-css');
+  loadCss(assetPath('assets/css/roi-cta.css?v=20260526-visible-roi-cta-1'), 'data-solarex-roi-cta-css-main');
+  loadScript(assetPath('assets/js/visual-upgrade.js?v=20260526-visible-roi-cta-1'), 'data-solarex-visual-js');
+  loadScript(assetPath('assets/js/visual-audit-upgrades.js?v=20260526-visible-roi-cta-1'), 'data-solarex-visual-audit-js');
+  loadScript(assetPath('assets/js/table-enhancements.js?v=20260526-visible-roi-cta-1'), 'data-solarex-table-js');
+  loadScript(assetPath('assets/js/footer-gap-fix.js?v=20260526-visible-roi-cta-1'), 'data-solarex-footer-gap-js');
+  loadScript(assetPath('assets/js/solarex-cleanup.js?v=20260526-visible-roi-cta-1'), 'data-solarex-cleanup-js');
 
   const routePath = routeParts.join('/').replace(/\/$/, '');
   const isContactIndex = routePath === 'contact';
