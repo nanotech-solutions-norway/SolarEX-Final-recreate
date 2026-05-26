@@ -1,0 +1,45 @@
+/* SolarEX footer proximity correction — removes artificial bottom whitespace before footer. */
+main > .section:empty,
+main > .section.is-empty-section,
+main > .section.footer-gap-empty,
+main > section[aria-hidden="true"].footer-gap-empty{
+  display:none!important;
+  height:0!important;
+  min-height:0!important;
+  padding:0!important;
+  margin:0!important;
+  border:0!important;
+  overflow:hidden!important;
+}
+main.footer-gap-compact > .section:last-of-type,
+main > .section.footer-proximity-section{
+  padding-bottom:28px!important;
+  margin-bottom:0!important;
+}
+main.footer-gap-compact > .section:last-of-type .container,
+main > .section.footer-proximity-section .container,
+main > .section.footer-proximity-section .card,
+main > .section.footer-proximity-section .card.blue{
+  margin-bottom:0!important;
+}
+main.footer-gap-compact + .site-footer,
+main + .site-footer{
+  margin-top:0!important;
+}
+.site-footer{
+  margin-top:0!important;
+}
+@media(min-width:981px){
+  main.footer-gap-compact > .section:last-of-type,
+  main > .section.footer-proximity-section{
+    padding-top:46px!important;
+    padding-bottom:30px!important;
+  }
+}
+@media(max-width:980px){
+  main.footer-gap-compact > .section:last-of-type,
+  main > .section.footer-proximity-section{
+    padding-top:36px!important;
+    padding-bottom:22px!important;
+  }
+}
