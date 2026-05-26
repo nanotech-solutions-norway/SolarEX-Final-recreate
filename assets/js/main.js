@@ -29,11 +29,11 @@ document.addEventListener('DOMContentLoaded', () => {
     document.head.appendChild(script);
   };
 
-  loadCss(assetPath('assets/css/solarex-overrides.css?v=20260525-bars-no-pilot-1'), 'data-solarex-overrides');
-  loadCss(assetPath('assets/css/visual-upgrade.css?v=20260525-bars-no-pilot-1'), 'data-solarex-visual-css');
-  loadCss(assetPath('assets/css/solarex-cleanup.css?v=20260525-bars-no-pilot-1'), 'data-solarex-cleanup-css');
-  loadScript(assetPath('assets/js/visual-upgrade.js?v=20260525-bars-no-pilot-1'), 'data-solarex-visual-js');
-  loadScript(assetPath('assets/js/solarex-cleanup.js?v=20260525-bars-no-pilot-1'), 'data-solarex-cleanup-js');
+  loadCss(assetPath('assets/css/solarex-overrides.css?v=20260526-sales-audit-1'), 'data-solarex-overrides');
+  loadCss(assetPath('assets/css/visual-upgrade.css?v=20260526-sales-audit-1'), 'data-solarex-visual-css');
+  loadCss(assetPath('assets/css/solarex-cleanup.css?v=20260526-sales-audit-1'), 'data-solarex-cleanup-css');
+  loadScript(assetPath('assets/js/visual-upgrade.js?v=20260526-sales-audit-1'), 'data-solarex-visual-js');
+  loadScript(assetPath('assets/js/solarex-cleanup.js?v=20260526-sales-audit-1'), 'data-solarex-cleanup-js');
 
   const routePath = routeParts.join('/').replace(/\/$/, '');
   const isContactIndex = routePath === 'contact';
@@ -47,22 +47,31 @@ document.addEventListener('DOMContentLoaded', () => {
       <a class="mobile-menu-logo" href="${normalizeHref('index.html')}" aria-label="SolarEX home">SolarEX</a>
       <a class="nav-home desktop-only" href="${normalizeHref('index.html')}">Home</a>
       <div class="nav-group">
-        <button class="nav-group-toggle" type="button" aria-expanded="false">Solutions</button>
+        <button class="nav-group-toggle" type="button" aria-expanded="false">Platform</button>
         <div class="nav-group-menu">
+          <a href="${normalizeHref('technology/')}">Technology</a>
           <a href="${normalizeHref('quartz/')}">Quartz SiO₂</a>
           <a href="${normalizeHref('titan/')}">Titan TiO₂</a>
-          <a href="${normalizeHref('technology/')}">Technology</a>
+        </div>
+      </div>
+      <div class="nav-group">
+        <button class="nav-group-toggle" type="button" aria-expanded="false">Applications</button>
+        <div class="nav-group-menu">
+          <a href="${normalizeHref('applications/pv-soiling-loss-mitigation/')}">PV Soiling Loss</a>
+          <a href="${normalizeHref('applications/anti-soiling-coating/')}">Anti-Soiling Coating</a>
+          <a href="${normalizeHref('applications/cleaning-cost-reduction/')}">Cleaning Cost Reduction</a>
         </div>
       </div>
       <div class="nav-group">
         <button class="nav-group-toggle" type="button" aria-expanded="false">Evidence</button>
         <div class="nav-group-menu">
           <a href="${normalizeHref('projects/')}">Projects</a>
+          <a href="${normalizeHref('roi-calculator/')}">ROI Calculator</a>
           <a href="${normalizeHref('documentation/')}">Documentation</a>
           <a href="${normalizeHref('faq/')}">FAQ</a>
         </div>
       </div>
-      <a class="nav-cta" href="${contactPath}">Contact</a>
+      <a class="nav-cta" href="${contactPath}">Technical Review</a>
       <a class="lang-flag" href="${normalizeHref('index.html')}" aria-label="English language">🇬🇧</a>
     `;
   }
