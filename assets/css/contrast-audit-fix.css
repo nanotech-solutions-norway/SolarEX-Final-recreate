@@ -1,0 +1,98 @@
+/* SolarEX contrast audit pass — improves text contrast on dark cards, charts, tables, modals and injected visual modules. */
+:root{
+  --text-high:#f4f9ff;
+  --text-body:#e5f0f8;
+  --text-soft:#d2e2ee;
+  --text-muted-strong:#c7d8e5;
+  --panel-dark:#111820;
+}
+
+body{color:var(--text-body)!important;}
+p,li,td,label,.lead,.mini,.muted,.form-status,.visual-caption,.chart-summary,figcaption{color:var(--text-soft)!important;}
+h1,h2,h3,h4,h5,h6,strong,b,.driver-label,.product-label{color:var(--text-high)!important;}
+.kicker,.eyebrow{color:#b9d9ff!important;}
+
+/* Specific screenshot issue: route-selection chart explanatory copy. */
+.pathway-driver-card .mini,
+.chart-card .mini,
+.visual-card .mini,
+.workflow-card .mini,
+.diagram-card .mini,
+.roi-cta-panel p,
+.selector-card p,
+.selector-output p,
+.visual-warning p,
+.form-note p,
+.contact-method p,
+.table-wrap td,
+.source-visual figcaption{
+  color:var(--text-body)!important;
+}
+
+.pathway-driver-card .chart-scale,
+.pathway-driver-card .chart-scale span,
+.product-label,
+.visual-media-copy p,
+.visual-checklist p,
+.visual-success-pattern span,
+.comparison-row span,
+.chart-row span{
+  color:var(--text-soft)!important;
+}
+
+.driver-legend span,
+.table-route-link,
+.visual-chip,
+.btn.secondary,
+.nav-group-menu a,
+.site-nav a:hover,
+.site-nav a[aria-current=page]{
+  color:var(--text-high)!important;
+}
+
+/* Dark-panel readability hardening. */
+.card,.stat,.step,.source-visual,.form-tab-card,.contact-form,.table-wrap,.form-note,.contact-method,
+.visual-card,.diagram-card,.chart-card,.workflow-card,.selector-card,.selector-output,.visual-warning,
+.roi-cta-panel{
+  color:var(--text-body)!important;
+  border-color:rgba(214,229,239,.24)!important;
+}
+.card:not(.blue),.stat,.step,.visual-card,.diagram-card,.chart-card,.workflow-card,.selector-card{
+  background-color:rgba(17,24,32,.78)!important;
+}
+.card.blue,.roi-cta-panel{color:#f7fbff!important;}
+.card.blue p,.card.blue li,.card.blue .mini,.card.blue .muted,.roi-cta-panel p{color:#f2f8ff!important;}
+
+/* Footer and table contrast. */
+.site-footer,.site-footer p,.site-footer .mini{color:var(--text-soft)!important;}
+.site-footer a{color:var(--text-body)!important;}
+.site-footer a:hover,.site-footer a:focus-visible{color:var(--text-high)!important;}
+th{color:#101820!important;background:#dcebf5!important;}
+td{color:var(--text-body)!important;}
+
+/* Form/readability contrast. */
+input,select,textarea{color:var(--text-high)!important;background:rgba(8,12,18,.72)!important;border-color:rgba(214,229,239,.28)!important;}
+input::placeholder,textarea::placeholder{color:#b9cad8!important;opacity:1!important;}
+label{color:var(--text-body)!important;}
+
+/* SVG and media captions surrounding dark visuals. */
+.mechanism-visual figcaption,
+.responsive-chart figcaption,
+.visual-caption,
+.source-visual figcaption{
+  color:var(--text-body)!important;
+}
+
+/* Accessibility: strengthen focus and modal/dialog text if present. */
+[role="dialog"],.modal,.lightbox,.image-modal,.visual-modal,.modal-content,.lightbox-content{
+  color:var(--text-body)!important;
+}
+[role="dialog"] p,.modal p,.lightbox p,.image-modal p,.visual-modal p,.modal-content p,.lightbox-content p{
+  color:var(--text-body)!important;
+}
+:focus-visible{outline-color:#5cc97b!important;}
+
+@media(max-width:980px){
+  .site-nav a,.nav-group-menu a,.nav-cta{color:var(--text-high)!important;}
+  .pathway-driver-card .mini{font-size:14px!important;line-height:1.6!important;}
+}
