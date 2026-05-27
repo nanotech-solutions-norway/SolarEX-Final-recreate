@@ -14,27 +14,34 @@
     const repoBase = repoIndex >= 0 ? `/${repoName}/` : '';
     const assetPath = (path) => repoBase ? `${repoBase}${path}` : `${relativePrefix}${path}`;
     const routePath = routeParts.join('/').replace(/\/$/, '') || 'home';
+    document.body.dataset.routePath = routePath;
+
     const main = document.querySelector('main');
     const hero = main?.querySelector('.hero');
     if (!main || !hero) return;
 
-    const removeSourceVisualSections = () => {
+    const removeLegacyVisualSections = () => {
       document.querySelectorAll('.section').forEach((section) => {
         const kicker = section.querySelector('.kicker')?.textContent?.toLowerCase() || '';
         const heading = section.querySelector('h2')?.textContent?.toLowerCase() || '';
-        if (kicker.includes('source visual') || heading.includes('source visual') || heading.includes('gamma')) section.remove();
+        if (
+          kicker.includes('source visual') ||
+          heading.includes('source visual') ||
+          heading.includes('gamma') ||
+          section.classList.contains('visual-audit-section')
+        ) section.remove();
       });
     };
 
-    const section = (html) => {
+    const section = (html, extraClass = '') => {
       const node = document.createElement('section');
-      node.className = 'section visual-audit-section reveal';
+      node.className = `section visual-audit-section reveal ${extraClass}`.trim();
       node.innerHTML = html;
       return node;
     };
 
-    const imageFigure = (src, alt, caption, w = 1200, h = 720) => `
-      <figure class="source-visual mechanism-visual visual-recommendation-figure">
+    const imageFigure = (src, alt, caption, w = 1200, h = 720, extra = '') => `
+      <figure class="source-visual mechanism-visual visual-recommendation-figure ${extra}">
         <img src="${assetPath(src)}" alt="${alt}" width="${w}" height="${h}" loading="lazy">
         <figcaption class="visual-caption">${caption}</figcaption>
       </figure>`;
@@ -47,7 +54,32 @@
       else main.appendChild(node);
     };
 
-    removeSourceVisualSections();
+    const chartBlock = (title, items) => `
+      <div class="visual-chart-grid" aria-label="${title}">
+        ${items.map((item) => `<article class="visual-chart-node"><h3>${item[0]}</h3><p>${item[1]}</p></article>`).join('')}
+      </div>`;
+
+    const processRadar = () => `
+      <div class="radial-process">
+        <div class="radial-process-visual" aria-label="Application process radar"></div>
+        <div class="radial-process-list">
+          <article class="step-card"><h3>Site assessment</h3><p>Confirm location, soiling profile, access, glass condition and cleaning model.</p></article>
+          <article class="step-card"><h3>Surface preparation</h3><p>Clean and prepare the glass before any coating route is applied.</p></article>
+          <article class="step-card"><h3>Controlled application</h3><p>Apply the selected Quartz or Titan route according to pathway-specific instructions.</p></article>
+          <article class="step-card"><h3>Cure / verify</h3><p>Let the surface set, then verify coverage and pilot-monitoring requirements.</p></article>
+        </div>
+      </div>`;
+
+    const documentationBreaker = () => {
+      const node = document.createElement('section');
+      node.className = 'visual-page-breaker reveal is-visible';
+      node.innerHTML = `
+        <img class="page-breaker-image" src="${assetPath('assets/img/visual-system/solarex-documentation-breaker.svg')}" alt="Photorealistic-style PV glass close-up used as SolarEX documentation page breaker" width="1855" height="816" loading="lazy">
+        <div class="page-breaker-caption"><div class="kicker">SolarEX Documentation</div><h2>Technical precision, claims discipline and structured evidence.</h2></div>`;
+      return node;
+    };
+
+    removeLegacyVisualSections();
 
     if (routePath === 'home') {
       insertAfterHero(section(`
@@ -55,7 +87,7 @@
           <div class="kicker">Problem-to-pathway visual</div>
           <h2>From soiled PV glass to a qualified SolarEX route.</h2>
           <div class="media-split">
-            ${imageFigure('assets/img/visual-system/solarex-hero-soiling-rinse.svg','PV glass soiling transitions into SolarEX route selection and treated surface recovery logic','Visual role: connect the buyer problem to the next action. SolarEX first reviews site soiling, then routes the project to Quartz SiO₂, Titan TiO₂, mixed review, further testing or no-go.',1400,860)}
+            ${imageFigure('assets/img/visual-system/solarex-hero-soiling-rinse.svg','PV glass soiling transitions into SolarEX route selection and treated surface recovery logic','Home keeps the primary route-selection visual. Other pages now use different mechanisms, workflows and evidence visuals to avoid repetition.',1400,860)}
             <div class="card blue"><h3>Dominant above-fold action</h3><p>Use the technical review as the primary sales path. The expected buyer output is a pathway recommendation, missing-data checklist and pilot/ROI next step.</p><a class="btn secondary" href="${relativePrefix}contact/#technical-form">Request site pathway review</a></div>
           </div>
         </div>`));
@@ -63,34 +95,35 @@
 
     if (routePath === 'quartz') {
       insertAfterHero(section(`
-        <div class="container"><div class="kicker">Quartz mechanism visual</div><h2>Passive SiO₂ easy-clean behavior, shown as a buyer-readable mechanism.</h2><div class="media-split">
-          ${imageFigure('assets/img/visual-system/quartz-easy-clean-mechanism.svg','SolarEX Quartz SiO₂ passive easy-clean mechanism with water beading and reduced contaminant adhesion','Quartz visual summary: UV-independent SiO₂ surface architecture supports reduced contaminant adhesion and easier cleaning. It does not remove the need for O&amp;M.')}
-          ${imageFigure('assets/img/visual-system/quartz-roi-responsive-chart.svg','Quartz Europe ROI scenario chart with approximate 147 day payback point under source assumptions','ROI visual summary: indicative scenario under source assumptions. Confirm with treated/control monitoring and local O&amp;M economics.')}
+        <div class="container"><div class="kicker">Quartz mechanism visual</div><h2>Passive SiO₂ easy-clean behavior with a dedicated Quartz visual.</h2><div class="media-split">
+          ${imageFigure('assets/img/visual-system/quartz-sio2-attached-visual.svg','Passive SiO₂ easy-clean surface visual showing no UV required, hydrophobic oleophobic behavior and reduced adhesion','Quartz uses the attached SiO₂-style visual: passive surface architecture, water beading and reduced adhesion for dust/mineral-dominant contexts.',1600,900)}
+          <div class="card"><h3>Quartz-specific chart layout</h3><p>This page no longer repeats the Home bar chart. The chart below uses a staggered decision layout aligned to Quartz selection factors.</p>${chartBlock('Quartz selection chart', [['No UV required','Route remains relevant in lower-UV regions.'], ['Mineral dust','Best first screen for dust, salt and inorganic particles.'], ['Easy recovery','Supports rain or cleaning-assisted release.'], ['O&M economics','Validate water, labor and cleaning interval inputs.']])}</div>
         </div></div>`));
     }
 
     if (routePath === 'titan') {
       insertAfterHero(section(`
-        <div class="container"><div class="kicker">Titan mechanism visual</div><h2>Active TiO₂ photocatalysis requires suitable UV exposure.</h2><div class="media-split">
-          ${imageFigure('assets/img/visual-system/titan-photocatalysis-mechanism.svg','SolarEX Titan TiO₂ four step mechanism: UV exposure, ROS formation, organic decomposition and hydrophilic rinse','Titan visual summary: Titan is the active route for UV-supported organic, biological and atmospheric contamination control.')}
-          <div class="visual-warning"><h3>UV suitability warning</h3><p>Titan should not be selected as a generic replacement for Quartz. If UV availability is low or mineral dust dominates, route the project to Quartz or further technical review.</p><a class="btn secondary" href="${relativePrefix}technology/">Open pathway selector</a></div>
-        </div></div>`));
+        <div class="container"><div class="kicker">Titan mechanism visual</div><h2>Active TiO₂ photocatalysis with unique Titan visuals.</h2><div class="media-split">
+          ${imageFigure('assets/img/visual-system/titan-photocatalysis-attached-visual.svg','Photocatalytic TiO₂ self-cleaning surface visual with UV, organic pollutants, CO₂, H₂O and hydrophilicity','Titan uses the attached photocatalysis-style visual: UV-supported active surface behavior, organic contaminant decomposition and hydrophilic rinse response.',1600,900)}
+          ${imageFigure('assets/img/visual-system/titan-uv-optics-attached-visual.svg','TiO₂ optical surface comparison under UV radiation with scattering, reflection and absorption pathways','Secondary Titan visual: UV and optical-pathway explanation. It differentiates Titan from the Quartz easy-clean route.',1600,690)}
+        </div>
+        <div style="margin-top:22px">${imageFigure('assets/img/visual-system/titan-mechanism-summary-line.svg','Mechanism summary line showing TiO₂ nanoparticles, UV absorption, ROS generation, decomposition and rinse-off','Mechanism summary image placed on the Titan page where it supports the TiO₂ sequence most directly.',1200,330)}</div>
+        </div>`));
     }
 
     if (routePath === 'technology') {
       insertAfterHero(section(`
-        <div class="container"><div class="kicker">Visual pathway selector</div><h2>Screen the route before a commercial commitment.</h2><p class="lead">This selector is a visual qualification aid. It shows how UV, contamination, region and O&amp;M objective drive the first SolarEX recommendation.</p>
-          ${imageFigure('assets/img/diagrams/pathway-selection-flow.svg','SolarEX Quartz and Titan pathway selector with route-assessment summary','Decision-support visual: Quartz and Titan are separated by UV dependency, contamination profile and evidence-gate logic.')}
-          <div class="selector-grid" style="margin-top:18px"><div class="selector-card"><h3>1. UV level</h3><p>Low / seasonal UV favors Quartz. Stable UV can support Titan review.</p></div><div class="selector-card"><h3>2. Contamination</h3><p>Mineral dust and salt favor Quartz. Organic and biological films may favor Titan.</p></div><div class="selector-card"><h3>3. Cleaning objective</h3><p>Cleaning burden, water use and abrasion risk shape pilot design.</p></div><div class="selector-card"><h3>4. Region</h3><p>Nordics, Europe, Middle East and high-UV sites require different evidence framing.</p></div></div>
-          <div class="selector-output"><h3>Output: Quartz, Titan, mixed review or insufficient data</h3><p>The recommended next step is a technical review with site photos, soiling profile, UV context, cleaning logs and ROI assumptions.</p><a class="btn secondary" href="${relativePrefix}contact/#technical-form">Request pathway review</a></div>
+        <div class="container"><div class="kicker">Technology comparison visual</div><h2>Separate Quartz and Titan before selecting a commercial route.</h2><p class="lead">This page now uses a different comparison layout from Home. The purpose is to explain mechanism separation, not reuse the same bar-chart visual.</p>
+          ${imageFigure('assets/img/visual-system/solarex_technology_route_matrix.svg','SolarEX Quartz and Titan technology comparison matrix','Technology-specific route matrix: Quartz and Titan are distinct PV glass engineering routes selected by mechanism and site fit.',1200,720)}
+          ${chartBlock('Technology comparison chart', [['Surface state','Quartz changes adhesion; Titan adds UV-triggered activity.'], ['Trigger dependency','Quartz is passive; Titan requires suitable UV.'], ['Contamination fit','Mineral/inorganic versus organic/biological priority.'], ['Evidence gate','Pilot design confirms site-specific suitability.']])}
         </div>`));
     }
 
     if (routePath === 'projects' || routePath === 'case-studies') {
       insertAfterHero(section(`
-        <div class="container"><div class="kicker">Evidence visual system</div><h2>Evidence should read as controlled pilot logic, not isolated values.</h2>
-          ${imageFigure('assets/img/visual-system/solarex_pilot_validation_model_v01.svg','SolarEX pilot validation model with treated and control strings, monitoring and ROI decision output','Pilot-design visual: source/study context, matched controls, cleaning logs and commercial review must remain attached to claims.')}
-          <div class="grid three" style="margin-top:18px"><article class="card blue"><h3>Titan PV³ study</h3><p><strong>Pathway:</strong> Titan TiO₂. <strong>Method:</strong> 63 coated modules, 360 monitored days, 15-minute data. <strong>Result:</strong> +5.15% average uplift in context. <strong>Limitation:</strong> site-specific UV and contamination fit required.</p><a class="btn secondary" href="${relativePrefix}contact/#technical-form">Request comparable pilot</a></article><article class="card"><h3>Quartz Europe ROI scenario</h3><p><strong>Pathway:</strong> Quartz SiO₂. <strong>Method:</strong> scenario model. <strong>Result:</strong> ~147-day payback under source assumptions. <strong>Limitation:</strong> confirm with local O&amp;M economics.</p><a class="btn secondary" href="${relativePrefix}roi-calculator/">Start ROI screen</a></article><article class="card"><h3>Middle East dust / water logic</h3><p><strong>Pathway:</strong> Quartz-first review. <strong>Context:</strong> high dust, high irradiation, water constraints. <strong>Next step:</strong> treated/control pilot and cleaning-log validation.</p><a class="btn secondary" href="${relativePrefix}contact/#technical-form">Request regional pilot</a></article></div>
+        <div class="container"><div class="kicker">Evidence and pilot visual</div><h2>Project evidence should read as controlled pilot logic.</h2>
+          ${imageFigure('assets/img/visual-system/solarex_projects_pilot_review.svg','SolarEX projects coating evidence and pilot review workflow','Projects-specific pilot review visual: evidence, monitoring, control strings and commercial review are treated as one decision system.',1200,720)}
+          ${chartBlock('Evidence review chart', [['Baseline','Capture pre-treatment operating condition.'], ['Control','Compare treated and untreated sections.'], ['Monitor','Track production, cleaning and weather context.'], ['Review','Classify result as scale, repeat or no-go.']])}
         </div>`));
     }
 
@@ -99,7 +132,7 @@
     }
 
     if (routePath === 'applications/anti-soiling-coating') {
-      insertAfterHero(section(`<div class="container"><div class="kicker">Anti-soiling decision visual</div><h2>SolarEX is a two-route anti-soiling platform.</h2>${imageFigure('assets/img/diagrams/pathway-selection-flow.svg','SolarEX anti-soiling route selector comparing Quartz SiO₂ and Titan TiO₂','Comparison visual: Quartz and Titan are not interchangeable; route selection depends on mechanism and site context.')}</div>`));
+      insertAfterHero(section(`<div class="container"><div class="kicker">Application workflow visual</div><h2>Anti-soiling performance depends on preparation, application and verification.</h2>${processRadar()}</div>`));
     }
 
     if (routePath === 'applications/cleaning-cost-reduction') {
@@ -107,7 +140,7 @@
     }
 
     if (routePath === 'roi-calculator') {
-      insertAfterHero(section(`<div class="container"><div class="kicker">ROI input-output visual</div><h2>Use the calculator as a screening model, then validate with pilot data.</h2>${imageFigure('assets/img/visual-system/solarex_cleaning_cost_waterfall_v01.svg','SolarEX ROI input-output model for cleaning cost and yield recovery assumptions','ROI visual: water, labor, access and energy value are commercial inputs that require local validation.')}</div>`));
+      insertAfterHero(section(`<div class="container"><div class="kicker">ROI input-output visual</div><h2>Use the calculator as a screening model, then validate with pilot data.</h2>${chartBlock('ROI input chart', [['Coated area','m² and route-specific coverage assumptions.'], ['Energy value','Local currency, tariff and annual yield basis.'], ['O&M cost','Water, labor, access and cleaning interval inputs.'], ['Pilot proof','Treated/control monitoring before scale-up.']])}</div>`));
     }
 
     if (routePath === 'markets' || routePath === 'markets/europe' || routePath === 'markets/middle-east' || routePath === 'markets/nordics') {
@@ -119,6 +152,7 @@
     }
 
     if (routePath === 'documentation') {
+      insertAfterHero(documentationBreaker());
       insertAfterHero(section(`<div class="container"><div class="kicker">Documentation router visual</div><h2>Route each question to the correct document pack.</h2>${imageFigure('assets/img/diagrams/documentation-flow.svg','SolarEX documentation workflow from technical review to pilot support','Documentation visual: route buyer questions toward Quartz, Titan, ROI, pilot or application support files.')}</div>`));
     }
 
@@ -128,10 +162,10 @@
 
     if (routePath === 'contact') {
       insertBeforeFinalCta(section(`
-        <div class="container"><div class="kicker">Form confidence panel</div><h2>What happens after submission.</h2><div class="grid four"><article class="card blue"><h3>1. Intake review</h3><p>SolarEX screens location, UV context, contamination profile, scale and objective.</p></article><article class="card"><h3>2. Data request</h3><p>Missing site photos, cleaning logs, production data or module layout are identified.</p></article><article class="card"><h3>3. Pathway output</h3><p>Quartz, Titan, mixed review, further testing or no-go is recommended.</p></article><article class="card"><h3>4. Next step</h3><p>Documentation pack, ROI screen, pilot design or commercial follow-up is proposed.</p></article></div><div class="visual-warning" style="margin-top:20px"><strong>Privacy and confidence:</strong> share non-confidential project details first. Sensitive production data can be handled after direct follow-up. No obligation — technical screening only.</div></div>`));
+        <div class="container"><div class="kicker">Form confidence panel</div><h2>What happens after submission.</h2>${processRadar()}<div class="visual-warning" style="margin-top:20px"><strong>Privacy and confidence:</strong> share non-confidential project details first. Sensitive production data can be handled after direct follow-up. No obligation — technical screening only.</div></div>`));
     }
 
-    document.querySelectorAll('.visual-audit-section').forEach((el) => el.classList.add('is-visible'));
+    document.querySelectorAll('.visual-audit-section,.visual-page-breaker').forEach((el) => el.classList.add('is-visible'));
     document.dispatchEvent(new CustomEvent('solarex:layout-changed'));
   };
 
