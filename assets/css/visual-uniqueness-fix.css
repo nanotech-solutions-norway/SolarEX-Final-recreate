@@ -1,0 +1,35 @@
+/* SolarEX visual uniqueness pass: page-specific hero backgrounds, full-width page breakers and varied chart layouts. */
+.hero{isolation:isolate;background:#101820!important;}
+.hero:before{content:"";position:absolute;inset:0;z-index:0;background:linear-gradient(90deg,rgba(7,17,29,.92),rgba(7,17,29,.60),rgba(7,17,29,.86)),var(--page-hero-image,radial-gradient(circle at 70% 20%,rgba(102,168,238,.35),transparent 32%)),linear-gradient(135deg,#0c1520,#1a2734 55%,#07111d)!important;background-size:cover!important;background-position:center!important;filter:saturate(1.08) contrast(1.06);}
+.hero:after{z-index:0!important;opacity:.48!important;}
+.hero-inner{z-index:1!important;}
+body[data-visual-page='home']{--page-hero-image:linear-gradient(135deg,rgba(30,53,70,.7),rgba(8,14,22,.92)),radial-gradient(circle at 78% 18%,rgba(255,210,26,.30),transparent 18%),repeating-linear-gradient(14deg,rgba(102,168,238,.20) 0 2px,transparent 2px 38px),linear-gradient(160deg,#102238,#07111d);}
+body[data-visual-page='quartz']{--page-hero-image:linear-gradient(115deg,rgba(8,14,22,.86),rgba(8,14,22,.58)),url('../img/visual-system/quartz-sio2-attached-visual.svg');}
+body[data-visual-page='titan']{--page-hero-image:linear-gradient(115deg,rgba(8,14,22,.86),rgba(8,14,22,.50)),url('../img/visual-system/titan-photocatalysis-attached-visual.svg');}
+body[data-visual-page='technology']{--page-hero-image:linear-gradient(110deg,rgba(7,17,29,.88),rgba(7,17,29,.55)),url('../img/diagrams/pathway-selection-flow.svg');}
+body[data-visual-page='projects']{--page-hero-image:linear-gradient(110deg,rgba(7,17,29,.88),rgba(7,17,29,.56)),url('../img/visual-system/solarex_pilot_validation_model_v01.svg');}
+body[data-visual-page='documentation']{--page-hero-image:linear-gradient(110deg,rgba(7,17,29,.84),rgba(7,17,29,.56)),url('../img/visual-system/solarex-documentation-breaker.svg');}
+body[data-visual-page='faq']{--page-hero-image:linear-gradient(110deg,rgba(7,17,29,.88),rgba(7,17,29,.52)),url('../img/diagrams/faq-decision-tree.svg');}
+body[data-visual-page='contact']{--page-hero-image:linear-gradient(110deg,rgba(7,17,29,.88),rgba(7,17,29,.54)),url('../img/diagrams/contact-routing-flow.svg');}
+body[data-route-path*='applications']{--page-hero-image:linear-gradient(110deg,rgba(7,17,29,.88),rgba(7,17,29,.54)),url('../img/visual-system/solarex_application_process_radar.svg');}
+body[data-route-path*='markets']{--page-hero-image:linear-gradient(110deg,rgba(7,17,29,.88),rgba(7,17,29,.54)),url('../img/visual-system/solarex_regional_context_v01.svg');}
+body[data-route-path*='partners']{--page-hero-image:linear-gradient(110deg,rgba(7,17,29,.88),rgba(7,17,29,.54)),url('../img/visual-system/solarex_partner_enablement_v01.svg');}
+.visual-page-breaker{padding:0!important;border-top:1px solid rgba(214,229,239,.16);border-bottom:1px solid rgba(214,229,239,.16);overflow:hidden;background:#101820;}
+.visual-page-breaker .page-breaker-image{display:block;width:100%;height:clamp(260px,34vw,460px);object-fit:cover;object-position:center;border-radius:0!important;filter:saturate(1.04) contrast(1.06);}
+.visual-page-breaker .page-breaker-caption{max-width:1180px;margin:-118px auto 0;position:relative;padding:0 24px 46px;text-align:center;text-shadow:0 2px 20px rgba(0,0,0,.75);}
+.visual-page-breaker .page-breaker-caption .kicker{color:#8fc7ff!important;}
+.visual-page-breaker .page-breaker-caption h2{margin:auto;color:#dcefff!important;max-width:780px;}
+.visual-chart-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:20px;}
+.visual-chart-node{min-height:126px;border:1px solid rgba(102,168,238,.45);border-radius:18px;padding:18px;background:rgba(102,168,238,.07);position:relative;overflow:hidden;}
+.visual-chart-node:before{content:"";position:absolute;left:20px;bottom:18px;width:9px;height:9px;border-radius:50%;background:#66a8ee;box-shadow:0 0 0 8px rgba(102,168,238,.13);}
+.visual-chart-node h3{color:#8fc7ff!important;margin-bottom:6px;}
+.visual-chart-node p{margin:0;color:#f0f7ff!important;}
+.visual-chart-node:nth-child(2),.visual-chart-node:nth-child(4){transform:translateY(34px);}
+.radial-process{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:center;margin-top:22px;}
+.radial-process-visual{min-height:380px;border:1px solid rgba(214,229,239,.18);border-radius:22px;background:radial-gradient(circle at 50% 50%,rgba(102,168,238,.38) 0 16%,transparent 16.2% 24%,rgba(214,229,239,.12) 24.4% 24.8%,transparent 25% 33%,rgba(214,229,239,.14) 33.3% 33.7%,transparent 34%),linear-gradient(135deg,#15202c,#0c131c);position:relative;}
+.radial-process-visual:after{content:"Monitoring & Review";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-weight:800;text-align:center;color:#eef8ff;font-size:24px;}
+.radial-process-list{display:grid;gap:12px;}
+.radial-process-list .step-card{border:1px solid rgba(214,229,239,.18);border-radius:14px;padding:16px;background:rgba(214,229,239,.055);}
+.radial-process-list .step-card h3{margin-bottom:5px;color:#dcefff!important;}
+.unique-visual-note{font-size:13px;color:#d2e2ee;margin-top:8px;}
+@media(max-width:980px){.visual-chart-grid,.radial-process{grid-template-columns:1fr;}.visual-chart-node:nth-child(2),.visual-chart-node:nth-child(4){transform:none}.visual-page-breaker .page-breaker-caption{margin:-92px auto 0;padding-bottom:34px}.hero:before{background-position:center!important;}}
