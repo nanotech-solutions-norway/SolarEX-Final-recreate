@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://www.solarex.no/</loc></url>
+  <url><loc>https://www.solarex.no/technology/</loc></url>
   <url><loc>https://www.solarex.no/quartz/</loc></url>
   <url><loc>https://www.solarex.no/titan/</loc></url>
-  <url><loc>https://www.solarex.no/technology/</loc></url>
-  <url><loc>https://www.solarex.no/applications/</loc></url>
-  <url><loc>https://www.solarex.no/markets/</loc></url>
-  <url><loc>https://www.solarex.no/markets/europe/</loc></url>
-  <url><loc>https://www.solarex.no/markets/middle-east/</loc></url>
-  <url><loc>https://www.solarex.no/markets/nordics/</loc></url>
-  <url><loc>https://www.solarex.no/industries/solar-asset-owners/</loc></url>
-  <url><loc>https://www.solarex.no/industries/epc-installers/</loc></url>
-  <url><loc>https://www.solarex.no/industries/om-teams/</loc></url>
-  <url><loc>https://www.solarex.no/partners/</loc></url>
-  <url><loc>https://www.solarex.no/case-studies/</loc></url>
-  <url><loc>https://www.solarex.no/roi-calculator/</loc></url>
-  <url><loc>https://www.solarex.no/technical-review/</loc></url>
   <url><loc>https://www.solarex.no/projects/</loc></url>
   <url><loc>https://www.solarex.no/documentation/</loc></url>
   <url><loc>https://www.solarex.no/faq/</loc></url>
   <url><loc>https://www.solarex.no/contact/</loc></url>
+  <url><loc>https://www.solarex.no/roi-calculator/</loc></url>
+  <url><loc>https://www.solarex.no/applications/pv-soiling-loss-mitigation/</loc></url>
+  <url><loc>https://www.solarex.no/applications/anti-soiling-coating/</loc></url>
+  <url><loc>https://www.solarex.no/applications/cleaning-cost-reduction/</loc></url>
+  <url><loc>https://www.solarex.no/case-studies/</loc></url>
+  <url><loc>https://www.solarex.no/markets/</loc></url>
+  <url><loc>https://www.solarex.no/markets/europe/</loc></url>
+  <url><loc>https://www.solarex.no/markets/middle-east/</loc></url>
+  <url><loc>https://www.solarex.no/markets/nordics/</loc></url>
+  <url><loc>https://www.solarex.no/partners/</loc></url>
 </urlset>
