@@ -29,25 +29,27 @@ document.addEventListener('DOMContentLoaded', () => {
     document.head.appendChild(script);
   };
 
-  loadCss(assetPath('assets/css/solarex-overrides.css?v=20260527-unique-visuals-2'), 'data-solarex-overrides');
-  loadCss(assetPath('assets/css/visual-upgrade.css?v=20260527-unique-visuals-2'), 'data-solarex-visual-css');
-  loadCss(assetPath('assets/css/solarex-cleanup.css?v=20260527-unique-visuals-2'), 'data-solarex-cleanup-css');
-  loadCss(assetPath('assets/css/table-enhancements.css?v=20260527-unique-visuals-2'), 'data-solarex-table-css');
-  loadCss(assetPath('assets/css/footer-gap-fix.css?v=20260527-unique-visuals-2'), 'data-solarex-footer-gap-css');
-  loadCss(assetPath('assets/css/roi-cta.css?v=20260527-unique-visuals-2'), 'data-solarex-roi-cta-css-main');
-  loadCss(assetPath('assets/css/footer-legal-fix.css?v=20260527-unique-visuals-2'), 'data-solarex-footer-legal-css');
-  loadCss(assetPath('assets/css/contrast-audit-fix.css?v=20260527-unique-visuals-2'), 'data-solarex-contrast-css');
-  loadCss(assetPath('assets/css/benefit-alignment-fix.css?v=20260527-unique-visuals-2'), 'data-solarex-benefit-align-css');
-  loadScript(assetPath('assets/js/visual-upgrade.js?v=20260527-unique-visuals-2'), 'data-solarex-visual-js');
-  loadScript(assetPath('assets/js/visual-audit-upgrades.js?v=20260527-unique-visuals-2'), 'data-solarex-visual-audit-js');
-  loadScript(assetPath('assets/js/table-enhancements.js?v=20260527-unique-visuals-2'), 'data-solarex-table-js');
-  loadScript(assetPath('assets/js/footer-gap-fix.js?v=20260527-unique-visuals-2'), 'data-solarex-footer-gap-js');
-  loadScript(assetPath('assets/js/footer-legal-fix.js?v=20260527-unique-visuals-2'), 'data-solarex-footer-legal-js');
-  loadScript(assetPath('assets/js/solarex-cleanup.js?v=20260527-unique-visuals-2'), 'data-solarex-cleanup-js');
+  loadCss(assetPath('assets/css/solarex-overrides.css?v=20260528-validation-gate-1'), 'data-solarex-overrides');
+  loadCss(assetPath('assets/css/visual-upgrade.css?v=20260528-validation-gate-1'), 'data-solarex-visual-css');
+  loadCss(assetPath('assets/css/solarex-cleanup.css?v=20260528-validation-gate-1'), 'data-solarex-cleanup-css');
+  loadCss(assetPath('assets/css/table-enhancements.css?v=20260528-validation-gate-1'), 'data-solarex-table-css');
+  loadCss(assetPath('assets/css/footer-gap-fix.css?v=20260528-validation-gate-1'), 'data-solarex-footer-gap-css');
+  loadCss(assetPath('assets/css/roi-cta.css?v=20260528-validation-gate-1'), 'data-solarex-roi-cta-css-main');
+  loadCss(assetPath('assets/css/footer-legal-fix.css?v=20260528-validation-gate-1'), 'data-solarex-footer-legal-css');
+  loadCss(assetPath('assets/css/contrast-audit-fix.css?v=20260528-validation-gate-1'), 'data-solarex-contrast-css');
+  loadCss(assetPath('assets/css/benefit-alignment-fix.css?v=20260528-validation-gate-1'), 'data-solarex-benefit-align-css');
+  loadScript(assetPath('assets/js/visual-upgrade.js?v=20260528-validation-gate-1'), 'data-solarex-visual-js');
+  loadScript(assetPath('assets/js/visual-audit-upgrades.js?v=20260528-validation-gate-1'), 'data-solarex-visual-audit-js');
+  loadScript(assetPath('assets/js/table-enhancements.js?v=20260528-validation-gate-1'), 'data-solarex-table-js');
+  loadScript(assetPath('assets/js/footer-gap-fix.js?v=20260528-validation-gate-1'), 'data-solarex-footer-gap-js');
+  loadScript(assetPath('assets/js/footer-legal-fix.js?v=20260528-validation-gate-1'), 'data-solarex-footer-legal-js');
+  loadScript(assetPath('assets/js/solarex-cleanup.js?v=20260528-validation-gate-1'), 'data-solarex-cleanup-js');
 
   const routePath = routeParts.join('/').replace(/\/$/, '');
   const isContactIndex = routePath === 'contact';
   const contactPath = isContactIndex ? '#technical-form' : `${routePrefix}contact/#technical-form`;
+  const commercialPath = isContactIndex ? '#commercial-form' : `${routePrefix}contact/#commercial-form`;
+  const documentationRequestPath = isContactIndex ? '#documentation-form' : `${routePrefix}contact/#documentation-form`;
   const normalizeHref = (path) => routePrefix + path;
 
   const nav = document.querySelector('[data-nav]');
@@ -76,12 +78,24 @@ document.addEventListener('DOMContentLoaded', () => {
         <button class="nav-group-toggle" type="button" aria-expanded="false">Evidence</button>
         <div class="nav-group-menu">
           <a href="${normalizeHref('projects/')}">Projects</a>
-          <a href="${normalizeHref('roi-calculator/')}">ROI Calculator</a>
+          <a href="${normalizeHref('case-studies/')}">Case Studies</a>
           <a href="${normalizeHref('documentation/')}">Documentation</a>
           <a href="${normalizeHref('faq/')}">FAQ</a>
         </div>
       </div>
+      <div class="nav-group">
+        <button class="nav-group-toggle" type="button" aria-expanded="false">Markets</button>
+        <div class="nav-group-menu">
+          <a href="${normalizeHref('markets/')}">Markets Hub</a>
+          <a href="${normalizeHref('markets/europe/')}">Europe</a>
+          <a href="${normalizeHref('markets/middle-east/')}">Middle East / GCC</a>
+          <a href="${normalizeHref('markets/nordics/')}">Nordics</a>
+          <a href="${normalizeHref('partners/')}">Partners</a>
+        </div>
+      </div>
+      <a class="nav-roi-link" href="${normalizeHref('roi-calculator/')}">Calculate ROI</a>
       <a class="nav-cta" href="${contactPath}">Technical Review</a>
+      <a class="nav-doc-cta" href="${documentationRequestPath}">Documentation</a>
       <a class="lang-flag" href="${normalizeHref('index.html')}" aria-label="English language">🇬🇧</a>
     `;
   }
@@ -159,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  const menuButton = document.querySelector('[data-menu-toggle]');
+  const menuButton = document.querySelector('[data-menu-toggle], #roiMenuToggle');
   const closeMobileMenu = () => {
     if (!nav || !menuButton) return;
     nav.classList.remove('is-open');
@@ -168,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   if (menuButton && nav) {
-    menuButton.textContent = '';
+    if (menuButton.hasAttribute('data-menu-toggle')) menuButton.textContent = '';
     menuButton.setAttribute('aria-label', 'Open menu');
     menuButton.addEventListener('click', (event) => {
       event.stopPropagation();
