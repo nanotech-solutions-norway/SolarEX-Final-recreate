@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>SolarEX ROI Calculator | PV Glass Coating Scenario Tool</title>
-  <meta name="description" content="Estimate SolarEX Quartz SiO₂ and Titan TiO₂ ROI using panel area, sunlight hours, electricity value, coating assumptions, Euro outputs and local currency conversion.">
+  <title>SolarEX ROI Calculator | PV Glass Coating Payback</title>
+  <meta name="description" content="Calculate the first-pass value case for SolarEX PV glass coating using project area, cell type, location, sunlight hours and electricity value.">
   <link rel="canonical" href="https://www.solarex.no/roi-calculator/">
   <link rel="alternate" hreflang="x-default" href="https://www.solarex.no/roi-calculator/">
   <link rel="alternate" hreflang="en" href="https://www.solarex.no/roi-calculator/">
   <meta property="og:title" content="SolarEX ROI Calculator">
-  <meta property="og:description" content="Model SolarEX coating ROI with site location, panel area, sunlight hours, electricity price, pathway assumptions and local currency conversion.">
+  <meta property="og:description" content="Compare baseline production with SolarEX Quartz or Titan coating scenarios and route the result to technical review or pilot planning.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.solarex.no/roi-calculator/">
   <meta name="theme-color" content="#171B21">
@@ -19,242 +19,24 @@
   <link rel="stylesheet" href="../assets/css/seo-pages.css">
   <link rel="stylesheet" href="../assets/css/roi-calculator.css?v=20260524-roi-refine-1">
   <link rel="stylesheet" href="../assets/css/roi-calculator-layout-fix.css?v=20260524-tech-currency-1">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","@id":"https://www.solarex.no/roi-calculator/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.solarex.no/"},{"@type":"ListItem","position":2,"name":"ROI Calculator","item":"https://www.solarex.no/roi-calculator/"}]},{"@type":"WebApplication","@id":"https://www.solarex.no/roi-calculator/#app","name":"SolarEX ROI Calculator","applicationCategory":"BusinessApplication","operatingSystem":"Web","description":"Screening tool for SolarEX Quartz SiO₂ and Titan TiO₂ PV glass coating ROI using site, energy and coating assumptions."},{"@type":"FAQPage","@id":"https://www.solarex.no/roi-calculator/#faq","mainEntity":[{"@type":"Question","name":"How should the SolarEX ROI result be used?","acceptedAnswer":{"@type":"Answer","text":"Use the result to decide whether a technical review, treated/control pilot or procurement-grade calculation is justified."}},{"@type":"Question","name":"Which inputs affect SolarEX ROI?","acceptedAnswer":{"@type":"Answer","text":"Panel area, specific power, sunlight hours, electricity value, selected coating route, coating price, expected gain and service life all affect the screening output."}}]}]}
+  </script>
 </head>
 <body class="roi-page">
   <a class="skip-link" href="#calculator">Skip to calculator</a>
-  <header class="site-header roi-site-header">
-    <div class="nav-shell">
-      <a class="brand" href="../index.html" aria-label="SolarEX home">Solar<span>EX</span></a>
-      <button class="menu-toggle" id="roiMenuToggle" type="button" aria-expanded="false" aria-controls="roiNav">Menu</button>
-      <nav id="roiNav" class="site-nav roi-nav" aria-label="Primary navigation">
-        <a href="../index.html">Home</a>
-        <div class="nav-group">
-          <button class="nav-group-toggle" type="button" aria-expanded="false">Solutions</button>
-          <div class="nav-group-menu">
-            <a href="../quartz/">Quartz SiO₂</a>
-            <a href="../titan/">Titan TiO₂</a>
-            <a href="../technology/">Technology</a>
-          </div>
-        </div>
-        <div class="nav-group">
-          <button class="nav-group-toggle" type="button" aria-expanded="false">Evidence</button>
-          <div class="nav-group-menu">
-            <a href="../projects/">Projects</a>
-            <a href="../case-studies/">Case Studies</a>
-            <a href="../documentation/">Documentation</a>
-            <a href="../faq/">FAQ</a>
-          </div>
-        </div>
-        <a class="nav-roi-link" href="../roi-calculator/" aria-current="page">ROI Calculator</a>
-        <a class="nav-cta" href="../technical-review/">Technical Review</a>
-        <a class="lang-flag" href="../index.html" aria-label="English language"></a>
-      </nav>
-    </div>
-  </header>
-
+  <header class="site-header roi-site-header"><div class="nav-shell"><a class="brand" href="../index.html" aria-label="SolarEX home">Solar<span>EX</span></a><button class="menu-toggle" id="roiMenuToggle" type="button" aria-expanded="false" aria-controls="roiNav">Menu</button><nav id="roiNav" class="site-nav roi-nav" aria-label="Primary navigation"><a href="../index.html">Home</a><a href="../technology/">Technology</a><a href="../quartz/">Quartz SiO₂</a><a href="../titan/">Titan TiO₂</a><a href="../projects/">Evidence</a><a class="nav-roi-link" href="../roi-calculator/" aria-current="page">ROI Calculator</a><a class="nav-cta" href="../contact/#technical-form">Technical Review</a></nav></div></header>
   <main>
-    <section class="roi-hero">
-      <div class="roi-shell roi-hero-grid">
-        <div>
-          <p class="eyebrow">SolarEX ROI model</p>
-          <h1>Estimate coating value from site-specific solar data.</h1>
-          <p class="lead">A focused ROI calculator for SolarEX Quartz SiO₂ and SolarEX Titan TiO₂. Enter panel area, cell type, location, sunlight hours and electricity value. The calculator can estimate sunlight hours online, resolve GPS location, apply Quartz/Titan defaults and display local-currency plus Euro reference values.</p>
-          <div class="roi-actions">
-            <a class="btn primary" href="#calculator">Start calculation</a>
-            <a class="btn ghost" href="#method">View method</a>
-            <a class="btn ghost" href="../technical-review/">Request technical review</a>
-          </div>
-        </div>
-        <aside class="roi-hero-panel" aria-label="Reference assumptions">
-          <div><span class="roi-metric">195</span><span class="roi-metric-label">Default Polycrystalline W/m²</span></div>
-          <div><span class="roi-metric">227</span><span class="roi-metric-label">TOPCon high-efficiency reference W/m²</span></div>
-          <div><span class="roi-metric">+5.15%</span><span class="roi-metric-label">Titan 360-day study uplift reference</span></div>
-        </aside>
-      </div>
-    </section>
+    <section class="roi-hero"><div class="roi-shell roi-hero-grid"><div><p class="eyebrow">SolarEX ROI model</p><h1>Calculate the first-pass value case for SolarEX PV glass coating.</h1><p class="lead">Enter project area, cell type, location, sunlight hours and electricity value to compare baseline production with SolarEX Quartz or Titan coating scenarios.</p><p class="mini">Screening output: use the result to decide whether a technical review, pilot or procurement-grade calculation is justified.</p><div class="roi-actions"><a class="btn primary" href="#calculator">Compute SolarEX ROI</a><a class="btn ghost" href="#method">View method</a><a class="btn ghost" href="../contact/#technical-form">Send scenario for technical review</a></div></div><aside class="roi-hero-panel" aria-label="Reference assumptions"><div><span class="roi-metric">195</span><span class="roi-metric-label">Default Polycrystalline W/m²</span></div><div><span class="roi-metric">227</span><span class="roi-metric-label">TOPCon high-efficiency reference W/m²</span></div><div><span class="roi-metric">+5.15%</span><span class="roi-metric-label">Titan 360-day study uplift reference</span></div></aside></div></section>
 
-    <section id="calculator" class="roi-section">
-      <div class="roi-shell">
-        <div class="roi-section-head">
-          <p class="eyebrow">Commercial planning tool</p>
-          <h2>SolarEX ROI Calculator</h2>
-          <p>Use the calculator as a screening model for coated PV glass area, sunlight hours, electricity value, coating pathway and project economics.</p>
-        </div>
+    <section class="roi-section"><div class="roi-shell"><div class="roi-section-head narrow"><p class="eyebrow">Assumptions summary</p><h2>Review the model assumptions before using the result.</h2><p>The calculator is a commercial screening tool, not a guarantee. Inputs should be adjusted when project-specific data is available.</p></div><div class="method-grid"><div class="roi-card method-card"><span class="step">Quartz</span><h3>Passive SiO₂ scenario</h3><p>Use for dust, pollen, salt and mineral-soiling contexts. Defaults may vary by region and should be checked against O&M data.</p></div><div class="roi-card method-card"><span class="step">Titan</span><h3>Active TiO₂ scenario</h3><p>Use for UV-sufficient organic, biological or atmospheric fouling. The +5.15% reference is a monitored-study context.</p></div><div class="roi-card method-card"><span class="step">Review</span><h3>Technical follow-up</h3><p>Send the scenario to SolarEX when payback, pilot design or procurement justification is commercially relevant.</p></div></div></div></section>
 
-        <div class="roi-calculator-layout">
-          <form class="roi-card input-card" id="roiForm">
-            <div class="roi-card-head">
-              <h3>Inputs</h3>
-              <span class="status-pill" id="dataStatus">Ready</span>
-            </div>
+    <section id="calculator" class="roi-section"><div class="roi-shell"><div class="roi-section-head"><p class="eyebrow">Commercial planning tool</p><h2>SolarEX ROI Calculator</h2><p>Use the calculator as a screening model for coated PV glass area, sunlight hours, electricity value, coating pathway and project economics.</p></div><div class="roi-calculator-layout"><form class="roi-card input-card" id="roiForm"><div class="roi-card-head"><h3>Inputs</h3><span class="status-pill" id="dataStatus">Ready</span></div><div class="two-col"><div><label for="cellType">Solar cell type <span class="required-mark">*</span></label><select id="cellType" required><option value="poly" selected>Polycrystalline c-Si</option><option value="mono">Monocrystalline c-Si</option><option value="perc">PERC</option><option value="topcon">TOPCon</option><option value="thinfilm">Thin-film</option><option value="perovskite">Perovskites / tandem pilot</option></select><p class="field-note" id="cellTypeNote">Polycrystalline is treated as a legacy installed-base technology; default specific power is set to 195 W/m².</p></div><div><label for="installedDate">Installed date (optional)</label><input type="date" id="installedDate"><p class="field-note">Used to estimate remaining panel life expectancy.</p></div></div><div class="two-col"><div><label for="area">Panel area <span class="required-mark">*</span></label><div class="input-row area-row"><input type="number" id="area" placeholder="Enter area" min="0" step="0.01" required><select id="areaUnit" aria-label="Area unit"><option value="m2">m²</option><option value="ft2">ft²</option></select></div></div><div><label for="wPerM2">Panel specific power (W/m²) <span class="required-mark">*</span></label><input type="number" id="wPerM2" value="195" step="1" min="1" required><p class="field-note" id="wPerM2Note">Auto-set by selected cell type. Edit only when module datasheet values are available.</p></div></div><label for="country">Location <span class="required-mark">*</span></label><div class="two-col location-grid"><div><select id="country" required><option value="">Loading countries…</option></select><p class="field-note">Country is used for region defaults and local currency.</p></div><div><input id="address" placeholder="Address, city or project location"><div class="inline-actions"><button class="btn compact" id="geocodeBtn" type="button">Geocode address</button><button class="btn compact" id="locateBtn" type="button">Use GPS</button></div><p class="field-note" id="coordsHint">Lat: —, Lon: —</p></div></div><div class="checkbox-field"><input type="checkbox" id="useOnlineSun" checked><label for="useOnlineSun">Estimate sunlight hours/year from online weather for chosen location</label></div><div class="two-col"><div><label for="sunHours">Sunlight hours per year <span class="required-mark">*</span></label><input type="number" id="sunHours" placeholder="e.g., 2335" step="1" min="0" required><p class="field-note">Auto-filled when online estimation is enabled and coordinates are available.</p></div><div><label for="sunYear">Reference year for estimation</label><input type="number" id="sunYear" min="1990" max="2100"><p class="field-note">Defaults to the most recent full calendar year.</p></div></div><div class="two-col"><div><label for="consumption">Power consumption per year (kWh)</label><input type="number" id="consumption" placeholder="Optional" step="1" min="0"><p class="field-note">Used for coverage / self-sufficiency insight.</p></div><div><label for="price">Average electricity price (<span id="priceCurrencyLabel">€/kWh</span>) <span class="required-mark">*</span></label><input type="number" id="price" step="0.0001" min="0" value="0.0462" placeholder="0.0462" required><div class="checkbox-action-row"><span class="checkbox-field compact-check"><input type="checkbox" id="useNordPool" checked><label for="useNordPool">Try Nord Pool auto-price</label></span><button class="btn compact" id="fetchPriceBtn" type="button">Fetch price</button></div></div></div><div class="two-col"><div><label for="coating">Coating <span class="required-mark">*</span></label><select id="coating" required><option value="none">No coating (baseline)</option><option value="sio2">SolarEX Quartz SiO₂</option><option value="tio2">SolarEX Titan TiO₂</option></select></div><div><label for="coatPrice">Coating price (<span id="coatPriceCurrencyLabel">€/m²</span>) <span class="required-mark">*</span></label><input type="number" id="coatPrice" value="2.44" step="0.01" min="0" required></div></div><div class="two-col"><div><label for="gainPct">Expected performance gain (%)</label><input type="number" id="gainPct" placeholder="Auto" step="0.1" min="0"></div><div><label for="coatLife">Coating service life (years)</label><input type="number" id="coatLife" placeholder="Auto" step="0.1" min="0"></div></div><button class="btn primary wide" id="runBtn" type="submit">Compute SolarEX ROI</button></form><section class="roi-card result-card" aria-live="polite"><div class="roi-card-head"><h3>Results</h3><span class="status-pill accent" id="sourceBadge">Awaiting calculation</span></div><div class="kpi-grid"><div class="kpi"><span>Baseline production</span><strong id="baselineKwh">—</strong><small>kWh / year</small></div><div class="kpi"><span>Production with coating</span><strong id="withCoatingKwh">—</strong><small>kWh / year</small></div><div class="kpi"><span>Annual gain from coating</span><strong id="annualGain">—</strong><small id="annualGainLocal">€/year</small></div><div class="kpi"><span>Simple payback</span><strong id="payback">—</strong><small>days</small></div></div><div class="net-value"><span>Net value over selected analysis horizon</span><strong id="netValueOut">—</strong><small id="netValueLocalOut">—</small></div><div class="currency-panel"><span>Currency conversion</span><strong id="localCurrencyOut">Local currency: EUR</strong><small id="exchangeRateOut">Local currency rate: 1 EUR = 1 EUR</small></div><h3 class="detail-heading">Detail</h3><table class="result-table" id="detailTable"><thead><tr><th>Metric</th><th>Value</th></tr></thead><tbody></tbody></table><div class="roi-actions"><a class="btn ghost" href="../contact/#technical-form">Send this scenario for SolarEX technical review</a></div></section></div><div class="roi-card roi-notes-box" id="notes">• Baseline method: kWh = Area × (W/m² ÷ 1000) × Sunlight hours/year.<br>• Quartz SiO₂ defaults: Europe 10% gain and 5y life; Middle East 2% gain and 3y life.<br>• Outputs are screening scenarios and should be reviewed against project conditions before procurement decisions.</div></div></section>
 
-            <div class="two-col">
-              <div>
-                <label for="cellType">Solar cell type <span class="required-mark">*</span></label>
-                <select id="cellType" required>
-                  <option value="poly" selected>Polycrystalline c-Si</option>
-                  <option value="mono">Monocrystalline c-Si</option>
-                  <option value="perc">PERC</option>
-                  <option value="topcon">TOPCon</option>
-                  <option value="thinfilm">Thin-film</option>
-                  <option value="perovskite">Perovskites / tandem pilot</option>
-                </select>
-                <p class="field-note" id="cellTypeNote">Polycrystalline is treated as a legacy installed-base technology; default specific power is set to 195 W/m².</p>
-              </div>
-              <div>
-                <label for="installedDate">Installed date (optional)</label>
-                <input type="date" id="installedDate">
-                <p class="field-note">Used to estimate remaining panel life expectancy.</p>
-              </div>
-            </div>
-
-            <div class="two-col">
-              <div>
-                <label for="area">Panel area <span class="required-mark">*</span></label>
-                <div class="input-row area-row">
-                  <input type="number" id="area" placeholder="Enter area" min="0" step="0.01" required>
-                  <select id="areaUnit" aria-label="Area unit"><option value="m2">m²</option><option value="ft2">ft²</option></select>
-                </div>
-              </div>
-              <div>
-                <label for="wPerM2">Panel specific power (W/m²) <span class="required-mark">*</span></label>
-                <input type="number" id="wPerM2" value="195" step="1" min="1" required>
-                <p class="field-note" id="wPerM2Note">Auto-set by selected cell type. Edit only when module datasheet values are available.</p>
-              </div>
-            </div>
-
-            <label for="country">Location <span class="required-mark">*</span></label>
-            <div class="two-col location-grid">
-              <div>
-                <select id="country" required><option value="">Loading countries…</option></select>
-                <p class="field-note">Country is used for region defaults and local currency.</p>
-              </div>
-              <div>
-                <input id="address" placeholder="Address, city or project location">
-                <div class="inline-actions">
-                  <button class="btn compact" id="geocodeBtn" type="button">Geocode address</button>
-                  <button class="btn compact" id="locateBtn" type="button">Use GPS</button>
-                </div>
-                <p class="field-note" id="coordsHint">Lat: —, Lon: —</p>
-              </div>
-            </div>
-
-            <div class="checkbox-field">
-              <input type="checkbox" id="useOnlineSun" checked>
-              <label for="useOnlineSun">Estimate sunlight hours/year from online weather for chosen location</label>
-            </div>
-
-            <div class="two-col">
-              <div>
-                <label for="sunHours">Sunlight hours per year <span class="required-mark">*</span></label>
-                <input type="number" id="sunHours" placeholder="e.g., 2335" step="1" min="0" required>
-                <p class="field-note">Auto-filled when online estimation is enabled and coordinates are available.</p>
-              </div>
-              <div>
-                <label for="sunYear">Reference year for estimation</label>
-                <input type="number" id="sunYear" min="1990" max="2100">
-                <p class="field-note">Defaults to the most recent full calendar year.</p>
-              </div>
-            </div>
-
-            <div class="two-col">
-              <div>
-                <label for="consumption">Power consumption per year (kWh)</label>
-                <input type="number" id="consumption" placeholder="Optional" step="1" min="0">
-                <p class="field-note">Used for coverage / self-sufficiency insight.</p>
-              </div>
-              <div>
-                <label for="price">Average electricity price (<span id="priceCurrencyLabel">€/kWh</span>) <span class="required-mark">*</span></label>
-                <input type="number" id="price" step="0.0001" min="0" value="0.0462" placeholder="0.0462" required>
-                <div class="checkbox-action-row">
-                  <span class="checkbox-field compact-check"><input type="checkbox" id="useNordPool" checked><label for="useNordPool">Try Nord Pool auto-price</label></span>
-                  <button class="btn compact" id="fetchPriceBtn" type="button">Fetch price</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="two-col">
-              <div>
-                <label for="coating">Coating <span class="required-mark">*</span></label>
-                <select id="coating" required>
-                  <option value="none">No coating (baseline)</option>
-                  <option value="sio2">SolarEX Quartz SiO₂</option>
-                  <option value="tio2">SolarEX Titan TiO₂</option>
-                </select>
-              </div>
-              <div>
-                <label for="coatPrice">Coating price (<span id="coatPriceCurrencyLabel">€/m²</span>) <span class="required-mark">*</span></label>
-                <input type="number" id="coatPrice" value="2.44" step="0.01" min="0" required>
-              </div>
-            </div>
-
-            <div class="two-col">
-              <div>
-                <label for="gainPct">Expected performance gain (%)</label>
-                <input type="number" id="gainPct" placeholder="Auto" step="0.1" min="0">
-              </div>
-              <div>
-                <label for="coatLife">Coating service life (years)</label>
-                <input type="number" id="coatLife" placeholder="Auto" step="0.1" min="0">
-              </div>
-            </div>
-
-            <button class="btn primary wide" id="runBtn" type="submit">Compute ROI</button>
-          </form>
-
-          <section class="roi-card result-card" aria-live="polite">
-            <div class="roi-card-head"><h3>Results</h3><span class="status-pill accent" id="sourceBadge">Awaiting calculation</span></div>
-            <div class="kpi-grid">
-              <div class="kpi"><span>Baseline production</span><strong id="baselineKwh">—</strong><small>kWh / year</small></div>
-              <div class="kpi"><span>Production with coating</span><strong id="withCoatingKwh">—</strong><small>kWh / year</small></div>
-              <div class="kpi"><span>Annual gain from coating</span><strong id="annualGain">—</strong><small id="annualGainLocal">€/year</small></div>
-              <div class="kpi"><span>Simple payback</span><strong id="payback">—</strong><small>days</small></div>
-            </div>
-            <div class="net-value"><span>Net value over selected analysis horizon</span><strong id="netValueOut">—</strong><small id="netValueLocalOut">—</small></div>
-            <div class="currency-panel"><span>Currency conversion</span><strong id="localCurrencyOut">Local currency: EUR</strong><small id="exchangeRateOut">Local currency rate: 1 EUR = 1 EUR</small></div>
-            <h3 class="detail-heading">Detail</h3>
-            <table class="result-table" id="detailTable"><thead><tr><th>Metric</th><th>Value</th></tr></thead><tbody></tbody></table>
-          </section>
-        </div>
-        <div class="roi-card roi-notes-box" id="notes">• Baseline method: kWh = Area × (W/m² ÷ 1000) × Sunlight hours/year.<br>• Quartz SiO₂ defaults: Europe 10% gain and 5y life; Middle East 2% gain and 3y life.<br>• Outputs are screening scenarios and should be reviewed against project conditions before procurement decisions.</div>
-      </div>
-    </section>
-
-    <section id="method" class="roi-section">
-      <div class="roi-shell">
-        <div class="roi-section-head narrow">
-          <p class="eyebrow">How to use</p>
-          <h2>Use the calculator as a screening model.</h2>
-          <p>Scenario outputs should support technical review and project qualification. They are not universal performance claims.</p>
-        </div>
-        <div class="method-grid">
-          <div class="roi-card method-card"><span class="step">01</span><h3>Enter asset data</h3><p>Panel area, W/m², cell type, installed date and optional consumption.</p></div>
-          <div class="roi-card method-card"><span class="step">02</span><h3>Resolve location</h3><p>Select country, geocode an address or use GPS. The calculator can estimate sunlight hours online.</p></div>
-          <div class="roi-card method-card"><span class="step">03</span><h3>Select pathway</h3><p>Choose baseline, Quartz SiO₂ or Titan TiO₂. Override assumptions only when project data supports it.</p></div>
-        </div>
-      </div>
-    </section>
-
-    <section id="pathways" class="roi-section">
-      <div class="roi-shell">
-        <div class="roi-section-head narrow"><p class="eyebrow">Parameter notes</p><h2>Quartz and Titan use different assumptions.</h2></div>
-        <div class="pathway-grid">
-          <article class="roi-card pathway-card quartz"><h3>SolarEX Quartz — SiO₂</h3><p>Passive, UV-independent SiO₂ surface architecture for hydrophobic and oleophobic easy-clean behavior. Default model: Europe +10% / 5 years; Middle East +2% / 3 years.</p><ul><li>No UV activation required</li><li>Best aligned with dust, pollen, salt and mineral soiling</li><li>Use site conditions and cleaning records for final review</li></ul></article>
-          <article class="roi-card pathway-card titan"><h3>SolarEX Titan — TiO₂</h3><p>Active TiO₂ photocatalytic pathway for UV-supported organic-contaminant decomposition and hydrophilic rinse behavior. Default model: +5.15% from 360-day study reference / 5 years.</p><ul><li>UV activation required</li><li>Best aligned with organic, biological or atmospheric fouling</li><li>Confirm UV availability during technical review</li></ul></article>
-        </div>
-      </div>
-    </section>
+    <section id="method" class="roi-section"><div class="roi-shell"><div class="roi-section-head narrow"><p class="eyebrow">How to use</p><h2>Use the calculator as a decision-support screen.</h2><p>Scenario outputs should support technical review, pilot planning and project qualification.</p></div><div class="method-grid"><div class="roi-card method-card"><span class="step">01</span><h3>Enter asset data</h3><p>Panel area, W/m², cell type, installed date and optional consumption.</p></div><div class="roi-card method-card"><span class="step">02</span><h3>Resolve location</h3><p>Select country, geocode an address or use GPS. The calculator can estimate sunlight hours online.</p></div><div class="roi-card method-card"><span class="step">03</span><h3>Select pathway</h3><p>Choose baseline, Quartz SiO₂ or Titan TiO₂. Override assumptions only when project data supports it.</p></div></div></div></section>
+    <section id="pathways" class="roi-section"><div class="roi-shell"><div class="roi-section-head narrow"><p class="eyebrow">Parameter notes</p><h2>Quartz and Titan use different assumptions.</h2></div><div class="pathway-grid"><article class="roi-card pathway-card quartz"><h3>SolarEX Quartz — SiO₂</h3><p>Passive, UV-independent SiO₂ surface architecture for hydrophobic and oleophobic easy-clean behavior. Default model: Europe +10% / 5 years; Middle East +2% / 3 years.</p><ul><li>No UV activation required</li><li>Best aligned with dust, pollen, salt and mineral soiling</li><li>Use site conditions and cleaning records for final review</li></ul></article><article class="roi-card pathway-card titan"><h3>SolarEX Titan — TiO₂</h3><p>Active TiO₂ photocatalytic pathway for UV-supported organic-contaminant decomposition and hydrophilic rinse behavior. Default model: +5.15% from 360-day study reference / 5 years.</p><ul><li>UV activation required</li><li>Best aligned with organic, biological or atmospheric fouling</li><li>Confirm UV availability during technical review</li></ul></article></div></div></section>
   </main>
-
-  <footer class="roi-footer">
-    <div class="roi-shell roi-footer-grid">
-      <div><a class="brand" href="../index.html">Solar<span>EX</span></a><p class="mini">PV glass surface engineering for commercial solar assets.</p></div>
-      <div><h3>Products</h3><a href="../quartz/">Quartz SiO₂</a><a href="../titan/">Titan TiO₂</a><a href="../technology/">Technology</a></div>
-      <div><h3>Markets</h3><a href="../markets/europe/">Europe</a><a href="../markets/middle-east/">Middle East</a><a href="../markets/nordics/">Nordics</a></div>
-      <div><h3>Evidence</h3><a href="../case-studies/">Case Studies</a><a href="../documentation/">Documentation</a><a href="../faq/">FAQ</a></div>
-      <div><h3>Conversion</h3><a href="../technical-review/">Technical Review</a><a href="../roi-calculator/">ROI Calculator</a><a href="../partners/">Partners</a></div>
-    </div>
-  </footer>
+  <footer class="roi-footer"><div class="roi-shell roi-footer-grid"><div><a class="brand" href="../index.html">Solar<span>EX</span></a><p class="mini">PV glass surface engineering for commercial solar assets.</p></div><div><h3>Products</h3><a href="../quartz/">Quartz SiO₂</a><a href="../titan/">Titan TiO₂</a><a href="../technology/">Technology</a></div><div><h3>Markets</h3><a href="../markets/europe/">Europe</a><a href="../markets/middle-east/">Middle East</a><a href="../markets/nordics/">Nordics</a></div><div><h3>Evidence</h3><a href="../case-studies/">Case Studies</a><a href="../documentation/">Documentation</a><a href="../faq/">FAQ</a></div><div><h3>Conversion</h3><a href="../contact/#technical-form">Technical Review</a><a href="../roi-calculator/">ROI Calculator</a><a href="../partners/">Partners</a></div></div></footer>
   <script src="../assets/js/roi-calculator.js?v=20260524-tech-currency-1"></script>
 </body>
 </html>
