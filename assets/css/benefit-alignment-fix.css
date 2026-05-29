@@ -21,6 +21,24 @@
 .pathway-benefit-layout .titan-benefits-card{
   height:100%!important;
 }
+
+/* Hero text correction from 29.05.2026 mobile QA pass. */
+.hero-inner > .mini{
+  display:none!important;
+}
+.hero .lead{
+  font-size:0!important;
+  max-width:900px!important;
+}
+.hero .lead::after{
+  content:'SolarEX helps asset owners, EPCs and O&M teams select the correct PV-glass coating pathway. UV-independent SiO₂ Quartz provides passive easy-clean protection. UV-supported TiO₂ Titan provides active photocatalytic contamination control.';
+  display:block;
+  font-family:var(--font-body)!important;
+  font-size:clamp(14.4px,1.6vw,18.4px)!important;
+  line-height:1.62!important;
+  color:#c8d9e6!important;
+}
+
 @media(max-width:980px){
   .pathway-benefit-layout .visual-checklist.aligned-benefit-list,
   .pathway-benefit-layout .visual-checklist{
@@ -29,5 +47,9 @@
   .pathway-benefit-layout .visual-checklist.aligned-benefit-list p,
   .pathway-benefit-layout .visual-checklist p{
     min-height:auto!important;
+  }
+  .hero .lead::after{
+    font-size:16px!important;
+    line-height:1.52!important;
   }
 }
