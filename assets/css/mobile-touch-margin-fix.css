@@ -1,0 +1,58 @@
+/* Mobile touch and margin safety pass for SolarEX visual route cards. */
+html,body{max-width:100%;overflow-x:hidden;}
+.solarex-route-card{-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;touch-action:pan-y;}
+.solarex-route-card,.solarex-route-card *{pointer-events:none;}
+@media(hover:none){.solarex-route-card:hover{transform:none!important;box-shadow:0 16px 36px rgba(0,0,0,.22)!important;}}
+@media(max-width:760px){
+  body:not(.roi-page){padding-left:0!important;padding-right:0!important;}
+  body:not(.roi-page) main{max-width:100%;overflow-x:hidden;}
+  body:not(.roi-page) .hero-inner,
+  body:not(.roi-page) .container,
+  body:not(.roi-page) .section > .container,
+  body:not(.roi-page) .visual-section .container,
+  body:not(.roi-page) .solarex-outside-hero-strip,
+  body:not(.roi-page) .solarex-visual-module{width:min(100% - 36px,1180px)!important;max-width:calc(100% - 36px)!important;margin-left:auto!important;margin-right:auto!important;}
+  body:not(.roi-page) .hero{padding-left:0!important;padding-right:0!important;}
+  body:not(.roi-page) .hero-inner{padding-left:0!important;padding-right:0!important;}
+  body:not(.roi-page) .solarex-outside-hero-strip{grid-template-columns:1fr!important;gap:14px!important;margin-top:22px!important;margin-bottom:30px!important;}
+  body:not(.roi-page) .solarex-route-card{min-height:auto!important;padding:22px 22px!important;border-radius:16px!important;}
+  body:not(.roi-page) .solarex-route-card strong{font-size:clamp(2.15rem,11vw,3.15rem)!important;line-height:1!important;margin-bottom:12px!important;}
+  body:not(.roi-page) .solarex-route-card span{font-size:clamp(1.05rem,5.6vw,1.42rem)!important;margin-bottom:20px!important;line-height:1.25!important;}
+  body:not(.roi-page) .solarex-route-card p{font-size:.98rem!important;line-height:1.58!important;}
+  body:not(.roi-page) .solarex-visual-panel,
+  body:not(.roi-page) .solarex-chart-panel,
+  body:not(.roi-page) .visual-card,
+  body:not(.roi-page) .diagram-card,
+  body:not(.roi-page) .chart-card,
+  body:not(.roi-page) .workflow-card,
+  body:not(.roi-page) .card,
+  body:not(.roi-page) .stat,
+  body:not(.roi-page) .step{padding-left:20px!important;padding-right:20px!important;}
+  body:not(.roi-page) h1,
+  body:not(.roi-page) h2,
+  body:not(.roi-page) h3,
+  body:not(.roi-page) p,
+  body:not(.roi-page) li,
+  body:not(.roi-page) td,
+  body:not(.roi-page) th{overflow-wrap:break-word;word-break:normal;}
+  body:not(.roi-page) .btn-row{padding-left:1px;padding-right:1px;}
+  body:not(.roi-page) .solarex-page-breaker::after{left:18px!important;right:18px!important;bottom:24px!important;max-width:calc(100% - 36px)!important;font-size:clamp(1rem,5vw,1.45rem)!important;line-height:1.25!important;}
+}
+@media(max-width:420px){
+  body:not(.roi-page) .hero-inner,
+  body:not(.roi-page) .container,
+  body:not(.roi-page) .section > .container,
+  body:not(.roi-page) .visual-section .container,
+  body:not(.roi-page) .solarex-outside-hero-strip,
+  body:not(.roi-page) .solarex-visual-module{width:min(100% - 30px,1180px)!important;max-width:calc(100% - 30px)!important;}
+  body:not(.roi-page) .solarex-route-card{padding:20px 19px!important;}
+  body:not(.roi-page) .solarex-visual-panel,
+  body:not(.roi-page) .solarex-chart-panel,
+  body:not(.roi-page) .visual-card,
+  body:not(.roi-page) .diagram-card,
+  body:not(.roi-page) .chart-card,
+  body:not(.roi-page) .workflow-card,
+  body:not(.roi-page) .card,
+  body:not(.roi-page) .stat,
+  body:not(.roi-page) .step{padding-left:18px!important;padding-right:18px!important;}
+}
