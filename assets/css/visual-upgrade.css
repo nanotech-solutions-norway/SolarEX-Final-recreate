@@ -1,6 +1,7 @@
 /* SolarEX visual upgrade pass v1 — mechanism visuals, diagrams, charts and animation layer. */
 @import url('https://fonts.googleapis.com/css2?family=Fauna+One&family=Libre+Baskerville:wght@400;700&display=swap');
 @import url('./visual-uniqueness-fix.css?v=20260527-unique-visuals-1');
+@import url('./mobile-touch-margin-fix.css?v=20260529-mobile-touch-margin-1');
 
 :root{
   --visual-blue:#66a8ee;
