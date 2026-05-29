@@ -22,7 +22,7 @@
     if (!document.querySelector('script[data-solarex-site-visual-alignment]')) {
       const script = document.createElement('script');
       script.defer = true;
-      script.src = assetPath('assets/js/visual-site-alignment.js?v=20260529-full-site-visual-alignment-2');
+      script.src = assetPath('assets/js/visual-site-alignment.js?v=20260529-visual-instruction-alignment-1');
       script.setAttribute('data-solarex-site-visual-alignment', 'true');
       document.head.appendChild(script);
     }
