@@ -75,3 +75,21 @@ button,.btn,.menu-toggle,.site-nav a,.nav-group-toggle,.contact-form button,inpu
   .contact-form .form-grid,.selector-grid{grid-template-columns:1fr;}
   .hero{background-position:center top!important;}
 }
+
+/* Mobile menu containment and complete-item visibility. */
+@media(max-width:980px){
+  body.mobile-menu-open{overflow:hidden!important;}
+  body.mobile-menu-open .site-header{overflow:visible!important;}
+  body.mobile-menu-open main,body.mobile-menu-open .hero,body.mobile-menu-open .section{transform:none!important;translate:none!important;margin-left:0!important;margin-right:0!important;}
+  .site-header{z-index:1000!important;}
+  .site-nav{position:fixed!important;left:14px!important;right:14px!important;top:72px!important;bottom:14px!important;width:auto!important;max-height:none!important;overflow-y:auto!important;overflow-x:hidden!important;-webkit-overflow-scrolling:touch!important;overscroll-behavior:contain!important;padding:12px!important;padding-top:56px!important;padding-bottom:16px!important;border-radius:18px!important;background:rgba(8,12,18,.985)!important;box-shadow:0 22px 64px rgba(0,0,0,.58)!important;}
+  .site-nav.is-open{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:7px!important;}
+  .mobile-menu-logo{top:10px!important;left:12px!important;width:96px!important;height:38px!important;}
+  .mobile-menu-logo:after{font-size:14px!important;}
+  .nav-home{display:flex!important;}
+  .site-nav > a:not(.mobile-menu-logo),.nav-group-menu a{min-height:38px!important;padding:8px 10px!important;font-size:15px!important;line-height:1.15!important;}
+  .nav-group-menu{gap:7px!important;}
+  .nav-contact,.nav-cta{display:flex!important;justify-content:center!important;align-items:center!important;width:100%!important;min-height:38px!important;padding:8px 10px!important;text-align:center!important;background:rgba(16,20,26,.58)!important;border:1px solid rgba(214,229,239,.13)!important;border-radius:5px!important;}
+  .nav-cta{background:rgba(94,152,241,.32)!important;}
+  .lang-flag{display:none!important;}
+}
