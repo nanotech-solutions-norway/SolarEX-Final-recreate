@@ -15,195 +15,113 @@
     const repoBase = repoIndex >= 0 ? `/${repoName}/` : '';
     const assetPath = (path) => repoBase ? `${repoBase}${path}` : `${relativePrefix}${path}`;
     const routePath = routeParts.join('/').replace(/\/$/, '');
+    if (routePath === 'roi-calculator' || routePath === 'contact/thanks') return;
 
-    const page = (() => {
-      if (routePath === 'quartz') return 'quartz';
-      if (routePath === 'titan') return 'titan';
-      if (routePath === 'technology') return 'technology';
-      if (routePath === 'projects') return 'projects';
-      if (routePath === 'documentation') return 'documentation';
-      if (routePath === 'faq') return 'faq';
-      if (routePath === 'contact' || routePath === 'contact/thanks') return 'contact';
-      return 'home';
-    })();
-
+    const routeMap = {
+      '': 'home', 'index.html': 'home',
+      'technology': 'technology', 'quartz': 'quartz', 'titan': 'titan', 'projects': 'projects',
+      'documentation': 'documentation', 'faq': 'faq', 'contact': 'contact',
+      'applications/pv-soiling-loss-mitigation': 'pvSoiling',
+      'applications/anti-soiling-coating': 'antiSoiling',
+      'applications/cleaning-cost-reduction': 'cleaningCost',
+      'case-studies': 'caseStudies', 'markets': 'markets', 'markets/europe': 'europe',
+      'markets/middle-east': 'middleEast', 'markets/nordics': 'nordics', 'partners': 'partners'
+    };
+    const page = routeMap[routePath] || 'home';
     document.body.dataset.visualPage = page;
+    document.body.dataset.routePath = routePath || 'home';
+    document.body.classList.add(`solarex-page-${page}`);
 
-    const diagramBase = assetPath('assets/img/diagrams/');
-    const copy = {
-      home: {
-        title: 'Mechanism-led visual decision layer',
-        img: `${diagramBase}pathway-selection-flow.svg`,
-        alt: 'SolarEX pathway selection diagram comparing Quartz SiO₂ and Titan TiO₂',
-        intro: 'SolarEX should be read as a two-route PV glass platform, not as a generic coating claim. The correct route is selected by soiling profile, UV availability, O&M burden and validation objective.'
-      },
-      quartz: {
-        title: 'Passive SiO₂ easy-clean mechanism',
-        img: `${diagramBase}quartz-passive-layer.svg`,
-        alt: 'Quartz SiO₂ passive surface layer diagram showing water beading and reduced adhesion',
-        intro: 'Quartz is the passive route. It visualizes SiO₂ surface architecture, reduced adhesion tendency and UV-independent easy-clean behavior for dust, pollen, salt and mineral-dominated soiling.'
-      },
-      titan: {
-        title: 'Active TiO₂ UV and rinse mechanism',
-        img: `${diagramBase}titan-active-uv-rinse.svg`,
-        alt: 'Titan TiO₂ UV activation diagram showing photocatalysis and hydrophilic rinse behavior',
-        intro: 'Titan is the active route. It visualizes UV-triggered TiO₂ photocatalysis, organic contaminant breakdown and hydrophilic rinse behavior for UV-sufficient environments.'
-      },
-      technology: {
-        title: 'Technology selection matrix',
-        img: `${diagramBase}technology-selection-matrix.svg`,
-        alt: 'SolarEX technology selection matrix for Quartz SiO₂ and Titan TiO₂',
-        intro: 'Technology selection should translate site data into a route recommendation: surface architecture, trigger dependency, contamination profile, cleaning logic and validation needs.'
-      },
-      projects: {
-        title: 'Pilot evidence architecture',
-        img: `${diagramBase}pilot-evidence-stack.svg`,
-        alt: 'SolarEX pilot evidence stack diagram for baseline, control, monitoring and review',
-        intro: 'Project references become decision-grade only when mapped to baseline data, matched controls, monitoring intervals, cleaning logs and pathway-specific interpretation.'
-      },
-      documentation: {
-        title: 'Documentation workflow map',
-        img: `${diagramBase}documentation-flow.svg`,
-        alt: 'SolarEX documentation workflow from technical review to pilot support',
-        intro: 'Documentation should route users from technical review to application guidance, pilot planning and commercial evaluation without forcing public email exposure.'
-      },
-      faq: {
-        title: 'FAQ decision tree',
-        img: `${diagramBase}faq-decision-tree.svg`,
-        alt: 'SolarEX FAQ decision tree for selecting Quartz SiO₂ or Titan TiO₂',
-        intro: 'FAQ scanning improves when common questions are grouped as a decision tree: UV availability, soiling profile, cleaning objective and pilot validation.'
-      },
-      contact: {
-        title: 'Contact conversion workflow',
-        img: `${diagramBase}contact-routing-flow.svg`,
-        alt: 'SolarEX contact routing flow for technical review, commercial discussion and documentation support',
-        intro: 'Contact should behave as a conversion hub: route technical, commercial and documentation requests through validated forms, then register internally for follow-up.'
-      }
+    const diag = (name) => assetPath(`assets/img/diagrams/${name}`);
+    const photo = {
+      pv: `linear-gradient(115deg,rgba(8,14,22,.88),rgba(8,14,22,.58)),radial-gradient(circle at 78% 22%,rgba(255,210,26,.26),transparent 17%),linear-gradient(18deg,rgba(102,168,238,.16) 0 3px,transparent 3px 36px),linear-gradient(160deg,#182838,#07111d)`,
+      q: `linear-gradient(115deg,rgba(8,14,22,.90),rgba(8,14,22,.56)),radial-gradient(circle at 78% 24%,rgba(102,168,238,.32),transparent 18%),linear-gradient(160deg,#1a2b38,#07111d)`,
+      t: `linear-gradient(115deg,rgba(8,14,22,.90),rgba(8,14,22,.55)),radial-gradient(circle at 76% 22%,rgba(92,201,123,.30),transparent 20%),linear-gradient(160deg,#142c25,#07111d)`,
+      field: `linear-gradient(115deg,rgba(8,14,22,.88),rgba(8,14,22,.58)),linear-gradient(12deg,rgba(102,168,238,.20) 0 2px,transparent 2px 34px),radial-gradient(circle at 80% 20%,rgba(255,210,26,.25),transparent 18%),linear-gradient(160deg,#142433,#07111d)`,
+      docs: `linear-gradient(115deg,rgba(8,14,22,.88),rgba(8,14,22,.58)),repeating-linear-gradient(0deg,rgba(214,229,239,.10) 0 1px,transparent 1px 42px),linear-gradient(160deg,#172231,#07111d)`
     };
 
-    const selected = copy[page];
+    const configs = {
+      home: ['Surface-engineering route selection','A visual decision layer separates the passive SiO₂ route, active TiO₂ route, ROI screening and evidence classification before scale-up.',photo.pv,`url('${diag('pathway-selection-flow.svg')}'),${photo.pv}`,'routeCards','SolarEX routes site data into Quartz, Titan, ROI and evidence review.'],
+      technology: ['Quartz and Titan comparison architecture','Technology selection makes passive SiO₂ and active TiO₂ differences visible before documentation, ROI or pilot planning.',photo.pv,`url('${diag('technology-selection-matrix.svg')}'),${photo.pv}`,'quadrant','Quartz and Titan are selected by mechanism, not generic coating preference.'],
+      quartz: ['Passive SiO₂ easy-clean surface architecture','Quartz uses the SiO₂ visual layer to show UV-independent surface-energy modification and easier recovery for dust and mineral soiling.',photo.q,`url('${diag('quartz-passive-layer.svg')}'),${photo.q}`,'barStack','Quartz is the passive UV-independent route for lower adhesion and easier recovery.'],
+      titan: ['Active TiO₂ photocatalytic pathway','Titan uses photocatalysis visuals to show UV activation, organic-contaminant breakdown and hydrophilic rinse behavior.',photo.t,`url('${diag('titan-active-uv-rinse.svg')}'),${photo.t}`,'timeline','Titan depends on UV-supported active surface chemistry and site-specific validation.'],
+      projects: ['Pilot evidence and monitored review','Project evidence is separated into monitored study, field observation, ROI scenario and pilot hypothesis.',photo.field,`url('${diag('pilot-evidence-stack.svg')}'),${photo.field}`,'process','Pilot evidence is useful only when method, limitation and next action stay connected.'],
+      documentation: ['Technical files, evidence and application guidance','Documentation uses a full-width page-breaker to separate the evidence library from controlled document access.',photo.docs,`url('${diag('documentation-flow.svg')}'),${photo.docs}`,'matrix','Documentation routes by role, pathway, evidence class and project stage.'],
+      faq: ['FAQ decision tree','FAQ content is presented as a decision path: soiling profile, UV dependency, cleaning objective and evidence threshold.',photo.docs,`url('${diag('faq-decision-tree.svg')}'),${photo.docs}`,'stair','Common questions lead users to Quartz, Titan, ROI, evidence or review.'],
+      contact: ['Request routing workflow','Contact is treated as a conversion workflow: technical review, commercial inquiry and documentation support stay separated.',photo.docs,`url('${diag('contact-routing-flow.svg')}'),${photo.docs}`,'process','Requests are routed into technical, commercial and document-review workflows.'],
+      pvSoiling: ['PV soiling-loss mitigation map','Dust, salt, pollen, organic film and mixed fouling route into different review paths.',photo.field,photo.field,'wave','Soiling mitigation begins with contamination type, not a generic coating promise.'],
+      antiSoiling: ['Anti-soiling route selection','The anti-soiling page uses a mechanism-first visual rather than repeating the same route-selection bars.',photo.pv,photo.pv,'quadrant','Anti-soiling review compares mechanism fit, UV dependency and cleaning model.'],
+      cleaningCost: ['Cleaning-cost stack visual','Cleaning cost is broken into water, labor, access, abrasion and recovered output for commercial review.',photo.field,photo.field,'barStackAlt','Cleaning economics are evaluated as a cost stack, not as a universal reduction claim.'],
+      caseStudies: ['Evidence-class case context','Case studies separate monitored evidence from scenario models and pilot hypotheses.',photo.docs,photo.docs,'matrix','Evidence is labelled by method, use case, limitation and next action.'],
+      markets: ['Regional operating-fit map','Europe, GCC and Nordics each have different soiling, UV, water and O&M logic.',photo.pv,photo.pv,'regionCards','Regional context determines whether Quartz, Titan or pilot review is the correct route.'],
+      europe: ['European PV operating context','Europe is visualized around pollen, salt, grime, rainfall-cycle recovery and selective Titan review.',photo.q,photo.q,'timeline','European evaluation starts with seasonal soiling, rainfall and Quartz-first review.'],
+      middleEast: ['GCC dust and water logistics','The GCC page uses dust and water logistics so it does not repeat Europe or Quartz chart layouts.',photo.field,photo.field,'radial','High-dust regions require water, abrasion, cleaning and pilot controls to be visible.'],
+      nordics: ['Nordic seasonal PV context','Nordics visual logic emphasizes lower UV, pollen, grime, rain-cycle recovery and Norway-led support.',photo.q,photo.q,'stair','High-latitude route selection starts with UV-independent Quartz review.'],
+      partners: ['Partner qualification and enablement','Partner visuals focus on regional access, technical sales capability, claim discipline and pilot-to-scale support.',photo.docs,photo.docs,'process','Partners need controlled claims, route logic and evidence-led selling materials.']
+    };
+
+    const selected = configs[page] || configs.home;
+    const [title, intro, heroBg, featureBg, chartType, caption] = selected;
+    document.body.style.setProperty('--solarex-hero-image', heroBg);
+    document.body.style.setProperty('--solarex-breaker-image', featureBg);
+    document.body.style.setProperty('--solarex-feature-image', featureBg);
+
     const main = document.querySelector('main');
     const hero = main?.querySelector('.hero');
-    if (!main || !hero || routePath === 'contact/thanks' || document.querySelector('[data-visual-upgrade-section]')) return;
+    if (!main || !hero || document.querySelector('[data-visual-upgrade-section]')) return;
+
+    const routeStrip = document.createElement('section');
+    routeStrip.className = 'solarex-outside-hero-strip visual-reveal';
+    routeStrip.setAttribute('aria-label', 'SolarEX route summary cards');
+    routeStrip.innerHTML = `<article class="solarex-route-card"><strong>SiO₂</strong><span>Quartz</span><p>Passive easy-clean review for dust, pollen and mineral-dominant soiling.</p></article><article class="solarex-route-card"><strong>TiO₂</strong><span>Titan</span><p>Active photocatalytic review for UV-supported organic and biological contamination.</p></article><article class="solarex-route-card"><strong>ROI</strong><span>Decision output</span><p>Site-fit pathway, pilot structure and commercial scenario screen.</p></article><article class="solarex-route-card"><strong>QA</strong><span>Evidence class</span><p>Monitored Study, Technical Parameter, ROI Scenario or Pilot Hypothesis.</p></article>`;
+
+    const breaker = document.createElement('section');
+    breaker.className = 'solarex-page-breaker visual-reveal';
+    breaker.setAttribute('data-caption', caption);
+    breaker.setAttribute('aria-label', caption);
 
     const section = document.createElement('section');
-    section.className = 'visual-section visual-reveal';
+    section.className = 'solarex-visual-module visual-reveal';
     section.setAttribute('data-visual-upgrade-section', page);
-    section.setAttribute('aria-labelledby', 'visual-upgrade-title');
-    section.innerHTML = `
-      <div class="container">
-        <div class="visual-media-card">
-          <div class="diagram-card has-action-card has-modal-action">
-            <div class="visual-diagram-panel">
-              <img class="visual-asset has-modal-action" src="${selected.img}" alt="${selected.alt}" loading="lazy" width="1200" height="720" data-modal-caption="${selected.title}">
-            </div>
-          </div>
-          <div class="visual-media-copy">
-            <div class="kicker">Visual upgrade layer</div>
-            <h2 id="visual-upgrade-title">${selected.title}</h2>
-            <p class="lead">${selected.intro}</p>
-          </div>
-        </div>
-        <div class="visual-grid three pathway-benefit-layout" style="margin-top:24px">
-          <article class="workflow-card visual-reveal quartz-benefits-card">
-            <h3>SiO₂ Quartz benefits</h3>
-            <div class="visual-checklist aligned-benefit-list">
-              <p>Passive surface architecture for dust and mineral soiling. Supports easier recovery.</p>
-              <p>UV-independent route for lower-UV contexts. No UV activation required.</p>
-              <p>Easy-clean behavior through reduced adhesion. Supports rain or cleaning recovery.</p>
-            </div>
-          </article>
-          <article class="workflow-card visual-reveal titan-benefits-card">
-            <h3>TiO₂ Titan benefits</h3>
-            <div class="visual-checklist aligned-benefit-list">
-              <p>Active photocatalytic pathway under suitable UV exposure.</p>
-              <p>Hydrophilic rinse behavior for organic contaminant contexts.</p>
-              <p>Best suited where UV, rain and contamination profile support the mechanism.</p>
-            </div>
-          </article>
-          <article class="chart-card pathway-driver-card visual-reveal has-action-card has-modal-action" tabindex="0" role="button" aria-label="Open SolarEX route-selection comparison graph">
-            <h3>Route-selection driver relevance</h3>
-            <p class="mini">This qualitative assessment compares how strongly each factor supports the Quartz SiO₂ route or the Titan TiO₂ route during SolarEX product selection. Longer bars mean stronger route-selection relevance. They do not represent energy-yield gain, ROI, cleaning reduction or lifetime performance.</p>
-            <div class="driver-legend" aria-label="Product legend">
-              <span class="legend-quartz">Quartz SiO₂</span>
-              <span class="legend-titan">Titan TiO₂</span>
-            </div>
-            <div class="chart-scale" aria-hidden="true"><span>Low</span><span>Medium</span><span>High</span></div>
-            <div class="comparison-row" style="--quartz-width:88%;--titan-width:36%">
-              <span class="driver-label">Mineral soiling / adhesion control</span>
-              <div class="comparison-bars">
-                <div class="comparison-bar-line"><span class="product-label">Quartz</span><i class="chart-track"><b class="chart-bar quartz-bar"></b></i></div>
-                <div class="comparison-bar-line"><span class="product-label">Titan</span><i class="chart-track"><b class="chart-bar titan-bar"></b></i></div>
-              </div>
-            </div>
-            <div class="comparison-row" style="--quartz-width:5%;--titan-width:92%">
-              <span class="driver-label">UV activation dependency</span>
-              <div class="comparison-bars">
-                <div class="comparison-bar-line"><span class="product-label">Quartz</span><i class="chart-track"><b class="chart-bar quartz-bar"></b></i></div>
-                <div class="comparison-bar-line"><span class="product-label">Titan</span><i class="chart-track"><b class="chart-bar titan-bar"></b></i></div>
-              </div>
-            </div>
-            <div class="comparison-row" style="--quartz-width:68%;--titan-width:78%">
-              <span class="driver-label">Rain / rinse behavior relevance</span>
-              <div class="comparison-bars">
-                <div class="comparison-bar-line"><span class="product-label">Quartz</span><i class="chart-track"><b class="chart-bar quartz-bar"></b></i></div>
-                <div class="comparison-bar-line"><span class="product-label">Titan</span><i class="chart-track"><b class="chart-bar titan-bar"></b></i></div>
-              </div>
-            </div>
-            <div class="comparison-row" style="--quartz-width:24%;--titan-width:90%">
-              <span class="driver-label">Organic / biological fouling fit</span>
-              <div class="comparison-bars">
-                <div class="comparison-bar-line"><span class="product-label">Quartz</span><i class="chart-track"><b class="chart-bar quartz-bar"></b></i></div>
-                <div class="comparison-bar-line"><span class="product-label">Titan</span><i class="chart-track"><b class="chart-bar titan-bar"></b></i></div>
-              </div>
-            </div>
-          </article>
-        </div>
-      </div>`;
+    section.setAttribute('aria-labelledby', 'solarex-visual-title');
+    section.innerHTML = `<article class="solarex-visual-panel"><div class="kicker">Page-specific visual system</div><h2 id="solarex-visual-title">${title}</h2><p>${intro}</p><div class="solarex-feature-image" role="img" aria-label="${title}" data-loaded="false" data-fallback="${title}"></div></article><article class="solarex-chart-panel" data-chart-type="${chartType}"><div class="kicker">Unique chart layout</div><h2>${chartTitle(chartType)}</h2>${chartMarkup(chartType)}</article>`;
 
     hero.insertAdjacentElement('afterend', section);
+    hero.insertAdjacentElement('afterend', breaker);
+    hero.insertAdjacentElement('afterend', routeStrip);
 
     if (page === 'contact' && routePath === 'contact') {
       const routing = document.createElement('section');
       routing.className = 'visual-section contact-pathway-visual visual-reveal';
-      routing.innerHTML = `
-        <div class="container">
-          <div class="kicker">Conversion routing</div>
-          <h2>Three managed request paths.</h2>
-          <div class="visual-grid three">
-            <a class="visual-card has-action-card" href="#technical-form"><h3>Technical review</h3><p>Pathway selection, contamination profile, UV review and pilot logic.</p></a>
-            <a class="visual-card has-action-card" href="#commercial-form"><h3>Commercial discussion</h3><p>Procurement, partnership, volume planning and project qualification.</p></a>
-            <a class="visual-card has-action-card" href="#documentation-form"><h3>Documentation / pilot support</h3><p>Application files, study context, ROI material and validation framework.</p></a>
-          </div>
-          <div class="chart-card contact-response-flow visual-reveal">
-            <h3>Response workflow</h3>
-            <div class="visual-success-pattern">
-              <span>Form submission</span><span>SQL registration</span><span>Internal routing</span><span>Technical / commercial review</span><span>Follow-up</span>
-            </div>
-          </div>
-        </div>`;
+      routing.innerHTML = `<div class="container"><div class="kicker">Conversion routing</div><h2>Three managed request paths.</h2><div class="visual-grid three"><a class="visual-card has-action-card" href="#technical-form"><h3>Technical review</h3><p>Pathway selection, contamination profile, UV review and pilot logic.</p></a><a class="visual-card has-action-card" href="#commercial-form"><h3>Commercial discussion</h3><p>Procurement, partnership, volume planning and project qualification.</p></a><a class="visual-card has-action-card" href="#documentation-form"><h3>Documentation / pilot support</h3><p>Application files, study context, ROI material and validation framework.</p></a></div></div>`;
       document.querySelector('#technical-form')?.insertAdjacentElement('beforebegin', routing);
     }
 
     const reveal = (element) => element.classList.add('is-visible');
-
     if ('IntersectionObserver' in window && !reducedMotion) {
       const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          reveal(entry.target);
-          observer.unobserve(entry.target);
-        });
-      }, { threshold: 0.16 });
-      document.querySelectorAll('.visual-reveal').forEach((el) => observer.observe(el));
+        entries.forEach((entry) => { if (entry.isIntersecting) { reveal(entry.target); observer.unobserve(entry.target); } });
+      }, { threshold: 0.12 });
+      document.querySelectorAll('.visual-reveal,.solarex-visual-module,.solarex-chart-panel').forEach((el) => observer.observe(el));
     } else {
-      document.querySelectorAll('.visual-reveal').forEach(reveal);
+      document.querySelectorAll('.visual-reveal,.solarex-visual-module,.solarex-chart-panel').forEach(reveal);
     }
   };
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initSolarEXVisualUpgrade, { once: true });
-  } else {
-    initSolarEXVisualUpgrade();
-  }
+  const chartTitle = (type) => ({ routeCards:'Route outcome cards', barStack:'Quartz mechanism emphasis', barStackAlt:'Cleaning-cost stack', process:'Validation process', radial:'Operating-pressure map', matrix:'Evidence-class matrix', timeline:'Mechanism sequence', quadrant:'Selection quadrant', wave:'Soiling profile pattern', stair:'Decision ladder', regionCards:'Regional fit cards' }[type] || 'Decision chart');
+  const chartMarkup = (type) => {
+    if (type === 'barStack') return `<div class="solarex-chart-stack"><div class="solarex-chart-row"><span class="solarex-chart-label">Adhesion</span><i class="solarex-chart-track"><b class="solarex-chart-fill" style="--w:88%"></b></i></div><div class="solarex-chart-row"><span class="solarex-chart-label">UV need</span><i class="solarex-chart-track"><b class="solarex-chart-fill" style="--w:8%"></b></i></div><div class="solarex-chart-row"><span class="solarex-chart-label">Easy-clean</span><i class="solarex-chart-track"><b class="solarex-chart-fill" style="--w:82%"></b></i></div></div>`;
+    if (type === 'barStackAlt') return `<div class="solarex-chart-stack"><div class="solarex-chart-row"><span class="solarex-chart-label">Water</span><i class="solarex-chart-track"><b class="solarex-chart-fill" style="--w:76%"></b></i></div><div class="solarex-chart-row"><span class="solarex-chart-label">Labor</span><i class="solarex-chart-track"><b class="solarex-chart-fill" style="--w:68%"></b></i></div><div class="solarex-chart-row"><span class="solarex-chart-label">Access</span><i class="solarex-chart-track"><b class="solarex-chart-fill" style="--w:58%"></b></i></div><div class="solarex-chart-row"><span class="solarex-chart-label">Yield</span><i class="solarex-chart-track"><b class="solarex-chart-fill" style="--w:64%"></b></i></div></div>`;
+    if (type === 'process' || type === 'regionCards') return `<div class="solarex-process-chart"><div class="solarex-process-node"><strong>Assess</strong><span>Site and contamination profile.</span></div><div class="solarex-process-node"><strong>Prepare</strong><span>Surface and method control.</span></div><div class="solarex-process-node"><strong>Apply</strong><span>Route-specific execution.</span></div><div class="solarex-process-node"><strong>Verify</strong><span>Evidence and go/no-go review.</span></div></div>`;
+    if (type === 'radial') return `<div class="solarex-radial-chart"><span>Dust</span><span>Water</span><span>Abrasion</span><span>Cleaning</span></div>`;
+    if (type === 'matrix') return `<div class="solarex-matrix-chart"><div class="solarex-matrix-cell"><strong>Monitored Study</strong><span>Study-context result.</span></div><div class="solarex-matrix-cell"><strong>Technical Parameter</strong><span>Measured product property.</span></div><div class="solarex-matrix-cell"><strong>ROI Scenario</strong><span>Assumption-based screen.</span></div><div class="solarex-matrix-cell"><strong>Pilot Hypothesis</strong><span>Site validation route.</span></div></div>`;
+    if (type === 'timeline' || type === 'stair') return `<div class="solarex-timeline-chart"><div class="solarex-timeline-step"><strong>Question</strong><span>What is the site problem?</span></div><div class="solarex-timeline-step"><strong>Route</strong><span>Quartz, Titan or mixed review.</span></div><div class="solarex-timeline-step"><strong>Evidence</strong><span>What class supports it?</span></div><div class="solarex-timeline-step"><strong>Action</strong><span>Document, ROI or pilot.</span></div></div>`;
+    if (type === 'quadrant') return `<div class="solarex-quadrant-chart"><div><strong>Low UV</strong><span>Quartz-first review.</span></div><div><strong>Organic film</strong><span>Titan review if UV supports.</span></div><div><strong>Dust / salt</strong><span>Passive easy-clean fit.</span></div><div><strong>Mixed fouling</strong><span>Pilot validation path.</span></div></div>`;
+    if (type === 'wave') return `<div class="solarex-wave-chart"><i style="--h:38%"></i><i style="--h:62%"></i><i style="--h:78%"></i><i style="--h:55%"></i><i style="--h:88%"></i><i style="--h:46%"></i><i style="--h:70%"></i></div>`;
+    return `<div class="visual-chart-grid"><div class="visual-chart-node"><h3>SiO₂</h3><p>Quartz route.</p></div><div class="visual-chart-node"><h3>TiO₂</h3><p>Titan route.</p></div><div class="visual-chart-node"><h3>ROI</h3><p>Commercial screen.</p></div><div class="visual-chart-node"><h3>QA</h3><p>Evidence class.</p></div></div>`;
+  };
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initSolarEXVisualUpgrade, { once: true });
+  else initSolarEXVisualUpgrade();
 })();
