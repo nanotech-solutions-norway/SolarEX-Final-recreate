@@ -29,21 +29,22 @@ document.addEventListener('DOMContentLoaded', () => {
     document.head.appendChild(script);
   };
 
-  loadCss(assetPath('assets/css/solarex-overrides.css?v=20260528-menu-row-fix-1'), 'data-solarex-overrides');
-  loadCss(assetPath('assets/css/visual-upgrade.css?v=20260528-menu-row-fix-1'), 'data-solarex-visual-css');
-  loadCss(assetPath('assets/css/solarex-cleanup.css?v=20260528-menu-row-fix-1'), 'data-solarex-cleanup-css');
-  loadCss(assetPath('assets/css/table-enhancements.css?v=20260528-menu-row-fix-1'), 'data-solarex-table-css');
-  loadCss(assetPath('assets/css/footer-gap-fix.css?v=20260528-menu-row-fix-1'), 'data-solarex-footer-gap-css');
-  loadCss(assetPath('assets/css/roi-cta.css?v=20260528-menu-row-fix-1'), 'data-solarex-roi-cta-css-main');
-  loadCss(assetPath('assets/css/footer-legal-fix.css?v=20260528-menu-row-fix-1'), 'data-solarex-footer-legal-css');
-  loadCss(assetPath('assets/css/contrast-audit-fix.css?v=20260528-menu-row-fix-1'), 'data-solarex-contrast-css');
-  loadCss(assetPath('assets/css/benefit-alignment-fix.css?v=20260528-menu-row-fix-1'), 'data-solarex-benefit-align-css');
-  loadScript(assetPath('assets/js/visual-upgrade.js?v=20260528-menu-row-fix-1'), 'data-solarex-visual-js');
-  loadScript(assetPath('assets/js/visual-audit-upgrades.js?v=20260528-menu-row-fix-1'), 'data-solarex-visual-audit-js');
-  loadScript(assetPath('assets/js/table-enhancements.js?v=20260528-menu-row-fix-1'), 'data-solarex-table-js');
-  loadScript(assetPath('assets/js/footer-gap-fix.js?v=20260528-menu-row-fix-1'), 'data-solarex-footer-gap-js');
-  loadScript(assetPath('assets/js/footer-legal-fix.js?v=20260528-menu-row-fix-1'), 'data-solarex-footer-legal-js');
-  loadScript(assetPath('assets/js/solarex-cleanup.js?v=20260528-menu-row-fix-1'), 'data-solarex-cleanup-js');
+  const assetVersion = '20260529-mobile-menu-hero-fix-1';
+  loadCss(assetPath(`assets/css/solarex-overrides.css?v=${assetVersion}`), 'data-solarex-overrides');
+  loadCss(assetPath(`assets/css/visual-upgrade.css?v=${assetVersion}`), 'data-solarex-visual-css');
+  loadCss(assetPath(`assets/css/solarex-cleanup.css?v=${assetVersion}`), 'data-solarex-cleanup-css');
+  loadCss(assetPath(`assets/css/table-enhancements.css?v=${assetVersion}`), 'data-solarex-table-css');
+  loadCss(assetPath(`assets/css/footer-gap-fix.css?v=${assetVersion}`), 'data-solarex-footer-gap-css');
+  loadCss(assetPath(`assets/css/roi-cta.css?v=${assetVersion}`), 'data-solarex-roi-cta-css-main');
+  loadCss(assetPath(`assets/css/footer-legal-fix.css?v=${assetVersion}`), 'data-solarex-footer-legal-css');
+  loadCss(assetPath(`assets/css/contrast-audit-fix.css?v=${assetVersion}`), 'data-solarex-contrast-css');
+  loadCss(assetPath(`assets/css/benefit-alignment-fix.css?v=${assetVersion}`), 'data-solarex-benefit-align-css');
+  loadScript(assetPath(`assets/js/visual-upgrade.js?v=${assetVersion}`), 'data-solarex-visual-js');
+  loadScript(assetPath(`assets/js/visual-audit-upgrades.js?v=${assetVersion}`), 'data-solarex-visual-audit-js');
+  loadScript(assetPath(`assets/js/table-enhancements.js?v=${assetVersion}`), 'data-solarex-table-js');
+  loadScript(assetPath(`assets/js/footer-gap-fix.js?v=${assetVersion}`), 'data-solarex-footer-gap-js');
+  loadScript(assetPath(`assets/js/footer-legal-fix.js?v=${assetVersion}`), 'data-solarex-footer-legal-js');
+  loadScript(assetPath(`assets/js/solarex-cleanup.js?v=${assetVersion}`), 'data-solarex-cleanup-js');
 
   const routePath = routeParts.join('/').replace(/\/$/, '');
   const isContactIndex = routePath === 'contact';
@@ -92,6 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <a href="${normalizeHref('partners/')}">Partners</a>
         </div>
       </div>
+      <a class="nav-contact" href="${normalizeHref('contact/')}">Contact</a>
       <a class="nav-cta" href="${contactPath}">Technical Review</a>
       <a class="lang-flag" href="${normalizeHref('index.html')}" aria-label="English language">🇬🇧</a>
     `;
@@ -174,6 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeMobileMenu = () => {
     if (!nav || !menuButton) return;
     nav.classList.remove('is-open');
+    document.body.classList.remove('mobile-menu-open');
     menuButton.setAttribute('aria-expanded', 'false');
     menuButton.setAttribute('aria-label', 'Open menu');
   };
@@ -184,6 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
     menuButton.addEventListener('click', (event) => {
       event.stopPropagation();
       const isOpen = nav.classList.toggle('is-open');
+      document.body.classList.toggle('mobile-menu-open', isOpen && isMobileMenu());
       menuButton.setAttribute('aria-expanded', String(isOpen));
       menuButton.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
       if (isOpen && isMobileMenu()) {
@@ -204,6 +208,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
     });
+    window.addEventListener('resize', () => {
+      if (!isMobileMenu()) document.body.classList.remove('mobile-menu-open');
+    });
   }
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -218,32 +225,32 @@ document.addEventListener('DOMContentLoaded', () => {
       element.textContent = prefix + target.toFixed(decimals) + suffix;
       return;
     }
-    const start = performance.now();
     const duration = 1200;
-    const tick = (now) => {
-      const progress = Math.min((now - start) / duration, 1);
+    const start = performance.now();
+    const step = (time) => {
+      const progress = Math.min((time - start) / duration, 1);
       const eased = 1 - Math.pow(1 - progress, 3);
       element.textContent = prefix + (target * eased).toFixed(decimals) + suffix;
-      if (progress < 1) requestAnimationFrame(tick);
-      else element.textContent = prefix + target.toFixed(decimals) + suffix;
+      if (progress < 1) requestAnimationFrame(step);
     };
-    requestAnimationFrame(tick);
+    requestAnimationFrame(step);
   };
-  const revealElement = (element) => {
-    element.classList.add('is-visible');
-    element.querySelectorAll('[data-count]').forEach(countMetric);
-  };
-  if ('IntersectionObserver' in window && !reduceMotion) {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          revealElement(entry.target);
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.14 });
-    document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
-  } else {
-    document.querySelectorAll('.reveal').forEach(revealElement);
-  }
+
+  const revealObserver = 'IntersectionObserver' in window ? new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        entry.target.querySelectorAll('[data-count]').forEach(countMetric);
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 }) : null;
+
+  document.querySelectorAll('.reveal, .visual-reveal, .chart-card, .pathway-driver-card').forEach((el) => {
+    if (revealObserver) revealObserver.observe(el);
+    else {
+      el.classList.add('is-visible');
+      el.querySelectorAll('[data-count]').forEach(countMetric);
+    }
+  });
 });
