@@ -1,19 +1,20 @@
 /* SolarEX visual uniqueness pass: page-specific hero backgrounds, full-width page breakers and varied chart layouts. */
+@import url('./visual-site-alignment.css?v=20260529-full-site-visual-alignment-2');
 .hero{isolation:isolate;background:#101820!important;}
 .hero:before{content:"";position:absolute;inset:0;z-index:0;background:linear-gradient(90deg,rgba(7,17,29,.92),rgba(7,17,29,.60),rgba(7,17,29,.86)),var(--page-hero-image,radial-gradient(circle at 70% 20%,rgba(102,168,238,.35),transparent 32%)),linear-gradient(135deg,#0c1520,#1a2734 55%,#07111d)!important;background-size:cover!important;background-position:center!important;filter:saturate(1.08) contrast(1.06);}
 .hero:after{z-index:0!important;opacity:.48!important;}
 .hero-inner{z-index:1!important;}
 body[data-visual-page='home']{--page-hero-image:linear-gradient(135deg,rgba(30,53,70,.7),rgba(8,14,22,.92)),radial-gradient(circle at 78% 18%,rgba(255,210,26,.30),transparent 18%),repeating-linear-gradient(14deg,rgba(102,168,238,.20) 0 2px,transparent 2px 38px),linear-gradient(160deg,#102238,#07111d);}
-body[data-visual-page='quartz']{--page-hero-image:linear-gradient(115deg,rgba(8,14,22,.86),rgba(8,14,22,.58)),url('../img/visual-system/quartz-sio2-attached-visual.svg');}
-body[data-visual-page='titan']{--page-hero-image:linear-gradient(115deg,rgba(8,14,22,.86),rgba(8,14,22,.50)),url('../img/visual-system/titan-photocatalysis-attached-visual.svg');}
-body[data-visual-page='technology']{--page-hero-image:linear-gradient(110deg,rgba(7,17,29,.88),rgba(7,17,29,.55)),url('../img/diagrams/pathway-selection-flow.svg');}
-body[data-visual-page='projects']{--page-hero-image:linear-gradient(110deg,rgba(7,17,29,.88),rgba(7,17,29,.56)),url('../img/visual-system/solarex_pilot_validation_model_v01.svg');}
-body[data-visual-page='documentation']{--page-hero-image:linear-gradient(110deg,rgba(7,17,29,.84),rgba(7,17,29,.56)),url('../img/visual-system/solarex-documentation-breaker.svg');}
+body[data-visual-page='quartz']{--page-hero-image:linear-gradient(115deg,rgba(8,14,22,.86),rgba(8,14,22,.58)),var(--solarex-hero-image);}
+body[data-visual-page='titan']{--page-hero-image:linear-gradient(115deg,rgba(8,14,22,.86),rgba(8,14,22,.50)),var(--solarex-hero-image);}
+body[data-visual-page='technology']{--page-hero-image:linear-gradient(110deg,rgba(7,17,29,.88),rgba(7,17,29,.55)),var(--solarex-hero-image);}
+body[data-visual-page='projects']{--page-hero-image:linear-gradient(110deg,rgba(7,17,29,.88),rgba(7,17,29,.56)),var(--solarex-hero-image);}
+body[data-visual-page='documentation']{--page-hero-image:linear-gradient(110deg,rgba(7,17,29,.84),rgba(7,17,29,.56)),var(--solarex-hero-image);}
 body[data-visual-page='faq']{--page-hero-image:linear-gradient(110deg,rgba(7,17,29,.88),rgba(7,17,29,.52)),url('../img/diagrams/faq-decision-tree.svg');}
 body[data-visual-page='contact']{--page-hero-image:linear-gradient(110deg,rgba(7,17,29,.88),rgba(7,17,29,.54)),url('../img/diagrams/contact-routing-flow.svg');}
-body[data-route-path*='applications']{--page-hero-image:linear-gradient(110deg,rgba(7,17,29,.88),rgba(7,17,29,.54)),url('../img/visual-system/solarex_application_process_radar.svg');}
-body[data-route-path*='markets']{--page-hero-image:linear-gradient(110deg,rgba(7,17,29,.88),rgba(7,17,29,.54)),url('../img/visual-system/solarex_regional_context_v01.svg');}
-body[data-route-path*='partners']{--page-hero-image:linear-gradient(110deg,rgba(7,17,29,.88),rgba(7,17,29,.54)),url('../img/visual-system/solarex_partner_enablement_v01.svg');}
+body[data-route-path*='applications']{--page-hero-image:linear-gradient(110deg,rgba(7,17,29,.88),rgba(7,17,29,.54)),var(--solarex-hero-image);}
+body[data-route-path*='markets']{--page-hero-image:linear-gradient(110deg,rgba(7,17,29,.88),rgba(7,17,29,.54)),var(--solarex-hero-image);}
+body[data-route-path*='partners']{--page-hero-image:linear-gradient(110deg,rgba(7,17,29,.88),rgba(7,17,29,.54)),var(--solarex-hero-image);}
 .visual-page-breaker{padding:0!important;border-top:1px solid rgba(214,229,239,.16);border-bottom:1px solid rgba(214,229,239,.16);overflow:hidden;background:#101820;}
 .visual-page-breaker .page-breaker-image{display:block;width:100%;height:clamp(260px,34vw,460px);object-fit:cover;object-position:center;border-radius:0!important;filter:saturate(1.04) contrast(1.06);}
 .visual-page-breaker .page-breaker-caption{max-width:1180px;margin:-118px auto 0;position:relative;padding:0 24px 46px;text-align:center;text-shadow:0 2px 20px rgba(0,0,0,.75);}
