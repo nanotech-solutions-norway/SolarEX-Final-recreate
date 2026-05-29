@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.head.appendChild(script);
   };
 
-  const assetVersion = '20260529-mobile-menu-hero-fix-1';
+  const assetVersion = '20260529-mobile-touch-margin-1';
   loadCss(assetPath(`assets/css/solarex-overrides.css?v=${assetVersion}`), 'data-solarex-overrides');
   loadCss(assetPath(`assets/css/visual-upgrade.css?v=${assetVersion}`), 'data-solarex-visual-css');
   loadCss(assetPath(`assets/css/solarex-cleanup.css?v=${assetVersion}`), 'data-solarex-cleanup-css');
