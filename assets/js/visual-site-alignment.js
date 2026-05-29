@@ -1,14 +1,52 @@
 document.addEventListener('DOMContentLoaded', () => {
-  if (document.body.classList.contains('roi-page')) return;
   const rawPath = window.location.pathname.replace(/^\/SolarEX-Final-recreate\//, '/').replace(/\/index\.html$/, '/');
   const route = rawPath === '/' ? 'home' : rawPath.split('/').filter(Boolean).join('-');
-  document.body.classList.add('solarex-page-' + route);
   const prefix = (() => {
     const parts = rawPath.split('/').filter(Boolean);
     return parts.length ? '../'.repeat(parts.length) : '';
   })();
   const base = window.location.pathname.includes('/SolarEX-Final-recreate/') ? '/SolarEX-Final-recreate/' : prefix;
   const img = (name) => base + 'assets/img/' + name;
+
+  const nav = document.querySelector('[data-nav], #roiNav');
+  const menuButton = document.querySelector('[data-menu-toggle], #roiMenuToggle');
+  if (nav && !nav.querySelector('.nav-contact')) {
+    const contact = document.createElement('a');
+    contact.className = 'nav-contact';
+    contact.href = prefix + 'contact/';
+    contact.textContent = 'Contact';
+    const cta = nav.querySelector('.nav-cta');
+    if (cta) cta.insertAdjacentElement('beforebegin', contact);
+    else nav.appendChild(contact);
+  }
+  const syncMobileMenuState = () => {
+    const open = Boolean(nav && nav.classList.contains('is-open')) || menuButton?.getAttribute('aria-expanded') === 'true';
+    document.body.classList.toggle('mobile-menu-open', open);
+  };
+  if (nav || menuButton) {
+    syncMobileMenuState();
+    if (nav) new MutationObserver(syncMobileMenuState).observe(nav, { attributes: true, attributeFilter: ['class'] });
+    if (menuButton) new MutationObserver(syncMobileMenuState).observe(menuButton, { attributes: true, attributeFilter: ['aria-expanded'] });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && nav?.classList.contains('is-open')) {
+        nav.classList.remove('is-open');
+        menuButton?.setAttribute('aria-expanded', 'false');
+        syncMobileMenuState();
+      }
+    });
+  }
+
+  if (route === 'home') {
+    const hero = document.querySelector('main .hero');
+    const lead = hero?.querySelector('.lead');
+    if (lead) lead.textContent = 'SolarEX helps asset owners, EPCs and O&M teams select the correct PV-glass coating pathway between UV-independent SiO2 Quartz for passive easy-clean protection and UV-supported TiO2 Titan for active photocatalytic contamination control.';
+    hero?.querySelectorAll('p.mini').forEach((node) => {
+      if ((node.textContent || '').includes('Request a SolarEX pathway review')) node.remove();
+    });
+  }
+
+  if (document.body.classList.contains('roi-page')) return;
+  document.body.classList.add('solarex-page-' + route);
   const map = {
     home:['SolarEX-Technology-SolarEX-Quartz-and-Titan-05-26-2026_03_29_PM.png','PV glass surface engineering','SolarEX turns site contamination into a Quartz or Titan decision route.','bars'],
     technology:['SolarEX-Technology-SolarEX-Quartz-and-Titan-05-26-2026_03_29_PM.png','Mechanism summary — Quartz vs Titan','One decision model separates passive SiO2 from active TiO2.','process'],
