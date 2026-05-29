@@ -92,7 +92,21 @@
       modal.querySelector('.visual-modal-close').focus({ preventScroll: true });
     };
 
+    const updateHeroCopy = () => {
+      const hero = document.querySelector('.hero');
+      if (!hero) return;
+      const lead = hero.querySelector('.lead');
+      if (lead) {
+        lead.textContent = 'SolarEX helps asset owners, EPCs and O&M teams select the correct PV-glass coating pathway. UV-independent SiO₂ Quartz provides passive easy-clean protection. UV-supported TiO₂ Titan provides active photocatalytic contamination control.';
+      }
+      hero.querySelectorAll('.mini').forEach((el) => {
+        const text = (el.textContent || '').toLowerCase();
+        if (text.includes('request a solarex pathway review') && text.includes('missing-data')) el.remove();
+      });
+    };
+
     const enhance = () => {
+      updateHeroCopy();
       document.querySelectorAll('body > .skip-link + div[style*="border-bottom"]').forEach((el) => el.remove());
       document.querySelectorAll('.hero .mini').forEach((el) => {
         const text = (el.textContent || '').toLowerCase();
