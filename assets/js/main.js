@@ -29,9 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.head.appendChild(script);
   };
 
-  const assetVersion = '20260529-mobile-touch-margin-1';
+  const assetVersion = '20260530-mobile-ai-readiness-2';
   loadCss(assetPath(`assets/css/solarex-overrides.css?v=${assetVersion}`), 'data-solarex-overrides');
   loadCss(assetPath(`assets/css/visual-upgrade.css?v=${assetVersion}`), 'data-solarex-visual-css');
+  loadCss(assetPath(`assets/css/mobile-ux-hardening.css?v=${assetVersion}`), 'data-solarex-mobile-ux-css');
   loadCss(assetPath(`assets/css/solarex-cleanup.css?v=${assetVersion}`), 'data-solarex-cleanup-css');
   loadCss(assetPath(`assets/css/table-enhancements.css?v=${assetVersion}`), 'data-solarex-table-css');
   loadCss(assetPath(`assets/css/footer-gap-fix.css?v=${assetVersion}`), 'data-solarex-footer-gap-css');
@@ -41,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadCss(assetPath(`assets/css/benefit-alignment-fix.css?v=${assetVersion}`), 'data-solarex-benefit-align-css');
   loadScript(assetPath(`assets/js/visual-upgrade.js?v=${assetVersion}`), 'data-solarex-visual-js');
   loadScript(assetPath(`assets/js/visual-audit-upgrades.js?v=${assetVersion}`), 'data-solarex-visual-audit-js');
+  loadScript(assetPath(`assets/js/mobile-ux-hardening.js?v=${assetVersion}`), 'data-solarex-mobile-ux-js');
   loadScript(assetPath(`assets/js/table-enhancements.js?v=${assetVersion}`), 'data-solarex-table-js');
   loadScript(assetPath(`assets/js/footer-gap-fix.js?v=${assetVersion}`), 'data-solarex-footer-gap-js');
   loadScript(assetPath(`assets/js/footer-legal-fix.js?v=${assetVersion}`), 'data-solarex-footer-legal-js');
