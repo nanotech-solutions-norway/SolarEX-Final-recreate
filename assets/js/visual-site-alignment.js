@@ -39,18 +39,16 @@ document.addEventListener('DOMContentLoaded', () => {
   if (route === 'home') {
     const hero = document.querySelector('main .hero');
     const lead = hero?.querySelector('.lead');
-    if (lead) lead.textContent = 'SolarEX helps asset owners, EPCs and O&M teams select the correct PV-glass coating pathway between UV-independent SiO2 Quartz for passive easy-clean protection and UV-supported TiO2 Titan for active photocatalytic contamination control.';
-    hero?.querySelectorAll('p.mini').forEach((node) => {
-      if ((node.textContent || '').includes('Request a SolarEX pathway review')) node.remove();
-    });
+    if (lead) lead.textContent = 'Choose Quartz for passive SiO2 easy-clean behavior or Titan for UV-supported TiO2 photocatalysis.';
+    hero?.querySelectorAll('p.mini').forEach((node) => node.remove());
   }
 
   if (document.body.classList.contains('roi-page')) return;
   document.body.classList.add('solarex-page-' + route);
   const map = {
-    home:['SolarEX-Technology-SolarEX-Quartz-and-Titan-05-26-2026_03_29_PM.png','PV glass surface engineering','SolarEX turns site contamination into a Quartz or Titan decision route.','bars'],
-    technology:['SolarEX-Technology-SolarEX-Quartz-and-Titan-05-26-2026_03_29_PM.png','Mechanism summary — Quartz vs Titan','One decision model separates passive SiO2 from active TiO2.','process'],
-    quartz:['43d420f8-eddc-42d9-a9c9-fffdffe9dd58.png','SiO2 Quartz surface behavior','Passive SiO2 treatment supports reduced adhesion and easier surface recovery.','bars'],
+    home:['SolarEX-Technology-SolarEX-Quartz-and-Titan-05-26-2026_03_29_PM.png','PV glass surface engineering','Quartz or Titan selection depends on site conditions.','bars'],
+    technology:['SolarEX-Technology-SolarEX-Quartz-and-Titan-05-26-2026_03_29_PM.png','Mechanism summary — Quartz vs Titan','One model separates passive SiO2 from active TiO2.','process'],
+    quartz:['43d420f8-eddc-42d9-a9c9-fffdffe9dd58.png','SiO2 Quartz surface behavior','Passive SiO2 supports lower adhesion and easier surface recovery.','bars'],
     titan:['Photocatalyzis_02-v4.png','TiO2 photocatalytic mechanism','Titan uses UV-supported TiO2 chemistry and hydrophilic rinse behavior.','process','Photocatalyzis_01-v5.png'],
     projects:['SolarEX-Projects-Coating-Evidence-and-Pilot-Review-05-26-2026_03_30_PM.png','Evidence and pilot review','Proof blocks are separated by evidence class and pilot-readiness.','radial'],
     documentation:['SolarEX-Documentation-—-Technical-Files-Evidence-and-Application-Guidance-05-26-2026_03_35_PM.png','Technical files, evidence and application guidance','Documentation is routed by buyer role, pathway and project stage.','process'],
@@ -64,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
     'markets-europe':['c153eeb2-c1d2-4daa-bdc3-1b8b71a0cf0b.png','Europe operating context','Pollen, salt, grime and rainfall cycles support Quartz-first review.','bars'],
     'markets-middle-east':['606c77b9-22eb-4188-abb9-d3d91f85401a.png','GCC dust and water logistics','Dust, water constraints and cleaning frequency define the GCC value case.','process'],
     'markets-nordics':['9578b00e-53c3-4446-8f05-1a7e56628504.png','Nordic seasonal review','Lower UV, pollen, grime and rain cycles support UV-independent Quartz review.','bars'],
-    partners:['adab2dea-31b6-4101-87bd-874d19a1a5a3.png','Partner enablement map','Qualified partners need route discipline, application support and evidence-led sales.','process']
+    partners:['adab2dea-31b6-4101-87bd-874d19a1a5a3.png','Partner enablement map','Partners need route discipline, application support and evidence-led sales.','process']
   };
   const data = map[route] || map.home;
   document.body.style.setProperty('--solarex-hero-image', 'url("' + img(data[0]) + '")');
@@ -74,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!hero) return;
   const heroStats = hero.querySelector('.stats');
   if (heroStats) heroStats.remove();
-  const cards = [['SiO2','Quartz','Passive easy-clean review for dust, pollen and mineral-dominated soiling.'],['TiO2','Titan','Active photocatalytic review for UV-supported organic and biological contamination.'],['ROI','Decision output','Site-fit pathway, pilot structure and commercial scenario screen.'],['QA','Evidence class','Monitored Study, Technical Parameter, ROI Scenario or Pilot Hypothesis.']];
+  const cards = [['SiO2','Quartz','Passive easy-clean review for dust and mineral-dominated soiling.'],['TiO2','Titan','Active review for UV-supported contamination.'],['ROI','Decision output','Site-fit pathway and commercial screen.'],['QA','Evidence class','Study, parameter, scenario or pilot hypothesis.']];
   if (!document.querySelector('.solarex-outside-hero-strip')) {
     const strip = document.createElement('section');
     strip.className = 'solarex-outside-hero-strip reveal';
