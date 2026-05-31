@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const repoBase = repoIndex >= 0 ? `/${repoName}/` : '';
   const assetPath = (path) => repoBase ? `${repoBase}${path}` : `${relativePrefix}${path}`;
   const routePrefix = relativePrefix;
-  const assetVersion = '20260530-mobile-one-sentence-hero-1';
+  const assetVersion = '20260531-debug-cleanup-1';
 
   const loadCss = (href, marker) => {
     if (document.querySelector(`link[${marker}]`)) return;
