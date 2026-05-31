@@ -1,0 +1,92 @@
+/* SolarEX mobile hero hard reset — one headline + one Libre Baskerville sentence across all pages. */
+@media(max-width:760px){
+  body .hero,
+  body .roi-hero{
+    background-image:radial-gradient(circle at 78% 12%,rgba(94,152,241,.30),transparent 28%),radial-gradient(circle at 15% 25%,rgba(92,201,123,.12),transparent 25%),linear-gradient(135deg,#08111d,#122131 54%,#07111d)!important;
+    min-height:auto!important;
+    display:block!important;
+    overflow:hidden!important;
+  }
+  body .hero .hero-inner,
+  body .roi-hero .roi-hero-grid{
+    width:min(100% - 36px,1180px)!important;
+    max-width:calc(100% - 36px)!important;
+    margin-inline:auto!important;
+    padding:38px 0 32px!important;
+  }
+  body .hero .hero-inner>h1,
+  body .roi-hero h1{
+    font-family:'SolarEX Libre Baskerville','Libre Baskerville',Georgia,serif!important;
+    font-size:clamp(1.9rem,8.4vw,2.45rem)!important;
+    line-height:1.08!important;
+    letter-spacing:-.032em!important;
+    margin:0 0 14px!important;
+    max-width:100%!important;
+  }
+  body .hero .hero-inner>p,
+  body .hero .hero-inner>.lead,
+  body .hero .hero-inner>.mini,
+  body .hero .hero-inner>.stats,
+  body .hero .hero-inner>.tag,
+  body .hero .hero-inner .tag,
+  body .roi-hero .lead,
+  body .roi-hero .mini,
+  body .roi-hero-panel,
+  body .roi-hero .tag{
+    display:none!important;
+    visibility:hidden!important;
+    height:0!important;
+    max-height:0!important;
+    margin:0!important;
+    padding:0!important;
+    overflow:hidden!important;
+  }
+  body .hero .hero-inner>h1::after,
+  body .roi-hero h1::after{
+    content:'Submit site conditions to select Quartz, Titan or pilot review.'!important;
+    display:block!important;
+    margin-top:14px!important;
+    font-family:'SolarEX Libre Baskerville','Libre Baskerville',Georgia,serif!important;
+    font-size:clamp(.98rem,4.1vw,1.08rem)!important;
+    line-height:1.48!important;
+    letter-spacing:0!important;
+    font-weight:400!important;
+    color:#c8d9e6!important;
+    max-width:100%!important;
+  }
+  body.solarex-page-home .hero .hero-inner>h1::after{content:'Choose Quartz for passive SiO₂ easy-clean behavior or Titan for UV-supported TiO₂ photocatalysis.'!important;}
+  body.solarex-page-technology .hero .hero-inner>h1::after{content:'Compare Quartz and Titan by site conditions and pilot need.'!important;}
+  body.solarex-page-quartz .hero .hero-inner>h1::after{content:'Passive SiO₂ behavior for dust, salt, pollen and mineral soiling.'!important;}
+  body.solarex-page-titan .hero .hero-inner>h1::after{content:'UV-supported TiO₂ route for organic and atmospheric contamination.'!important;}
+  body.solarex-page-projects .hero .hero-inner>h1::after{content:'Review evidence class, ROI scenarios and treated/control pilot logic.'!important;}
+  body.solarex-page-documentation .hero .hero-inner>h1::after{content:'Access pathway documents, application guidance and review support.'!important;}
+  body.solarex-page-faq .hero .hero-inner>h1::after{content:'Answers on Quartz, Titan, UV, cleaning, evidence and pilot validation.'!important;}
+  body.solarex-page-contact .hero .hero-inner>h1::after{content:'Submit site conditions, commercial objective or documentation request.'!important;}
+  body.solarex-page-pvSoiling .hero .hero-inner>h1::after{content:'Match contamination type and O&M objective to the correct route.'!important;}
+  body.solarex-page-antiSoiling .hero .hero-inner>h1::after{content:'Review passive and active surface behavior before selection.'!important;}
+  body.solarex-page-cleaningCost .hero .hero-inner>h1::after{content:'Convert water, labor and access into a practical review pathway.'!important;}
+  body.solarex-page-caseStudies .hero .hero-inner>h1::after{content:'Separate study evidence, ROI scenarios and pilot hypotheses.'!important;}
+  body.solarex-page-markets .hero .hero-inner>h1::after{content:'Compare regions by soiling, UV, water and O&M context.'!important;}
+  body.solarex-page-europe .hero .hero-inner>h1::after{content:'Review pollen, salt, grime and mineral-soiling conditions.'!important;}
+  body.solarex-page-middleEast .hero .hero-inner>h1::after{content:'Evaluate dust, water logistics and route-specific pilot validation.'!important;}
+  body.solarex-page-nordics .hero .hero-inner>h1::after{content:'Use UV-independent Quartz review for lower-UV seasonal sites.'!important;}
+  body.solarex-page-partners .hero .hero-inner>h1::after{content:'Review commercial fit, support capability and evidence-led sales.'!important;}
+  body.roi-page .roi-hero h1::after{content:'Model area, location, sunlight, electricity value and coating pathway.'!important;}
+  body .hero .btn-row,
+  body .roi-hero .roi-actions{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:10px!important;
+    margin-top:18px!important;
+  }
+  body .hero .btn-row .btn,
+  body .roi-hero .roi-actions .btn{
+    width:100%!important;
+    min-height:44px!important;
+    padding:10px 12px!important;
+    font-size:.88rem!important;
+    line-height:1.18!important;
+  }
+  body .hero .btn-row .btn:nth-child(n+3),
+  body .roi-hero .roi-actions .btn:nth-child(n+3){display:none!important;}
+}
