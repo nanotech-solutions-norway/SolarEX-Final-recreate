@@ -10,7 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const repoBase = repoIndex >= 0 ? `/${repoName}/` : '';
   const assetPath = (path) => repoBase ? `${repoBase}${path}` : `${relativePrefix}${path}`;
   const routePrefix = relativePrefix;
-  const assetVersion = '20260531-all-site-libre-hero-reset-1';
+  const routePath = routeParts.join('/').replace(/\/$/, '');
+  const isHomeRoute = routePath === '' || routePath === 'index.html';
+  const assetVersion = '20260531-home-scroll-fix-1';
 
   const loadCss = (href, marker) => {
     if (document.querySelector(`link[${marker}]`)) return;
@@ -34,6 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ['assets/css/visual-upgrade.css', 'data-solarex-visual-css'],
     ['assets/css/mobile-ux-hardening.css', 'data-solarex-mobile-ux-css'],
     ['assets/css/mobile-hero-hard-reset.css', 'data-solarex-mobile-hero-hard-reset-css'],
+    ['assets/css/home-mobile-scroll-fix.css', 'data-solarex-home-mobile-scroll-fix-css'],
     ['assets/css/solarex-cleanup.css', 'data-solarex-cleanup-css'],
     ['assets/css/table-enhancements.css', 'data-solarex-table-css'],
     ['assets/css/footer-gap-fix.css', 'data-solarex-footer-gap-css'],
@@ -44,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
   ].forEach(([path, marker]) => loadCss(assetPath(`${path}?v=${assetVersion}`), marker));
 
   [
-    ['assets/js/visual-upgrade.js', 'data-solarex-visual-js'],
+    ...(isHomeRoute ? [] : [['assets/js/visual-upgrade.js', 'data-solarex-visual-js']]),
     ['assets/js/visual-audit-upgrades.js', 'data-solarex-visual-audit-js'],
     ['assets/js/mobile-ux-hardening.js', 'data-solarex-mobile-ux-js'],
     ['assets/js/table-enhancements.js', 'data-solarex-table-js'],
@@ -53,7 +56,6 @@ document.addEventListener('DOMContentLoaded', () => {
     ['assets/js/solarex-cleanup.js', 'data-solarex-cleanup-js']
   ].forEach(([path, marker]) => loadScript(assetPath(`${path}?v=${assetVersion}`), marker));
 
-  const routePath = routeParts.join('/').replace(/\/$/, '');
   const isContactIndex = routePath === 'contact';
   const contactPath = isContactIndex ? '#technical-form' : `${routePrefix}contact/#technical-form`;
   const normalizeHref = (path) => routePrefix + path;
@@ -137,21 +139,27 @@ document.addEventListener('DOMContentLoaded', () => {
     link.removeAttribute('rel');
   });
 
-  document.querySelectorAll('.btn,button,.card,.stat,.step,.source-visual,.form-tab-card,.contact-form,.table-wrap,.form-note,.contact-method,.visual-card,.diagram-card,.chart-card,.workflow-card').forEach((element) => {
-    element.addEventListener('pointerdown', () => element.classList.add('is-clicked'));
-    ['pointerup', 'pointercancel', 'pointerleave', 'blur'].forEach((eventName) => element.addEventListener(eventName, () => element.classList.remove('is-clicked')));
-  });
-
-  const revealObserver = 'IntersectionObserver' in window ? new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
-        revealObserver.unobserve(entry.target);
-      }
+  if (!isHomeRoute) {
+    document.querySelectorAll('.btn,button,.card,.stat,.step,.source-visual,.form-tab-card,.contact-form,.table-wrap,.form-note,.contact-method,.visual-card,.diagram-card,.chart-card,.workflow-card').forEach((element) => {
+      element.addEventListener('pointerdown', () => element.classList.add('is-clicked'));
+      ['pointerup', 'pointercancel', 'pointerleave', 'blur'].forEach((eventName) => element.addEventListener(eventName, () => element.classList.remove('is-clicked')));
     });
-  }, { threshold: 0.12 }) : null;
-  document.querySelectorAll('.reveal,.visual-reveal,.chart-card,.pathway-driver-card').forEach((el) => {
-    if (revealObserver) revealObserver.observe(el);
-    else el.classList.add('is-visible');
-  });
+  }
+
+  if (!isHomeRoute) {
+    const revealObserver = 'IntersectionObserver' in window ? new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 }) : null;
+    document.querySelectorAll('.reveal,.visual-reveal,.chart-card,.pathway-driver-card').forEach((el) => {
+      if (revealObserver) revealObserver.observe(el);
+      else el.classList.add('is-visible');
+    });
+  } else {
+    document.querySelectorAll('.reveal,.visual-reveal,.chart-card,.pathway-driver-card').forEach((el) => el.classList.add('is-visible'));
+  }
 });
