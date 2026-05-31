@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const repoBase = repoIndex >= 0 ? `/${repoName}/` : '';
   const assetPath = (path) => repoBase ? `${repoBase}${path}` : `${relativePrefix}${path}`;
   const routePrefix = relativePrefix;
-  const assetVersion = '20260531-debug-cleanup-1';
+  const assetVersion = '20260531-all-site-libre-hero-reset-1';
 
   const loadCss = (href, marker) => {
     if (document.querySelector(`link[${marker}]`)) return;
@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ['assets/css/solarex-overrides.css', 'data-solarex-overrides'],
     ['assets/css/visual-upgrade.css', 'data-solarex-visual-css'],
     ['assets/css/mobile-ux-hardening.css', 'data-solarex-mobile-ux-css'],
+    ['assets/css/mobile-hero-hard-reset.css', 'data-solarex-mobile-hero-hard-reset-css'],
     ['assets/css/solarex-cleanup.css', 'data-solarex-cleanup-css'],
     ['assets/css/table-enhancements.css', 'data-solarex-table-css'],
     ['assets/css/footer-gap-fix.css', 'data-solarex-footer-gap-css'],
