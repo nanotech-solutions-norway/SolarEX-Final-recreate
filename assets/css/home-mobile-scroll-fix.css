@@ -1,0 +1,46 @@
+/* Home-only mobile scroll performance fix. Other pages are intentionally untouched. */
+@media(max-width:760px){
+  body.solarex-page-home{
+    overflow-x:hidden!important;
+    -webkit-overflow-scrolling:touch!important;
+  }
+  body.solarex-page-home .site-header,
+  body.solarex-page-home .roi-site-header{
+    backdrop-filter:none!important;
+    -webkit-backdrop-filter:none!important;
+  }
+  body.solarex-page-home .hero:after,
+  body.solarex-page-home .visual-reveal:before,
+  body.solarex-page-home .visual-reveal:after{
+    display:none!important;
+  }
+  body.solarex-page-home .solarex-outside-hero-strip,
+  body.solarex-page-home .solarex-page-breaker,
+  body.solarex-page-home .solarex-visual-module{
+    display:none!important;
+    visibility:hidden!important;
+    height:0!important;
+    max-height:0!important;
+    min-height:0!important;
+    margin:0!important;
+    padding:0!important;
+    overflow:hidden!important;
+  }
+  body.solarex-page-home .reveal,
+  body.solarex-page-home .visual-reveal,
+  body.solarex-page-home .card,
+  body.solarex-page-home .stat,
+  body.solarex-page-home .step{
+    opacity:1!important;
+    transform:none!important;
+    transition:none!important;
+    animation:none!important;
+    will-change:auto!important;
+  }
+  body.solarex-page-home .card,
+  body.solarex-page-home .stat,
+  body.solarex-page-home .step,
+  body.solarex-page-home .table-wrap{
+    box-shadow:none!important;
+  }
+}
