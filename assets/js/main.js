@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const routePrefix = relativePrefix;
   const routePath = routeParts.join('/').replace(/\/$/, '');
   const isHomeRoute = routePath === '' || routePath === 'index.html';
-  const assetVersion = '20260531-home-scroll-fix-1';
+  const assetVersion = '20260601-home-stat-animation-1';
 
   const loadCss = (href, marker) => {
     if (document.querySelector(`link[${marker}]`)) return;
@@ -160,6 +160,17 @@ document.addEventListener('DOMContentLoaded', () => {
       else el.classList.add('is-visible');
     });
   } else {
-    document.querySelectorAll('.reveal,.visual-reveal,.chart-card,.pathway-driver-card').forEach((el) => el.classList.add('is-visible'));
+    const statObserver = 'IntersectionObserver' in window ? new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          statObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2, rootMargin: '0px 0px -8% 0px' }) : null;
+    document.querySelectorAll('.reveal,.visual-reveal,.chart-card,.pathway-driver-card').forEach((el) => {
+      if (el.classList.contains('stat') && statObserver) statObserver.observe(el);
+      else el.classList.add('is-visible');
+    });
   }
 });
