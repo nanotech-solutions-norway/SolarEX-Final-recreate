@@ -26,10 +26,9 @@
     padding:0!important;
     overflow:hidden!important;
   }
-  body.solarex-page-home .reveal,
-  body.solarex-page-home .visual-reveal,
-  body.solarex-page-home .card,
-  body.solarex-page-home .stat,
+  body.solarex-page-home .reveal:not(.stat),
+  body.solarex-page-home .visual-reveal:not(.stat),
+  body.solarex-page-home .card:not(.stat),
   body.solarex-page-home .step{
     opacity:1!important;
     transform:none!important;
@@ -37,10 +36,40 @@
     animation:none!important;
     will-change:auto!important;
   }
+  body.solarex-page-home .stat.reveal{
+    opacity:0!important;
+    transform:translate3d(0,24px,0) scale(.985)!important;
+    transition:opacity 520ms ease,transform 520ms ease!important;
+    will-change:opacity,transform!important;
+  }
+  body.solarex-page-home .stats .stat.reveal:nth-child(2){transition-delay:70ms!important;}
+  body.solarex-page-home .stats .stat.reveal:nth-child(3){transition-delay:140ms!important;}
+  body.solarex-page-home .stats .stat.reveal:nth-child(4){transition-delay:210ms!important;}
+  body.solarex-page-home .stat.reveal.is-visible{
+    opacity:1!important;
+    transform:translate3d(0,0,0) scale(1)!important;
+  }
+  body.solarex-page-home .stat.reveal .num{
+    transform:translate3d(0,8px,0)!important;
+    opacity:.72!important;
+    transition:opacity 520ms ease,transform 520ms ease!important;
+  }
+  body.solarex-page-home .stat.reveal.is-visible .num{
+    transform:translate3d(0,0,0)!important;
+    opacity:1!important;
+  }
   body.solarex-page-home .card,
-  body.solarex-page-home .stat,
   body.solarex-page-home .step,
   body.solarex-page-home .table-wrap{
     box-shadow:none!important;
+  }
+}
+@media(max-width:760px) and (prefers-reduced-motion:reduce){
+  body.solarex-page-home .stat.reveal,
+  body.solarex-page-home .stat.reveal .num{
+    opacity:1!important;
+    transform:none!important;
+    transition:none!important;
+    will-change:auto!important;
   }
 }
