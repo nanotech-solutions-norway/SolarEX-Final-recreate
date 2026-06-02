@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const routePrefix = relativePrefix;
   const routePath = routeParts.join('/').replace(/\/$/, '');
   const isHomeRoute = routePath === '' || routePath === 'index.html';
-  const assetVersion = '20260602-final-ui-alignment-1';
+  const assetVersion = '20260602-final-ui-alignment-2';
 
   const loadCss = (href, marker) => {
     if (document.querySelector(`link[${marker}]`)) return;
