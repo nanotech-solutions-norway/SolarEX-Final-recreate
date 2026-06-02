@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const routePrefix = relativePrefix;
   const routePath = routeParts.join('/').replace(/\/$/, '');
   const isHomeRoute = routePath === '' || routePath === 'index.html';
-  const assetVersion = '20260602-final-ui-alignment-2';
+  const assetVersion = '20260602-footer-login-icon-1';
 
   const loadCss = (href, marker) => {
     if (document.querySelector(`link[${marker}]`)) return;
@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ['assets/css/mobile-hero-hard-reset.css', 'data-solarex-mobile-hero-hard-reset-css'],
     ['assets/css/home-mobile-scroll-fix.css', 'data-solarex-home-mobile-scroll-fix-css'],
     ['assets/css/final-ui-alignment-fixes.css', 'data-solarex-final-ui-alignment-css'],
+    ['assets/css/footer-login-icon.css', 'data-solarex-footer-login-icon-css'],
     ['assets/css/solarex-cleanup.css', 'data-solarex-cleanup-css'],
     ['assets/css/table-enhancements.css', 'data-solarex-table-css'],
     ['assets/css/footer-gap-fix.css', 'data-solarex-footer-gap-css'],
@@ -52,6 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ['assets/js/visual-audit-upgrades.js', 'data-solarex-visual-audit-js'],
     ['assets/js/mobile-ux-hardening.js', 'data-solarex-mobile-ux-js'],
     ['assets/js/final-ui-alignment-fixes.js', 'data-solarex-final-ui-alignment-js'],
+    ['assets/js/footer-login-icon.js', 'data-solarex-footer-login-icon-js'],
     ['assets/js/table-enhancements.js', 'data-solarex-table-js'],
     ['assets/js/footer-gap-fix.js', 'data-solarex-footer-gap-js'],
     ['assets/js/footer-legal-fix.js', 'data-solarex-footer-legal-js'],
