@@ -1,0 +1,57 @@
+/* Footer admin login icon for all SolarEX pages. */
+.site-footer .footer-login-row{
+  max-width:var(--max,1180px);
+  margin:28px auto 0;
+  padding-top:18px;
+  border-top:1px solid rgba(214,229,239,.12);
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+}
+.site-footer .footer-login-icon{
+  display:inline-flex!important;
+  align-items:center;
+  justify-content:center;
+  width:44px;
+  height:44px;
+  margin:0!important;
+  border:1px solid rgba(214,229,239,.22);
+  border-radius:999px;
+  color:#D6E5EF!important;
+  background:rgba(214,229,239,.055);
+  text-decoration:none!important;
+  transition:transform .16s ease,border-color .16s ease,background .16s ease,box-shadow .16s ease;
+}
+.site-footer .footer-login-icon:hover{
+  transform:translateY(-2px);
+  border-color:rgba(102,168,238,.72);
+  background:rgba(94,152,241,.18);
+  box-shadow:0 14px 32px rgba(94,152,241,.18);
+}
+.site-footer .footer-login-icon svg{
+  width:22px;
+  height:22px;
+  display:block;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:2;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.site-footer .footer-login-icon span{
+  position:absolute;
+  width:1px;
+  height:1px;
+  padding:0;
+  margin:-1px;
+  overflow:hidden;
+  clip:rect(0,0,0,0);
+  white-space:nowrap;
+  border:0;
+}
+@media(max-width:760px){
+  .site-footer .footer-login-row{
+    justify-content:center;
+    margin-top:22px;
+  }
+}
