@@ -1,0 +1,26 @@
+/* SolarEX Admin Dashboard corrected source placeholder
+   Full runtime CSS is supplied in the downloadable hotfix ZIP.
+   Required overflow correction is included below.
+*/
+
+.kpi-value {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  line-height: 1.15;
+}
+
+.kpi-note {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.grid.kpis .card {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.grid.kpis .card .kpi-note {
+  font-size: 0.82rem;
+}
