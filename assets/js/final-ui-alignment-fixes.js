@@ -62,13 +62,34 @@
       });
     }
 
-    document.querySelectorAll('.solarex-page-breaker::after').forEach?.(() => {});
-    document.querySelectorAll('.solarex-page-breaker,.visual-page-breaker').forEach((el) => el.removeAttribute('data-caption'));
+    document.querySelectorAll('.solarex-page-breaker,.visual-page-breaker').forEach((el) => {
+      el.removeAttribute('data-caption');
+      el.setAttribute('aria-label', 'SolarEX visual divider');
+    });
+
+    const copyByRoute = {
+      quartz: ['Passive SiO2 route profile','Quartz is designed for UV-independent easy-clean surface behavior where dust, salt, pollen, bird lime, mineral residue and cleaning burden define the business case. Use the feature bars as a compact route-fit screen before pilot design.'],
+      technology: ['Mechanism-led selection profile','The visual screen summarizes route fit before the formal Quartz/Titan table. Use it to check UV dependency, contamination class and O&M objective before moving into pilot validation.'],
+      titan: ['Active TiO2 route profile','Titan is selected where UV exposure and organic or atmospheric contamination support active photocatalysis and hydrophilic rinse behavior. Validate UV and treated/control monitoring before scale-up.'],
+      projects: ['Evidence-readiness profile','The visual screen separates monitored study data, technical parameters, ROI scenarios and pilot hypotheses so procurement decisions stay tied to evidence class.'],
+      documentation: ['Documentation routing profile','Use the visual screen to identify whether the next step is product documentation, application guidance, evidence review or project-specific support.'],
+      contact: ['Request-routing profile','Use the visual screen to route the request to technical review, commercial discussion, documentation support or pilot planning.'],
+      'applications-pv-soiling-loss-mitigation': ['Soiling-loss screen','Review contamination type, cleaning method, UV context and route fit before selecting Quartz, Titan or a mixed validation path.'],
+      'applications-anti-soiling-coating': ['Anti-soiling route screen','Match passive and active mechanisms to site conditions before moving into documentation or pilot validation.'],
+      'applications-cleaning-cost-reduction': ['Cleaning-cost screen','The bars summarize water, labor, access, abrasion and recovery logic before translating the site into a commercial scenario.'],
+      'case-studies': ['Case-evidence screen','Use the visual screen to separate study context, route relevance, limitation and next action.'],
+      markets: ['Regional route screen','Regional fit is determined by soiling, UV exposure, water logistics and O&M structure.'],
+      'markets-europe': ['Europe route screen','European sites usually require review of pollen, salt, grime, rain cycles and seasonal operating conditions.'],
+      'markets-middle-east': ['GCC route screen','Dust, high irradiation, water logistics and cleaning mobilization define the regional review path.'],
+      'markets-nordics': ['Nordic route screen','Lower UV, seasonal grime, rain cycles and high-latitude context support Quartz-first review.'],
+      partners: ['Partner-readiness screen','Partner fit depends on technical selling discipline, documentation handling, application support and pilot-to-scale capability.']
+    };
 
     document.querySelectorAll('.solarex-feature-image').forEach((el) => {
       if (el.dataset.barsApplied === 'true') return;
       el.dataset.barsApplied = 'true';
-      el.innerHTML = `<div class="solarex-feature-bars"><div class="solarex-feature-bar-row"><strong>Route fit</strong><span class="solarex-feature-track"><i class="solarex-feature-fill" style="--w:88%"></i></span></div><div class="solarex-feature-bar-row"><strong>Surface logic</strong><span class="solarex-feature-track"><i class="solarex-feature-fill" style="--w:76%"></i></span></div><div class="solarex-feature-bar-row"><strong>Pilot readiness</strong><span class="solarex-feature-track"><i class="solarex-feature-fill" style="--w:82%"></i></span></div></div>`;
+      const [title, text] = copyByRoute[route] || ['Route-fit screen','This compact feature view summarizes route fit, surface logic, O&M value and pilot readiness before moving into a project-specific review.'];
+      el.innerHTML = `<p class="solarex-feature-note"><strong>${title}.</strong> ${text}</p><div class="solarex-feature-bars"><div class="solarex-feature-bar-row"><strong>Route fit</strong><span class="solarex-feature-track"><i class="solarex-feature-fill" style="--w:88%"></i></span></div><div class="solarex-feature-bar-row"><strong>Surface logic</strong><span class="solarex-feature-track"><i class="solarex-feature-fill" style="--w:76%"></i></span></div><div class="solarex-feature-bar-row"><strong>O&M value</strong><span class="solarex-feature-track"><i class="solarex-feature-fill" style="--w:70%"></i></span></div><div class="solarex-feature-bar-row"><strong>Evidence class</strong><span class="solarex-feature-track"><i class="solarex-feature-fill" style="--w:64%"></i></span></div><div class="solarex-feature-bar-row"><strong>Pilot readiness</strong><span class="solarex-feature-track"><i class="solarex-feature-fill" style="--w:82%"></i></span></div><div class="solarex-feature-bar-row"><strong>Scale-up screen</strong><span class="solarex-feature-track"><i class="solarex-feature-fill" style="--w:58%"></i></span></div></div>`;
     });
 
     const ensureLightbox = () => {
