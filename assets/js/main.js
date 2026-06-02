@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const routePrefix = relativePrefix;
   const routePath = routeParts.join('/').replace(/\/$/, '');
   const isHomeRoute = routePath === '' || routePath === 'index.html';
-  const assetVersion = '20260601-home-stat-animation-1';
+  const assetVersion = '20260602-final-ui-alignment-1';
 
   const loadCss = (href, marker) => {
     if (document.querySelector(`link[${marker}]`)) return;
@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ['assets/css/mobile-ux-hardening.css', 'data-solarex-mobile-ux-css'],
     ['assets/css/mobile-hero-hard-reset.css', 'data-solarex-mobile-hero-hard-reset-css'],
     ['assets/css/home-mobile-scroll-fix.css', 'data-solarex-home-mobile-scroll-fix-css'],
+    ['assets/css/final-ui-alignment-fixes.css', 'data-solarex-final-ui-alignment-css'],
     ['assets/css/solarex-cleanup.css', 'data-solarex-cleanup-css'],
     ['assets/css/table-enhancements.css', 'data-solarex-table-css'],
     ['assets/css/footer-gap-fix.css', 'data-solarex-footer-gap-css'],
@@ -50,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ...(isHomeRoute ? [] : [['assets/js/visual-upgrade.js', 'data-solarex-visual-js']]),
     ['assets/js/visual-audit-upgrades.js', 'data-solarex-visual-audit-js'],
     ['assets/js/mobile-ux-hardening.js', 'data-solarex-mobile-ux-js'],
+    ['assets/js/final-ui-alignment-fixes.js', 'data-solarex-final-ui-alignment-js'],
     ['assets/js/table-enhancements.js', 'data-solarex-table-js'],
     ['assets/js/footer-gap-fix.js', 'data-solarex-footer-gap-js'],
     ['assets/js/footer-legal-fix.js', 'data-solarex-footer-legal-js'],
@@ -68,10 +70,10 @@ document.addEventListener('DOMContentLoaded', () => {
       <a class="nav-home desktop-only" href="${normalizeHref('index.html')}">Home</a>
       <div class="nav-group"><button class="nav-group-toggle" type="button" aria-expanded="false">Platform</button><div class="nav-group-menu"><a href="${normalizeHref('technology/')}">Technology</a><a href="${normalizeHref('quartz/')}">Quartz SiO₂</a><a href="${normalizeHref('titan/')}">Titan TiO₂</a></div></div>
       <div class="nav-group"><button class="nav-group-toggle" type="button" aria-expanded="false">Applications</button><div class="nav-group-menu"><a href="${normalizeHref('applications/pv-soiling-loss-mitigation/')}">PV Soiling Loss</a><a href="${normalizeHref('applications/anti-soiling-coating/')}">Anti-Soiling Coating</a><a href="${normalizeHref('applications/cleaning-cost-reduction/')}">Cleaning Cost Reduction</a></div></div>
-      <div class="nav-group"><button class="nav-group-toggle" type="button" aria-expanded="false">Evidence</button><div class="nav-group-menu"><a href="${normalizeHref('projects/')}">Projects</a><a href="${normalizeHref('case-studies/')}">Case Studies</a><a href="${normalizeHref('documentation/')}">Documentation</a><a href="${normalizeHref('faq/')}">FAQ</a><a href="${normalizeHref('roi-calculator/')}">ROI Calculator</a></div></div>
+      <div class="nav-group"><button class="nav-group-toggle" type="button" aria-expanded="false">Evidence</button><div class="nav-group-menu"><a href="${normalizeHref('projects/')}">Projects</a><a href="${normalizeHref('case-studies/')}">Case Studies</a><a href="${normalizeHref('documentation/')}">Documentation</a><a href="${normalizeHref('faq/')}">FAQ</a></div></div>
       <div class="nav-group"><button class="nav-group-toggle" type="button" aria-expanded="false">Markets</button><div class="nav-group-menu"><a href="${normalizeHref('markets/')}">Markets Hub</a><a href="${normalizeHref('markets/europe/')}">Europe</a><a href="${normalizeHref('markets/middle-east/')}">Middle East / GCC</a><a href="${normalizeHref('markets/nordics/')}">Nordics</a><a href="${normalizeHref('partners/')}">Partners</a></div></div>
-      <a class="nav-contact" href="${normalizeHref('contact/')}">Contact</a>
-      <a class="nav-cta" href="${contactPath}">Technical Review</a>
+      <a class="nav-roi-top" href="${normalizeHref('roi-calculator/')}">ROI Calculator</a>
+      <div class="nav-group nav-contact-group"><button class="nav-group-toggle" type="button" aria-expanded="false">Contact</button><div class="nav-group-menu"><a href="${normalizeHref('contact/')}">Contact page</a><a href="${contactPath}">Technical Review</a><a href="${normalizeHref('contact/#commercial-form')}">Commercial Request</a><a href="${normalizeHref('contact/#documentation-form')}">Documentation Request</a></div></div>
       <a class="lang-flag" href="${normalizeHref('index.html')}" aria-label="English language">🇬🇧</a>`;
   }
 
