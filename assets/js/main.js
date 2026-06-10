@@ -1,7 +1,1 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const ADMIN_URL = 'https://forms.nanotech-solutions.com/solarex_admin/login.php';
-
-  function removeStandaloneRoiNavItem() {
-    document.querySelectorAll('header .site-nav a, .site-header .site-nav a, nav.site-nav a').forEach((link) => {
-      const label = (link.textContent || '').trim().toLowerCase();
-      const
+document.addEventListener('DOMContentLoaded',function(){var A='https://forms.nanotech-solutions.com/solarex_admin/login.php';function rmRoi(){document.querySelectorAll('header .site-nav a,.site-header .site-nav a,nav.site-nav a').forEach(function(a){var t=(a.textContent||'').trim().toLowerCase(),h=(a.getAttribute('href')||'').toLowerCase();if(t==='roi calculator'&&h.indexOf('roi-calculator')>-
