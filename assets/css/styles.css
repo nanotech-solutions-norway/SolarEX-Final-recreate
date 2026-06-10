@@ -1,6 +1,4 @@
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:#10141a;color:#d6e5ef;font-family:Arial,sans-serif;line-height:1.6}
-a{color:inherit}
-.skip-link{position:absolute;left:-999px}.skip-link:focus{left:16px;top:16px;z-index:1000;background:#d6e5ef;color:#10141a;padding:10px 14px;border-radius:999px}
-.site-header{position:sticky;top:0;z-index:20;background:rgba(16,20,26,.94);
+@import "./core.css";
+@import "./layout.css";
+@import "./components.css";
+@import "./responsive.css";
