@@ -1,0 +1,5 @@
+:root{--bg:#10141a;--panel:#202733;--text:#d6e5ef;--muted:#a8bdcb;--blue:#5e98f1;--blue2:#66a8ee;--green:#5cc97b;--line:rgba(214,229,239,.16);--max:1180px;--r:22px}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(circle at 70% 0,rgba(94,152,241,.18),transparent 32%),#10141a;color:var(--text);font-family:Arial,Roboto,sans-serif;line-height:1.6}
+a{color:inherit}.skip-link{position:absolute;left:-999px}.skip-link:focus{left:16px;top:16px;z-index:999;background:#fff
