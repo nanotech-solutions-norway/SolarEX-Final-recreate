@@ -2,4 +2,4 @@
 .nav-shell,.container,.hero-inner,.footer-grid{max-width:1180px;margin:auto}
 .nav-shell{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 22px}
 .brand{font-size:0;width:136px;height:58px;background:linear-gradient(135deg,#5e98f1,#5cc97b);border-radius:18px}
-.site-nav{display:flex;gap:6px;flex-wrap
+.site-nav{display:flex;gap
