@@ -6,3 +6,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const link = document.createElement('a');
   link.className = 'solarex-footer-admin-link';
+  link.href = 'https://forms.nanotech-solutions.com/solarex
