@@ -1,3 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
-:root{--bg:#10141a;--bg2:#171b21;--panel:#202733;--panel2:#263340;--text:#d6e5ef;--muted:#a8bdcb;--blue:#5e98f1;--blue2:#66a8ee;--green:#5cc97b;--line:rgba(214,229,239,.16);--max:1180px;--radius:24px;--shadow:0 24px 70px rgba(0,0,0,.34)}
-*{box-sizing:border-box}html{scroll
+:root{
+  --bg:#10141a;--bg2:#171b21;--panel:#202733;--panel2:#263340;--text:#d6e5ef;--muted:#a8bdcb;--blue:#5e98f1;--blue2:#66a8ee;--green:#5cc97b;--line:rgba(214,229,239,.16);--max:1180px;--radius:24px;--shadow:0 24px 70px rgba(0,0,0,.34)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(circle at 20% -10%,rgba(94,152,241,.18),transparent 32%),linear-gradient(180deg,#171b21,#10141a 120%);color:var(--text);font-family:Inter,Roboto,system
