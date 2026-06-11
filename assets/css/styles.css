@@ -1,4 +1,5 @@
-@import "./core.css";
-@import "./layout.css";
-@import "./components.css";
-@import "./responsive.css";
+@import './core.css';
+@import './layout.css';
+@import './components.css';
+@import './visual.css';
+@import './responsive.css';
