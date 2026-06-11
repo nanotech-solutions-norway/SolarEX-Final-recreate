@@ -20,48 +20,7 @@ gap:16px;
 padding:10px 22px;
 }
 .brand{
-font-size:0;
-width:136px;
-height:58px;
-background:#1f5ea8;
-border-radius:18px;
-}
-.site-nav{
-display:flex;
-gap:6px;
-flex-wrap:wrap;
-}
-.site-nav a{
-padding:8px 11px;
-border-radius:999px;
-text-decoration:none;
-color:#a8bdcb;
-font-size:14px;
-font-weight:700;
-}
-.menu-toggle{
-display:none;
-}
-.hero{
-min-height:520px;
-background:#172638;
-display:flex;
+display:inline-flex;
 align-items:center;
-}
-.hero-inner{
-padding:90px 24px;
-}
-.section{
-padding:72px 24px;
-border-top:1px solid #314050;
-}
-.site-footer{
-padding:50px 24px;
-background:#10141a;
-border-top:1px solid #314050;
-}
-.footer-grid{
-display:grid;
-grid-template-columns:1.3fr 1fr 1fr 1fr;
-gap:28px;
-}
+justify-content:center;
+min-width:
