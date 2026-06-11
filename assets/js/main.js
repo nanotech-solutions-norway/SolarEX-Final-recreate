@@ -9,6 +9,7 @@ var f=d.querySelector('footer');
 if(f&&!f.querySelector('.solarex-footer-admin-link')){
 var cols=f.querySelectorAll('.footer-grid>div');
 var c=cols[cols.length-1];
-if(c){c.insertAdjacentHTML('beforeend','<a href="../roi-calculator/">ROI Calculator</a><a class="solarex-footer-admin-link" href="https://forms.nanotech-solutions.com/solarex_admin/login.php" target="_blank" rel="nofollow noopener" title="Admin login" aria-label="SolarEX admin login">🔐</a>')}
+var p=location.pathname.indexOf('/SolarEX-Final-recreate/')>-1?'/SolarEX-Final-recreate/':'/';
+if(c){c.insertAdjacentHTML('beforeend','<a href="'+p+'roi-calculator/">ROI Calculator</a><a class="solarex-footer-admin-link" href="https://forms.nanotech-solutions.com/solarex_admin/login.php" target="_blank" rel="nofollow noopener" title="Admin login" aria-label="SolarEX admin login">🔐</a>')}
 }
 });
