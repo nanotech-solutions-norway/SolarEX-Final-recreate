@@ -1,53 +1,25 @@
 @media(max-width:980px){
-.nav-shell{
-padding:8px 16px;
-}
-.brand{
-width:112px;
-height:48px;
-}
-.menu-toggle{
-display:block;
-background:#263340;
-color:#fff;
-border:1px solid #314050;
-border-radius:10px;
-padding:8px 12px;
-}
-.site-nav{
-display:none;
-position:absolute;
-left:16px;
-right:16px;
-top:66px;
-background:#10141a;
-border:1px solid #314050;
-border-radius:18px;
-padding:12px;
-}
-.site-nav.is-open{
-display:flex;
-flex-direction:column;
-}
-.hero{
-min-height:360px;
-}
-h1{
-font-size:36px;
-}
-h2{
-font-size:28px;
-}
-.grid,
-.grid.four,
-.stats,
-.footer-grid{
-grid-template-columns:1fr;
-}
-.section{
-padding:46px 18px;
-}
-.hero-inner{
-padding:54px 18px;
-}
+.nav-shell{padding:10px 16px}
+.brand{min-width:136px;min-height:50px;font-size:22px}
+.menu-toggle{display:block;background:#263340;color:#fff;border:1px solid #314050;border-radius:14px;padding:10px 16px;font-size:18px}
+.site-nav{display:none;position:absolute;left:16px;right:16px;top:76px;background:#10141a;border:1px solid #314050;border-radius:18px;padding:12px;box-shadow:0 18px 45px rgba(0,0,0,.35)}
+.site-nav.is-open{display:flex;flex-direction:column}
+.site-nav a{font-size:18px;padding:12px 14px}
+.hero{min-height:380px}
+h1{font-size:36px}
+h2{font-size:28px}
+.grid,.grid.two,.grid.four,.stats,.footer-grid{grid-template-columns:1fr!important;gap:18px}
+.section{padding:48px 18px}
+.hero-inner{padding:58px 18px}
+.card,.stat,.step{margin-bottom:18px}
+.table-wrap{overflow:visible}
+table,thead,tbody,tr,th,td{display:block;width:100%}
+thead{position:absolute;left:-9999px}
+tr{margin:0 0 18px;padding:18px;border:1px solid #314050;border-radius:18px;background:#202733}
+td{padding:8px 0;border:0;font-size:17px;line-height:1.45;word-break:normal;overflow-wrap:break-word}
+td:before{display:block;color:#66a8ee;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+td:nth-child(1):before{content:'Site condition'}
+td:nth-child(2):before{content:'SolarEX route'}
+td:nth-child(3):before{content:'Buyer value'}
+td:nth-child(4):before{content:'Next action'}
 }
